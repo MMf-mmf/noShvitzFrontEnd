@@ -1,12 +1,24 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom"
 import { Card, Segment, Icon, Image, Container, Button, Divider, Form } from 'semantic-ui-react'
-const src = 'https://image.flaticon.com/icons/png/512/883/883806.png'
+
+// start here by after shabbos 
+
+function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItems}) {
+    const [inCart, setInCart] = useState(false)
+    
+    let itemsInCart = cartItems.filter(item => item.product_id === product.id)
+
+    if (itemsInCart.length > 0) {
+      console.log('item', product.id, 'is in the cart already')
+      // setInCart(true)
+    }
+
+    // console.log(itemsInCart, 'items in cart')
+    // const [item1, setItem1] = useState({[product.name]: 0})
+   
 
 
-function ItemCard({product, setItemsCount, itemsCount, handleAddToCart}) {
-  
-    const [item1, setItem1] = useState({[product.name]: 0})
     // const [item2, setItem2] = useState({[product.name]: 0})
     // console.log(product.category_id)
     // console.log(formQuantity, 'formQuantity')
@@ -15,7 +27,14 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart}) {
 
       function handleSubmit(e, data) {
         e.preventDefault()
-        handleAddToCart(data.id, data.category_id)
+       
+        // before adding to cart test if the object holds a value and that the value is more then 0
+        if (Object.keys(itemsCount).length !== 0 && itemsCount[`${data.id}`] !== 0) {
+          console.log(itemsCount,'in if statement')
+          handleAddToCart(data.id, data.category_id)
+          setInCart(true)
+        }
+        
       }
 
       function handleChange(e, data) {
@@ -31,11 +50,15 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart}) {
         { key: '5', text: '5', value: 5 },
         { key: '6', text: '6', value: 6 },
       ]
-    return(
-         <Card link style={{width: '17rem', margin: 'auto'}}>
-        <Image src={src} wrapped ui={false} size='tiny' circular/>
 
-        <Card.Content>
+    return(
+         <Card link style={{width: '18rem'}} className="itemCard" >
+          {inCart || itemsInCart.length > 0 ? <Image src={product.image} wrapped ui={false} size='tiny' circular  label={{ as: 'a', corner: 'left', icon: 'cart' }}/>:
+          <Image src={product.image} wrapped ui={false} size='tiny' circular />
+
+}
+        
+        <Card.Content >
             <Card.Meta textAlign="center">
                 <Card.Header>{product.name}</Card.Header>
                 <Card.Meta>{product.company}</Card.Meta> 
@@ -55,10 +78,11 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart}) {
           />
           <Button type='submit'  >Add to cart</Button>
             </Form>
-
           {/* </div> */}
           </Card.Content>
     </Card>
+
+  
     )
 }
 

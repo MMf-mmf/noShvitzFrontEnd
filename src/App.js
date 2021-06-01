@@ -10,10 +10,10 @@ import ShoppingCart from "./components/ShoppingCart";
 
 function App() {
   const [categoriesList, setCategories] = useState([])
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState();
   const [currentCart, setCurrentCart] = useState(1)
   const [triggerRerender, setTriggerRerender] = useState(false)
-
+  
   const history = useHistory();
 
   useEffect(() => {
@@ -21,10 +21,27 @@ function App() {
       .then(res => res.json())
       .then(categoriesArray => {setCategories(categoriesArray, 'in the fetch')})
   }, [])
-
-
+  
   useEffect(() => {
+    console.log('in autoLogin')
+    autoLogin()
+  }, []);
 
+  
+
+// /SignIn needs to be chaneged to a landing page
+  useEffect(() => {
+    
+    if (currentUser) {
+     console.log('current user is filled')
+      history.push("/categories");
+    } else {
+      history.push("/SignIn");
+    }
+  }, [currentUser, history]);
+
+
+  function autoLogin() {
     fetch("http://localhost:3000/autologin", {
       headers: {
         Authorization: `Bearer ${localStorage.token}`,
@@ -34,35 +51,29 @@ function App() {
         if (!r.ok) throw Error("Not logged in!");
         return r.json();
       })
-      .then((user) => setCurrentUser(user))
+      .then((user) => { return ( setCurrentUser(user), console.log(user, 'refreshed user'))})
       .catch((err) => console.error(err));
-  }, []);
-
-  useEffect(() => {
-    if (currentUser) {
-      history.push("/");
-    } else {
-      history.push("/SignIn");
-    }
-  }, [currentUser, history]);
+  }
 
   function handleLogout() {
     // remove the userId from localstorage
     localStorage.removeItem("token");
     setCurrentUser(null);
-    history.push('/')
+    history.push('/SignIn')
   }
 
   function onUpdateUser(user) {
     setCurrentUser(user);
   }
 
+
+
   return (
 <>
         <div>
             <NavBar currentUser={currentUser} onLogout={handleLogout} currentCart={currentCart}
           setCurrentCart={setCurrentCart} triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender}/>
-            {currentUser ?   <h1>welcome {currentUser.name}</h1>: null}
+            {/* {currentUser ?   <h1>welcome {currentUser.name}</h1>: null} */}
           
         </div>
 
@@ -73,11 +84,11 @@ function App() {
     </Route>
 
     <Route exact path="/SignIn">
-      <SignIn onUpdateUser={onUpdateUser}/>
+      <SignIn setCurrentUser={setCurrentUser} autoLogin={autoLogin}/>
     </Route>
 
     <Route exact path="/ShoppingCart/:id">
-      <ShoppingCart currentUser={currentUser} triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender}/>
+      <ShoppingCart currentUser={currentUser} triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender} autoLogin={autoLogin}/>
     </Route>
 
   <Route exact path="/categories">

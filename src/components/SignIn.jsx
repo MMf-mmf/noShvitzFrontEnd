@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react";
-import {Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
-import { Form } from 'semantic-ui-react'
+import {Form, Label ,Modal, Message, Accordion, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { Link, useHistory } from "react-router-dom";
 
 
-function SignIn({ onUpdateUser }) {
+function SignIn({ setCurrentUser, autoLogin }) {
     const [formData, setFormData] = useState({email: "", password: ""})
+    const history = useHistory();
 
     function handleChange(e) {
         setFormData({...formData, [e.target.name]: e.target.value })
@@ -23,24 +24,67 @@ function SignIn({ onUpdateUser }) {
             .then((data) => {
             console.log(data);
             const { user, token } = data;
-    
-            // save the user in state in App
-            onUpdateUser(user);
-    
-            // also save the id to localStorage
             localStorage.token = token;
+            // save the user in state in App
+            setCurrentUser(user);
+            
+    
+            
+            
            
             });
         }
 
+
     return(
-        <Form onSubmit={handleSubmit}>
+<>
+
+
+
+
+
+<Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+    <Grid.Column style={{ maxWidth: 450 }}>
+      <Header as='h2' color='teal' textAlign='center'>
+        <Image src='/logo.png'  avatar/> Log-in to your account
+      </Header>
+
+      <Form size='large' onSubmit={handleSubmit}>
+        <Segment stacked>
+          <Form.Input fluid icon='user' iconPosition='left' name="email" placeholder='E-mail address' value={formData.email} onChange={handleChange}/>
+          <Form.Input fluid icon='lock' iconPosition='left' name="password" placeholder='Password' type='password' value={formData.password} onChange={handleChange}/>
+
+          <Button type='submit' color='teal' fluid size='large'>Login</Button>
+        </Segment>
+      </Form>
+
+      <Message as={Link}  to="/SignUp" style={{ width: '' }}>
+        Do not have an account? <a href='#'>Sign Up</a>
+      </Message>
+    </Grid.Column>
+  </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {/* <Form onSubmit={handleSubmit}>
             <Form.Input name="email" label='Email'
                  placeholder='joe@schmoe.com' width={6} value={formData.email} onChange={handleChange}/>
             <Form.Input name="password" label='Password'
                  placeholder='password' width={6} value={formData.password} onChange={handleChange}/>
-            <Button type='submit'>Submit</Button>
-        </Form>
+            <Button as="a" type='submit'>Submit</Button>
+        </Form> */}
+        </>
     )
 }
 

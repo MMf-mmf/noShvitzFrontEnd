@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import { Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
 
 function NavBar({ currentUser, onLogout, currentCart, setCurrentCart , triggerRerender, setTriggerRerender}) {
@@ -35,43 +35,44 @@ function NavBar({ currentUser, onLogout, currentCart, setCurrentCart , triggerRe
       history.push(`/ShoppingCart/${currentCart}`);
       // console.log(data.value)
     }
-    
+   // console.log(currentUser.order_details.length > 0, 'inininin')
+    // && currentUser.order_details.length > 0 
 
     return(
-        <Menu>
-          {currentUser ? null:<NavLink to="/SignUp"> <Menu.Item
+        <Menu className='navBar' style={{backgroundColor: 'rgb(249, 247, 250)'}}>
+          {currentUser ? null:  <Menu.Item  as={Link}  to="/SignUp"
            name='sign up'
            active={activeItem === 'sign up'}
-           onClick={handleItemClick}>Sign Up</Menu.Item></NavLink> }
+           onClick={handleItemClick}>Sign Up</Menu.Item> }
 
 
 
-{currentUser ? null:<NavLink to="/SignIn"><Menu.Item
+{currentUser ? null: <Menu.Item as={Link} to="/SignIn"
           name='sign in'
           active={activeItem === 'sign in'}
-          onClick={handleItemClick}>Sign in</Menu.Item></NavLink>}
+          onClick={handleItemClick}>Sign in</Menu.Item>}
 
 
-        <NavLink to="/"><Menu.Item
+{currentUser ? <Menu.Item as={Link} to="/"
           name='main menu'
           active={activeItem === 'main menu'}
           onClick={handleItemClick}
-        >main menu</Menu.Item></NavLink>
+        >main menu</Menu.Item>: null}
 
         {currentUser ?         <Menu.Item
+        
           name='log out'
           active={activeItem === 'log out'}
           onClick={handleItemClick}
         >Log Out</Menu.Item>: null}
 
-
-        {currentUser ?  <Menu.Item
+        
+        {currentUser    ?  <Menu.Item
               name='shopping cart'
               active={activeItem === 'shopping cart'}
               onClick={handleItemClick}
             >
         <Dropdown
-        className='icon'
         labeled
         icon='cart'
         options={options}

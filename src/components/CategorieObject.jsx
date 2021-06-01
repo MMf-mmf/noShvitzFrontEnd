@@ -7,9 +7,13 @@ const src = 'https://image.flaticon.com/icons/png/512/883/883806.png'
 
 
 function CategorieObject({categories, currentUser}) {
+    if (!categories || !currentUser) {
+        return(<h1>hello waiting for data</h1>)
+    }
+
     const category_id = categories.id
     const user_id = currentUser.id
-    // console.log(currentUser)
+    // console.log(categories)
 
     function handleClick(e, data) {
         console.log('logged click')
@@ -23,12 +27,14 @@ function CategorieObject({categories, currentUser}) {
             })
             .then(res => res.json())
             .then(newCartObj => {
-                console.log(newCartObj)
+                // console.log(newCartObj)
             })
     }
    
+    
     return(
-   <Link to={`/categories/${category_id}`}> <Card onClick={handleClick} link style={{width: '10rem'}}> 
+
+ <Card id="categorieCard" as={Link} to={`/categories/${category_id}`} onClick={handleClick} link > 
         <Image src={src} wrapped ui={false} size='tiny' circular/>
 
         <Card.Content>
@@ -36,7 +42,7 @@ function CategorieObject({categories, currentUser}) {
                 <span >{categories.name}</span>
             </Card.Meta>
         </Card.Content>
-    </Card></Link>
+    </Card>
     )
 }
 

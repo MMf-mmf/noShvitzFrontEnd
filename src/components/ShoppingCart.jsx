@@ -1,24 +1,24 @@
 import { useEffect, useState} from "react";
 import { useParams,useLocation, useHistory } from "react-router-dom"
-import { Button, Header, Icon, Segment } from 'semantic-ui-react'
+import { List ,Label, Button, Divider ,Header, Icon, Segment } from 'semantic-ui-react'
 import CartItem from "./CartItems";
 
 
 
-function ShoppingCart({currentUser, triggerRerender, setTriggerRerender}) {
+function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLogin}) {
         let { id } = useParams()
         const [cart, setCarts] = useState([])
         const [submitted, setSubmitted] = useState(false)
         // const [triggerRerender, setTriggerRerender] = useState(false)
-   
-      
-       
-        console.log(id, 'in params id')
-        // let history = useHistory()
-        // let currentId = history.location.pathname.split('/')[2]
-        // console.log(currentId)
-        // const [categoryId, setCategoryId] = useState(parseInt(currentId))
-        // console.log(category_id)
+        let [cartTotal, setCartTotal] = useState(0)
+
+
+        const history = useHistory();
+
+        
+
+     
+
         
         useEffect(() => {
             console.log('useEffect')
@@ -37,7 +37,10 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender}) {
             body: JSON.stringify({user_id: userId, category_id: categoryId}),
         })
         .then(res => res.json())
-        .then((resCart) => {wasSubmitted(resCart)})
+        .then((resCart) => { return (
+            wasSubmitted(resCart),
+            setCartTotal(resCart[0].order.total)
+        )})
     }
 
 
@@ -81,8 +84,9 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender}) {
                 }
             })
             .then(res => res.json())
-            .then(() => setTriggerRerender(!triggerRerender))
-
+            .then(() => {return(
+                setTriggerRerender(!triggerRerender)
+                )} )
     }
 
 function handleQuantityChange(id, newQuantity) {
@@ -94,6 +98,7 @@ function handleQuantityChange(id, newQuantity) {
         body: JSON.stringify({quantity: newQuantity})
       })
       .then(res => res.json())
+      .then(data => setTriggerRerender(!triggerRerender))
     //   .then((newItemDetail) => console.log(newItemDetail))
 }
 
@@ -107,7 +112,9 @@ function handleQuantityChange(id, newQuantity) {
     let cartItemFragment = ""
     if (cart.length > 0) {
         cartItemFragment = cart.map(order =>
-            <CartItem key={order.name} cartItem={order} setCarts={setCarts} handleDelete={handleDelete} handleQuantityChange={handleQuantityChange}/>)
+            <CartItem key={order.name} cartItem={order} setCarts={setCarts} 
+                    handleDelete={handleDelete} handleQuantityChange={handleQuantityChange}
+                     cartTotal={cartTotal} setCartTotal={setCartTotal}/>)
     }
 
     if (cartItemFragment === "") {
@@ -116,19 +123,49 @@ function handleQuantityChange(id, newQuantity) {
 
 
     return(
+
         <>
-            <Segment placeholder floated="left" size="huge" padded>
+            <Header id="itemHeader" >{cart.length} Items</Header>
+            <Divider id="cartDivider" />
+            <Segment style={{marginLeft: '2%', width: '50%'}}  id={submitted ? 'cart-submitted': null}  placeholder floated="left">
             {cartItemFragment}
             </Segment>
-            <Segment placeholder floated="right">
-            <h1>order total</h1>
-            <Button onClick={handleClick}>
+            {/* box-shadow: 5px 10px #bae6bf */}
+
+
+            <Header  id="checkOut-header" > Order summery</Header>
+            <Divider id="checkOut-divider" />
+            <div className='checkOutDiv'>
+
+              <div  class="textbox">
+                    <p class="alignleft">Merchandise:</p>
+                    <p class="alignright">$300</p>
+                 
+             </div>
+
+             <div class=" pickUp  textbox">
+             <p  class="alignleft">Pick Up:</p>
+             <p class="alignright">FREE</p>
+             </div>
+
+             <div class="textbox">
+                <b><p class="alignleft" >SUB TOTAL:<Icon name='question circle outline' /></p></b>
+                <b> <p class="alignright">${cartTotal}</p></b>
+             </div>
+
+             <div class="buttonDiv">
+              
+             <Button color={submitted ? 'red': 'green'} onClick={handleClick}>
             {submitted ?
-             <Button.Content visible>Cancel order</Button.Content>:
-             <Button.Content visible>Place Order</Button.Content>
+             < Button.Content  id="placeOrder"  visible>Cancel order</Button.Content>:
+             < Button.Content  visible>Place Order</Button.Content>
             }
             </Button>
-        </Segment>
+            <h4 class="checkoutTimeLeft">time left to place order</h4>
+             </div >
+
+            </div>
+
        
         </>
     )
@@ -140,17 +177,4 @@ export default ShoppingCart
 
 
 
-    // if (carts.length > 0) {
-    //     console.log(carts[0].order.category_id, 'in')
-    //     // const category_id = toInteger(carts[0].order.category_id)  ${currentUser.id}/${parseInt(carts[0].order.category_id)
-    //     fetch(`http://localhost:3000/orders}`, {
-    //         method: "POST", 
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //               Authorization: `Bearer ${localStorage.token}`
-    //         },
-    //         body: JSON.stringify({user_id: currentUser.id, category_id: parseInt(carts[0].order.order_id)})
-    //     })
-    //     .then(res => res.json())
-    //     .then((order) => console.log(order, 'in the bla bla'))
-    // }
+ 
