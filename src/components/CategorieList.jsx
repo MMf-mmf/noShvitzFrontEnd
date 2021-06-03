@@ -23,7 +23,7 @@ const categories = categoriesList.map( cat => {
        </Segment>
 
        <Segment id="category-segment-button">
-          <Button style={{marginLeft: "33%"}} primary>Donate</Button>
+          <Button style={{marginLeft: "38%"}} primary>Donate</Button>
           <Button style={{marginLeft: "4%"}} secondary>Report A Bug</Button>
        </Segment>
        </>

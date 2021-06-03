@@ -3,7 +3,7 @@ import {List ,Divider ,Image, Button, Header, Icon, Segment,  Input, Label } fro
 import ShoppingCartItems from "./CartItems";
 
 
-function CartItem({cartItem, handleDelete, handleQuantityChange}) {
+function CartItem({cartItem, handleDelete, handleQuantityChange, submitted}) {
    
     const [itemQuantity, setItemQuantity] =  useState(cartItem.quantity)
 
@@ -32,7 +32,7 @@ function CartItem({cartItem, handleDelete, handleQuantityChange}) {
 
     return(
         <>
-        <Segment.Group  >
+        <Segment.Group id={submitted ? 'cart-submitted': null} >
         <Image wrapped id="itemImage" src={cartItem.product.image} inline  size="medium" />
 
         <List  horizontal link id="itemName" >
@@ -53,7 +53,6 @@ function CartItem({cartItem, handleDelete, handleQuantityChange}) {
                     <Button id={cartItem.id} icon='minus'  onClick={decrementQuantity}/>
                    
             </Button.Group>
-           
            
         </Segment.Group>
         </>

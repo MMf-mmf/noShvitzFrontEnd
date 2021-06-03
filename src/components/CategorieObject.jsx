@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom"
 import { Card, Segment, Icon, Image, Container, Button, Divider } from 'semantic-ui-react'
-const src = 'https://image.flaticon.com/icons/png/512/883/883806.png'
+const src = 'http://community.farmhousedelivery.com/wp-content/uploads/2018/06/FHD_20180619_Produce-Box.jpg'
 
 
 
@@ -31,11 +31,11 @@ function CategorieObject({categories, currentUser}) {
             })
     }
    
-    
+    console.log(categories, 'this is the data')
     return(
 
  <Card id="categorieCard" as={Link} to={`/categories/${category_id}`} onClick={handleClick} link > 
-        <Image src={src} wrapped ui={false} size='tiny' circular/>
+        <Image src={categories.image} wrapped ui={false} size='tiny' circular/>
 
         <Card.Content>
             <Card.Meta textAlign="center">

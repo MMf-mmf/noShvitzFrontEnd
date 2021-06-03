@@ -1,6 +1,6 @@
 import { useEffect, useState} from "react";
 import { useParams,useLocation, useHistory } from "react-router-dom"
-import { List ,Label, Button, Divider ,Header, Icon, Segment } from 'semantic-ui-react'
+import { List ,Label, Button, Divider ,Header, Icon, Segment, Message } from 'semantic-ui-react'
 import CartItem from "./CartItems";
 
 
@@ -11,6 +11,7 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         const [submitted, setSubmitted] = useState(false)
         // const [triggerRerender, setTriggerRerender] = useState(false)
         let [cartTotal, setCartTotal] = useState(0)
+        const [countDown, setCountDown] = useState({days: 0, hours: 0, minutes: 0, seconds: 0})
 
 
         const history = useHistory();
@@ -102,6 +103,71 @@ function handleQuantityChange(id, newQuantity) {
     //   .then((newItemDetail) => console.log(newItemDetail))
 }
 
+
+
+//   START OF TIMER CODE
+
+
+
+
+const deadline = '2021-07-03'
+
+
+function getTimeRemaining(endtime){
+    const total = Date.parse(endtime) - Date.parse(new Date());
+    const seconds = Math.floor( (total/1000) % 60 );
+    const minutes = Math.floor( (total/1000/60) % 60 );
+    const hours = Math.floor( (total/(1000*60*60)) % 24 );
+    const days = Math.floor( total/(1000*60*60*24) );
+  
+    return {
+      total,
+      days,
+      hours,
+      minutes,
+      seconds
+    };
+  }
+
+  console.log(getTimeRemaining(deadline).seconds)
+
+
+
+  function initializeClock(setCountDownTimer, deadline) {
+    // const clock = document.getElementById(id);
+    const timeinterval = setInterval(() => {
+      const t = getTimeRemaining(deadline);
+
+      // SET THE useState Function with the new values
+
+    //   clock.innerHTML = 'days: ' + t.days + '<br>' +
+    //                     'hours: '+ t.hours + '<br>' +
+    //                     'minutes: ' + t.minutes + '<br>' +
+    //                     'seconds: ' + t.seconds;
+
+
+    setCountDown({...countDown, days: t.days, hours: t.hours, minutes: t.minutes, seconds: t.seconds})
+
+      if (t.total <= 0) {
+        clearInterval(timeinterval);
+      }
+    },1000);
+  }
+
+  initializeClock(setCountDown, deadline)
+
+
+
+
+
+
+
+
+
+
+
+
+// END OF TIMER CODE
     
     
 
@@ -114,7 +180,8 @@ function handleQuantityChange(id, newQuantity) {
         cartItemFragment = cart.map(order =>
             <CartItem key={order.name} cartItem={order} setCarts={setCarts} 
                     handleDelete={handleDelete} handleQuantityChange={handleQuantityChange}
-                     cartTotal={cartTotal} setCartTotal={setCartTotal}/>)
+                     cartTotal={cartTotal} setCartTotal={setCartTotal}
+                     submitted={submitted}/>)
     }
 
     if (cartItemFragment === "") {
@@ -125,6 +192,16 @@ function handleQuantityChange(id, newQuantity) {
     return(
 
         <>
+{submitted ? 
+<Message positive id="placeOrder-message">
+    <Message.Header>Order has been received and is in line for proceeding</Message.Header>
+    <p>
+      Order by be edited or canceled until  <b> 05/05/2021</b>.
+    </p>
+  </Message>
+: null}
+
+
             <Header id="itemHeader" >{cart.length} Items</Header>
             <Divider id="cartDivider" />
             <Segment style={{marginLeft: '2%', width: '50%'}}  id={submitted ? 'cart-submitted': null}  placeholder floated="left">
@@ -139,7 +216,7 @@ function handleQuantityChange(id, newQuantity) {
 
               <div  class="textbox">
                     <p class="alignleft">Merchandise:</p>
-                    <p class="alignright">$300</p>
+                    <p class="alignright">${cartTotal}</p>
                  
              </div>
 
@@ -161,7 +238,11 @@ function handleQuantityChange(id, newQuantity) {
              < Button.Content  visible>Place Order</Button.Content>
             }
             </Button>
-            <h4 class="checkoutTimeLeft">time left to place order</h4>
+            {!submitted ?     <div class='countDownTimerDiv'>
+            <h4 class="checkoutTimeLeft"> <b id="timer-digits">{countDown.days}</b> days <b id="timer-digits">{countDown.hours}</b> hours  <b id="timer-digits">{countDown.minutes} </b> minutes  <b id="timer-digits-seconds">{countDown.seconds} </b>  left to place order</h4>
+            </div>: null}
+        
+            
              </div >
 
             </div>

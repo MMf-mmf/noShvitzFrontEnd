@@ -54,7 +54,7 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItem
     return(
          <Card link style={{width: '18rem'}} className="itemCard" >
           {inCart || itemsInCart.length > 0 ? <Image src={product.image} wrapped ui={false} size='tiny' circular  label={{ as: 'a', corner: 'left', icon: 'cart' }}/>:
-          <Image src={product.image} wrapped ui={false} size='tiny' circular />
+          <Image  src={product.image} wrapped ui={false} size='tiny' circular />
 
 }
         

@@ -22,6 +22,7 @@ function NavBar({ currentUser, onLogout, currentCart, setCurrentCart , triggerRe
     const options = [
       { key: 1, text: 'Wine Cart', value: 1 },
       { key: 2, text: 'Meat Cart', value: 2 },
+      {key: 3, text: 'produce', value: 3}
     ]
 
     function handleChange(e, data) {
