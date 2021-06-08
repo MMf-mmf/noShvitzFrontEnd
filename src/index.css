@@ -224,6 +224,12 @@
   margin-left: 60%;
 }
 
+#hover:hover {
+  border: solid 1px rgb(74, 147, 193);
+/* -moz-box-shadow: 5px 5px 0px #999;
+-webkit-box-shadow: 5px 5px 0px #999;
+  box-shadow: 5px 5px 0px rgb(219, 130, 130); */
+  }
 
 
 /*

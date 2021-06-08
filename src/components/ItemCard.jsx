@@ -13,23 +13,13 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItem
       console.log('item', product.id, 'is in the cart already')
       // setInCart(true)
     }
-
-    // console.log(itemsInCart, 'items in cart')
-    // const [item1, setItem1] = useState({[product.name]: 0})
-   
-
-
-    // const [item2, setItem2] = useState({[product.name]: 0})
-    // console.log(product.category_id)
-    // console.log(formQuantity, 'formQuantity')
-
-
+    
 
       function handleSubmit(e, data) {
         e.preventDefault()
        
-        // before adding to cart test if the object holds a value and that the value is more then 0
-        if (Object.keys(itemsCount).length !== 0 && itemsCount[`${data.id}`] !== 0) {
+        // before adding to cart test if the object holds a value and that the value is more then 0  and that the item is not already in the cart
+        if (Object.keys(itemsCount).length !== 0 && itemsCount[`${data.id}`] !== 0 && !itemsInCart.length > 0 ) {
           console.log(itemsCount,'in if statement')
           handleAddToCart(data.id, data.category_id)
           setInCart(true)
@@ -52,10 +42,13 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItem
       ]
 
     return(
-         <Card link style={{width: '18rem'}} className="itemCard" >
-          {inCart || itemsInCart.length > 0 ? <Image src={product.image} wrapped ui={false} size='tiny' circular  label={{ as: 'a', corner: 'left', icon: 'cart' }}/>:
-          <Image  src={product.image} wrapped ui={false} size='tiny' circular />
-
+         <Card link style={{width: '18rem'}} className="itemCard" id="hover">
+          {inCart || itemsInCart.length > 0 ? 
+          // <img style={{height: '15rem', width: '18rem'}} src={product.image} alt="nothing" />
+          <Image  src={product.image} wrapped ui={false}  circular  label={{ as: 'a', corner: 'left', icon: 'cart' }}/>
+          :
+          <Image src={product.image} wrapped ui={false}  circular />
+        // <img style={{height: '15rem', width: '18rem'}} src={product.image} alt="nothing" />
 }
         
         <Card.Content >
@@ -67,7 +60,7 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItem
         </Card.Content>
         <Card.Content extra >
         {/* <div className='ui two button ' > */}
-            <Form id={product.id} category_id={product.category_id} onSubmit={handleSubmit}>
+            <Form  id={product.id} category_id={product.category_id} onSubmit={handleSubmit}>
             <Form.Select
             fluid
             name={product.name}
@@ -76,7 +69,8 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItem
             id={product.id}
             onChange={handleChange}
           />
-          <Button type='submit'  >Add to cart</Button>
+          {itemsInCart.length > 0 ? <Button disabled type='submit'  >Add to cart</Button>:  <Button type='submit'  >Add to cart</Button>}
+         
             </Form>
           {/* </div> */}
           </Card.Content>

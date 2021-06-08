@@ -11,20 +11,21 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         const [submitted, setSubmitted] = useState(false)
         // const [triggerRerender, setTriggerRerender] = useState(false)
         let [cartTotal, setCartTotal] = useState(0)
-        const [countDown, setCountDown] = useState({days: 0, hours: 0, minutes: 0, seconds: 0})
-
-
+        const [deadline, setDeadLine] = useState('2021-10-03')
+        const [countDown, setCountDown] = useState(getTimeRemaining(deadline))
         const history = useHistory();
-
+        const user_id = JSON.parse(localStorage.getItem("user_id"))
+        const category_id = JSON.parse(localStorage.getItem("category_id"))
+        
         
 
-     
+console.log(countDown, "this is the seconds")
+   
 
-        
+
+
         useEffect(() => {
-            console.log('useEffect')
-            // if (category_id == undefined) category_id = 2
-            getCart(currentUser.id, parseInt(id))   // these values need to be changed to the user_id and to category_id 
+            getCart(user_id, category_id)   // id is the  category id 
                            // for the fetch to only return the cart for that user and a given category
         }, [triggerRerender])
 
@@ -39,9 +40,21 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         })
         .then(res => res.json())
         .then((resCart) => { return (
-            wasSubmitted(resCart),
-            setCartTotal(resCart[0].order.total)
+            // wasSubmitted(resCart),
+            // setCartTotal(resCart[0].order.total),
+            handleExceptions(resCart)
         )})
+    }
+
+    function handleExceptions(resCart) {
+    console.log(resCart, 'beform the if')
+   
+      if (resCart.length < 1) {
+        console.log(resCart, 'in if statment handleExceptions')
+      }else{
+        setCartTotal(resCart[0].order.total)
+        wasSubmitted(resCart)
+      }
     }
 
 
@@ -72,9 +85,8 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         }else{
             setCarts(resCart)
             setSubmitted(false)
-        }
-    }
-    }
+        }}}
+
 
     function handleDelete(id){
             fetch(`http://localhost:3000/order_details/${id}`, {
@@ -85,13 +97,22 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
                 }
             })
             .then(res => res.json())
-            .then(() => {return(
-                setTriggerRerender(!triggerRerender)
+            .then((response) => {return(
+                setTriggerRerender(!triggerRerender),
+                console.log(response.amount_remaining),
+                redirect(response)
                 )} )
     }
 
+    function redirect(response) {
+      if (response.amount_remaining < 1) {
+        history.push("/")
+        window.location.reload();
+      }
+    }
+
 function handleQuantityChange(id, newQuantity) {
-    console.log('in quantityChange', id, newQuantity)
+    // console.log('in quantityChange', id, newQuantity)
     fetch(`http://localhost:3000/order_details/${id}`,{
         method: "PATCH",
         headers:{'Content-Type' : 'application/json'},
@@ -105,12 +126,9 @@ function handleQuantityChange(id, newQuantity) {
 
 
 
+
 //   START OF TIMER CODE
 
-
-
-
-const deadline = '2021-07-03'
 
 
 function getTimeRemaining(endtime){
@@ -129,41 +147,23 @@ function getTimeRemaining(endtime){
     };
   }
 
-  console.log(getTimeRemaining(deadline).seconds)
-
-
-
-  function initializeClock(setCountDownTimer, deadline) {
-    // const clock = document.getElementById(id);
-    const timeinterval = setInterval(() => {
+  function initializeClock(deadline) {
+    
+    function updateClock() {
       const t = getTimeRemaining(deadline);
-
-      // SET THE useState Function with the new values
-
-    //   clock.innerHTML = 'days: ' + t.days + '<br>' +
-    //                     'hours: '+ t.hours + '<br>' +
-    //                     'minutes: ' + t.minutes + '<br>' +
-    //                     'seconds: ' + t.seconds;
-
-
-    setCountDown({...countDown, days: t.days, hours: t.hours, minutes: t.minutes, seconds: t.seconds})
-
-      if (t.total <= 0) {
-        clearInterval(timeinterval);
-      }
-    },1000);
+      setCountDown({...countDown, days: t.days, hours: t.hours, minutes: t.minutes, seconds: t.seconds})
+  
+        if (t.total <= 0 || submitted === true) {
+          clearInterval(timeinterval);
+        }
+    }
+  
+    // updateClock();
+    const timeinterval = setInterval(updateClock, 60000);
+  
   }
 
-  initializeClock(setCountDown, deadline)
-
-
-
-
-
-
-
-
-
+initializeClock(deadline)
 
 
 
@@ -185,8 +185,19 @@ function getTimeRemaining(endtime){
     }
 
     if (cartItemFragment === "") {
-        return <h1>lodding</h1>
+        return( 
+          <Message  negative id="placeOrder-message">
+          <Message.Header> it seems this cart is empty try choosing a different cart category or adding items to this one</Message.Header>
+        </Message>
+       
+   
+      )
     }
+
+// let prop = 'positive'
+// if (countDown.minutes <=0 && countDown.seconds <=0) {
+//   prop = 'disabled'
+// }
 
 
     return(
@@ -217,8 +228,8 @@ function getTimeRemaining(endtime){
               <div  class="textbox">
                     <p class="alignleft">Merchandise:</p>
                     <p class="alignright">${cartTotal}</p>
-                 
              </div>
+
 
              <div class=" pickUp  textbox">
              <p  class="alignleft">Pick Up:</p>
@@ -230,16 +241,21 @@ function getTimeRemaining(endtime){
                 <b> <p class="alignright">${cartTotal}</p></b>
              </div>
 
+            
              <div class="buttonDiv">
               
-             <Button color={submitted ? 'red': 'green'} onClick={handleClick}>
-            {submitted ?
+             <Button className={countDown.minutes <=0 && countDown.seconds <=0 ? 'disabled': null}
+              color={submitted ? 'red': 'green'} onClick={handleClick}>
+            {submitted  ?
              < Button.Content  id="placeOrder"  visible>Cancel order</Button.Content>:
              < Button.Content  visible>Place Order</Button.Content>
             }
             </Button>
+
+         
+
             {!submitted ?     <div class='countDownTimerDiv'>
-            <h4 class="checkoutTimeLeft"> <b id="timer-digits">{countDown.days}</b> days <b id="timer-digits">{countDown.hours}</b> hours  <b id="timer-digits">{countDown.minutes} </b> minutes  <b id="timer-digits-seconds">{countDown.seconds} </b>  left to place order</h4>
+            <h4 class="checkoutTimeLeft"> <b id="timer-digits">{countDown.days}</b> days <b id="timer-digits">{countDown.hours}</b> hours  <b id="timer-digits">{countDown.minutes} </b> minutes      left to place order</h4> 
             </div>: null}
         
             
@@ -254,6 +270,7 @@ function getTimeRemaining(endtime){
 
 export default ShoppingCart
 
+{/* <b id="timer-digits-seconds">{countDown.seconds}</b> sec */}
 
 
 

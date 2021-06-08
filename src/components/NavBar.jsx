@@ -1,43 +1,49 @@
 import React, { Component, useState } from "react";
 import { Link, NavLink, useHistory } from "react-router-dom";
-import { Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar, Loader } from 'semantic-ui-react'
 
-function NavBar({ currentUser, onLogout, currentCart, setCurrentCart , triggerRerender, setTriggerRerender}) {
+function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender}) {
     const [focused, setFocused] = useState({})
     const { activeItem } = focused
     
 
     const history = useHistory();
-   
+
     function handleItemClick(e, { name }) {
         setFocused({ activeItem: name})
     }
 
-// console.log('current cart',  currentCart)
+    // console.log( , 'cheking current cart')
+   // console.log('current cart',  currentCart)
     if (activeItem === "log out") {
         onLogout()
     }
 
 
-    const options = [
-      { key: 1, text: 'Wine Cart', value: 1 },
-      { key: 2, text: 'Meat Cart', value: 2 },
-      {key: 3, text: 'produce', value: 3}
-    ]
+    // const options = [
+    //   { key: 1, text: 'Wine Cart', value: 1 },
+    //   { key: 2, text: 'Meat Cart', value: 2 },
+    //   {key: 3, text: 'produce Cart', value: 3}
+    // ]
 
     function handleChange(e, data) {
       history.push(`/ShoppingCart/${data.value}`);
       // console.log(data.value)
-      setCurrentCart(data.value)
       setTriggerRerender(!triggerRerender)
     }
 
     function handleClick(e, data) {
-      history.push(`/ShoppingCart/${currentCart}`);
-      // console.log(data.value)
+      history.push(`/ShoppingCart/${e.target.id}`);
+      // console.log(e.target.id)
+      // console.log('registerd click')
+      localStorage.setItem("category_id", JSON.stringify(parseInt(e.target.id)))
+      setTriggerRerender(!triggerRerender)
     }
+
+
    // console.log(currentUser.order_details.length > 0, 'inininin')
     // && currentUser.order_details.length > 0 
+
 
     return(
         <Menu className='navBar' style={{backgroundColor: 'rgb(249, 247, 250)'}}>
@@ -67,21 +73,27 @@ function NavBar({ currentUser, onLogout, currentCart, setCurrentCart , triggerRe
           onClick={handleItemClick}
         >Log Out</Menu.Item>: null}
 
-        
-        {currentUser    ?  <Menu.Item
-              name='shopping cart'
-              active={activeItem === 'shopping cart'}
-              onClick={handleItemClick}
-            >
-        <Dropdown
+        {currentUser    ?  <Menu.Item name='shopping cart' active={activeItem === 'shopping cart'} onClick={handleItemClick}>
+        <div class="ui simple dropdown item">
+          Shopping cart
+      <i class="dropdown icon='cart'"></i>
+    <div class="menu">
+      <div id='1' class="item" onClick={handleClick}>Wine Cart</div>
+      <div id="2" class="item" onClick={handleClick}>Meat Cart</div>
+      <div id="3" class="item" onClick={handleClick}>Produce Cart</div>
+    </div>
+  </div>
+
+
+        {/* <Dropdown
         labeled
         icon='cart'
         options={options}
         fluid
-        onClick={handleClick}
+        // onClick={handleClick}
         onChange={handleChange}
         text='Select Shopping Cart'
-          />
+          /> */}
           </Menu.Item> : null }
 
        

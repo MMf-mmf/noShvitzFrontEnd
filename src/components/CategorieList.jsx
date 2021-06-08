@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Input, Menu, Card, Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
 
-import CategorieObject from './CategorieObject'
+import CategorieItems from './CategorieItems'
 
 
 
@@ -9,7 +9,7 @@ function CategorieList({categoriesList, setCategories, currentUser}) {
 
 
 const categories = categoriesList.map( cat => {
-        return(<CategorieObject key={categoriesList.id} categories={cat} currentUser={currentUser}/>)})
+        return(<CategorieItems key={categoriesList.id} categories={cat} currentUser={currentUser}/>)})
 
 
    return(

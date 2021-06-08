@@ -7,13 +7,16 @@ import NavBar from "./components/NavBar";
 import SignIn from "./components/SignIn"
 import SignUp from "./components/SignUp";
 import ShoppingCart from "./components/ShoppingCart";
+import Loading from "./components/Loading";
+
 
 function App() {
   const [categoriesList, setCategories] = useState([])
   const [currentUser, setCurrentUser] = useState();
-  const [currentCart, setCurrentCart] = useState(1)
+  // const [currentCart, setCurrentCart] = useState(1)
   const [triggerRerender, setTriggerRerender] = useState(false)
-  
+  const [isLoading, setIsLoading] = useState(false)
+
   const history = useHistory();
 
   useEffect(() => {
@@ -23,25 +26,26 @@ function App() {
   }, [])
   
   useEffect(() => {
-    console.log('in autoLogin')
+    // console.log('in autoLogin')
     autoLogin()
   }, []);
 
   
-
+console.log(currentUser)
 // /SignIn needs to be chaneged to a landing page
   useEffect(() => {
     
     if (currentUser) {
-     console.log('current user is filled')
-      history.push("/categories");
+    //  console.log('current user is filled')
+      // history.goBack();
     } else {
-      history.push("/SignIn");
+    //  history.push("/SignIn");
     }
   }, [currentUser, history]);
 
 
   function autoLogin() {
+    setIsLoading(true)
     fetch("http://localhost:3000/autologin", {
       headers: {
         Authorization: `Bearer ${localStorage.token}`,
@@ -51,7 +55,7 @@ function App() {
         if (!r.ok) throw Error("Not logged in!");
         return r.json();
       })
-      .then((user) => { return ( setCurrentUser(user), console.log(user, 'refreshed user'))})
+      .then((user) => { return ( setCurrentUser(user), setIsLoading(false))})
       .catch((err) => console.error(err));
   }
 
@@ -70,9 +74,11 @@ function App() {
 
   return (
 <>
+
+{/* {isLoading ? <Loading/>: null} */}
         <div>
-            <NavBar currentUser={currentUser} onLogout={handleLogout} currentCart={currentCart}
-          setCurrentCart={setCurrentCart} triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender}/>
+            <NavBar currentUser={currentUser} onLogout={handleLogout}
+               triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender}/>
             {/* {currentUser ?   <h1>welcome {currentUser.name}</h1>: null} */}
           
         </div>

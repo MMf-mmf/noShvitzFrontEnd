@@ -6,7 +6,7 @@ const src = 'http://community.farmhousedelivery.com/wp-content/uploads/2018/06/F
 
 
 
-function CategorieObject({categories, currentUser}) {
+function CategorieItems({categories, currentUser}) {
     if (!categories || !currentUser) {
         return(<h1>hello waiting for data</h1>)
     }
@@ -27,11 +27,16 @@ function CategorieObject({categories, currentUser}) {
             })
             .then(res => res.json())
             .then(newCartObj => {
-                // console.log(newCartObj)
+                setUserAndCategoriesId()
             })
     }
+
+    function setUserAndCategoriesId() {
+        localStorage.setItem("category_id", JSON.stringify(parseInt(category_id)))
+        localStorage.setItem("user_id", JSON.stringify(parseInt(user_id)))
+    }
    
-    console.log(categories, 'this is the data')
+    // console.log(categories, 'this is the data')
     return(
 
  <Card id="categorieCard" as={Link} to={`/categories/${category_id}`} onClick={handleClick} link > 
@@ -46,4 +51,4 @@ function CategorieObject({categories, currentUser}) {
     )
 }
 
-export default CategorieObject
+export default CategorieItems 

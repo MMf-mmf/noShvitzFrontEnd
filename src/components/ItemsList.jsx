@@ -3,18 +3,25 @@ import { Link, useParams } from "react-router-dom"
 import { Card, Segment, Icon, Image, Container, Button, Divider } from 'semantic-ui-react'
 import ItemCard from "./ItemCard";
 
-const src = 'https://image.flaticon.com/icons/png/512/883/883806.png'
+
 
 function Items({categoriesList, currentUser}) {
     const [newCategoryList, setNewCategoryList] = useState([])
     const [itemsCount, setItemsCount] = useState({})
     const [cartItems, setCartItems] = useState([])   
     const { id } = useParams()
+    const user_id = JSON.parse(localStorage.getItem("user_id"))
+    const category_id = JSON.parse(localStorage.getItem("category_id"))
 
-
+    if (currentUser === undefined) {
+        console.log(currentUser, "this is the current user")
+        console.log(user_id, 'this is the user id form local storedge')
+        console.log(category_id, 'this is the category id form local storedge')
+    }
+    
     // console.log(cartItems, 'inCartItems')
     useEffect(() => {
-        getCart(currentUser.id, parseInt(id))  
+        getCart(user_id, category_id)  
     }, [])
 
     function getCart(userId, categoryId) {
@@ -43,7 +50,7 @@ function Items({categoriesList, currentUser}) {
                 },
                 body: JSON.stringify(cartDetails)})
                 .then(res => res.json())
-                .then(newCartDetail => {console.log(newCartDetail)})
+                // .then(newCartDetail => {console.log(newCartDetail)})
     }
 
 
