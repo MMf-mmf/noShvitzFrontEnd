@@ -11,6 +11,8 @@ function SignIn({ setCurrentUser, autoLogin }) {
         setFormData({...formData, [e.target.name]: e.target.value })
     }
 
+
+
     function handleSubmit(e) {
         e.preventDefault();
         fetch("http://localhost:3000/login", {
@@ -27,11 +29,6 @@ function SignIn({ setCurrentUser, autoLogin }) {
             localStorage.token = token;
             // save the user in state in App
             setCurrentUser(user);
-            
-    
-            
-            
-           
             });
         }
 
@@ -77,13 +74,7 @@ function SignIn({ setCurrentUser, autoLogin }) {
 
 
 
-        {/* <Form onSubmit={handleSubmit}>
-            <Form.Input name="email" label='Email'
-                 placeholder='joe@schmoe.com' width={6} value={formData.email} onChange={handleChange}/>
-            <Form.Input name="password" label='Password'
-                 placeholder='password' width={6} value={formData.password} onChange={handleChange}/>
-            <Button as="a" type='submit'>Submit</Button>
-        </Form> */}
+ 
         </>
     )
 }

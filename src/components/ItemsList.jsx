@@ -57,12 +57,17 @@ function Items({categoriesList, currentUser}) {
 
     let itemFrag = ''
     if (categoriesList.length > 0 && newCategoryList !== categoriesList) {
+        console.log(categoriesList, 'in the if')
         setNewCategoryList(categoriesList) 
     }
 
     if (newCategoryList.length > 0) {
+       
         const categories = newCategoryList[(id - 1)]
         itemFrag = categories.products.map(product => {return <ItemCard key={product.id} product={product} setItemsCount={setItemsCount} itemsCount={itemsCount} handleAddToCart={handleAddToCart} cartItems={cartItems}/>})
+        // const categories = newCategoryList.filter( category =>  category.id === parseInt(id) )
+        // console.log(categories)
+        // itemFrag = categories[0].products.map(product => {return <ItemCard key={product.id} product={product} setItemsCount={setItemsCount} itemsCount={itemsCount} handleAddToCart={handleAddToCart} cartItems={cartItems}/>})
     }
 
     

@@ -62,6 +62,8 @@ console.log(currentUser)
   function handleLogout() {
     // remove the userId from localstorage
     localStorage.removeItem("token");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("category_id");
     setCurrentUser(null);
     history.push('/SignIn')
   }

@@ -6,14 +6,14 @@ import { Card, Segment, Icon, Image, Container, Button, Divider, Form } from 'se
 
 function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItems}) {
     const [inCart, setInCart] = useState(false)
-    
+   
     let itemsInCart = cartItems.filter(item => item.product_id === product.id)
 
     if (itemsInCart.length > 0) {
       console.log('item', product.id, 'is in the cart already')
       // setInCart(true)
     }
-    
+
 
       function handleSubmit(e, data) {
         e.preventDefault()
@@ -69,7 +69,7 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItem
             id={product.id}
             onChange={handleChange}
           />
-          {itemsInCart.length > 0 ? <Button disabled type='submit'  >Add to cart</Button>:  <Button type='submit'  >Add to cart</Button>}
+          {itemsInCart.length > 0 || inCart ? <Button disabled type='submit'  >Add to cart</Button>:  <Button type='submit'  >Add to cart</Button>}
          
             </Form>
           {/* </div> */}
