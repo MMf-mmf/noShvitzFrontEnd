@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 
 function SignIn({ setCurrentUser, autoLogin }) {
     const [formData, setFormData] = useState({email: "", password: ""})
+    const [error, setError] = useState('')
     const history = useHistory();
 
     function handleChange(e) {
@@ -17,6 +18,7 @@ function SignIn({ setCurrentUser, autoLogin }) {
         e.preventDefault();
         fetch("http://localhost:3000/login", {
             method: "POST",
+            credentials: "include",
             headers: {
             "Content-Type": "application/json",
             },
@@ -25,18 +27,30 @@ function SignIn({ setCurrentUser, autoLogin }) {
             .then((r) => r.json())
             .then((data) => {
             console.log(data);
-            const { user, token } = data;
-            localStorage.token = token;
+            printError(data)
+            const { user } = data;
+            // localStorage.token = token;
             // save the user in state in App
             setCurrentUser(user);
             });
         }
 
-
+        // add the error message commit form the server to state to be render as a message
+        function printError(data) {
+          if (data.error) {
+            // console.log(data.error)
+            setError(data.error)
+            console.log(error)
+          }
+        }
     return(
 <>
 
-
+{error
+?
+<Message negative id="placeOrder-message">
+  <Message.Header>{error}</Message.Header>
+</Message>:null}
 
 
 

@@ -47,9 +47,10 @@ console.log(currentUser)
   function autoLogin() {
     setIsLoading(true)
     fetch("http://localhost:3000/autologin", {
-      headers: {
-        Authorization: `Bearer ${localStorage.token}`,
-      },
+      credentials: "include",
+      // headers: {
+      //   Authorization: `Bearer ${localStorage.token}`,
+      // },
     })
       .then((r) => {
         if (!r.ok) throw Error("Not logged in!");
@@ -64,7 +65,16 @@ console.log(currentUser)
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
     localStorage.removeItem("category_id");
-    setCurrentUser(null);
+    
+    fetch("http://localhost:3000/logout", {
+      credentials: "include",
+    })
+      .then((r) => r.json())
+      .then(() => setCurrentUser(null));
+
+
+
+
     history.push('/SignIn')
   }
 

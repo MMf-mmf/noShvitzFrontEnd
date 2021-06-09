@@ -72,6 +72,7 @@ function SignUp(params) {
 
       fetch("http://localhost:3000/users", {
         method: "POST",
+        credentials: "include",
         headers: {
         "Content-Type": "application/json",
         },
