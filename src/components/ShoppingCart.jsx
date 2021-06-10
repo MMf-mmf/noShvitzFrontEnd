@@ -15,7 +15,7 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         const [countDown, setCountDown] = useState(getTimeRemaining(deadline))
         const history = useHistory();
         const user_id = JSON.parse(localStorage.getItem("user_id"))
-        const category_id = JSON.parse(localStorage.getItem("category_id"))
+        const category_id = JSON.parse(localStorage.getItem("shoppingCart_id"))
         
         
 
@@ -33,6 +33,7 @@ console.log(countDown, "this is the seconds")
     function getCart(userId, categoryId) {
         fetch(`http://localhost:3000/cart`,{
             method: "POST",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -49,6 +50,9 @@ console.log(countDown, "this is the seconds")
     function handleExceptions(resCart) {
     console.log(resCart, 'beform the if')
    
+if (!resCart[0]) {
+  return(<h1></h1>)
+}
       if (resCart.length < 1) {
         console.log(resCart, 'in if statment handleExceptions')
       }else{
@@ -64,9 +68,10 @@ console.log(countDown, "this is the seconds")
 
         fetch("http://localhost:3000/submit", {
             method: "PATCH",
+            credentials: "include",
             headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.token}`,
+                "Content-Type": "application/json"
+                // Authorization: `Bearer ${localStorage.token}`,
             },
             body: JSON.stringify({id: cart[0].order.id})
         })
@@ -91,9 +96,10 @@ console.log(countDown, "this is the seconds")
     function handleDelete(id){
             fetch(`http://localhost:3000/order_details/${id}`, {
                 method: "DELETE",
+                credentials: "include",
                 headers: {
-                    'Content-Type': 'application/json',
-                      Authorization: `Bearer ${localStorage.token}`
+                    'Content-Type': 'application/json'
+                      // Authorization: `Bearer ${localStorage.token}`
                 }
             })
             .then(res => res.json())
@@ -115,8 +121,9 @@ function handleQuantityChange(id, newQuantity) {
     // console.log('in quantityChange', id, newQuantity)
     fetch(`http://localhost:3000/order_details/${id}`,{
         method: "PATCH",
+        credentials: "include",
         headers:{'Content-Type' : 'application/json'},
-        Authorization: `Bearer ${localStorage.token}`,
+        // Authorization: `Bearer ${localStorage.token}`,
         body: JSON.stringify({quantity: newQuantity})
       })
       .then(res => res.json())

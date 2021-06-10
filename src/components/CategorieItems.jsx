@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"
 import { Card, Segment, Icon, Image, Container, Button, Divider } from 'semantic-ui-react'
 const src = 'http://community.farmhousedelivery.com/wp-content/uploads/2018/06/FHD_20180619_Produce-Box.jpg'
@@ -7,6 +7,8 @@ const src = 'http://community.farmhousedelivery.com/wp-content/uploads/2018/06/F
 
 
 function CategorieItems({categories, currentUser}) {
+    
+
     if (!categories || !currentUser) {
         return(<h1>hello waiting for data</h1>)
     }
@@ -16,12 +18,11 @@ function CategorieItems({categories, currentUser}) {
     // console.log(categories)
 
     function handleClick(e, data) {
-        console.log('logged click')
         fetch('http://localhost:3000/orders', {
             method: 'POST',
+            credentials: "include",
             headers: {
-                'Content-Type': 'application/json',
-                 Authorization: `Bearer ${localStorage.token}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({user_id: currentUser.id, category_id: category_id})
             })
@@ -38,6 +39,7 @@ function CategorieItems({categories, currentUser}) {
    
     // console.log(categories, 'this is the data')
     return(
+        <>
 
  <Card id="categorieCard" as={Link} to={`/categories/${category_id}`} onClick={handleClick} link > 
         <Image src={categories.image} wrapped ui={false} size='tiny' circular/>
@@ -48,6 +50,7 @@ function CategorieItems({categories, currentUser}) {
             </Card.Meta>
         </Card.Content>
     </Card>
+</>
     )
 }
 

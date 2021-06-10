@@ -36,7 +36,7 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender}) {
       history.push(`/ShoppingCart/${e.target.id}`);
       // console.log(e.target.id)
       // console.log('registerd click')
-      localStorage.setItem("category_id", JSON.stringify(parseInt(e.target.id)))
+      localStorage.setItem("shoppingCart_id", JSON.stringify(parseInt(e.target.id)))
       setTriggerRerender(!triggerRerender)
     }
 

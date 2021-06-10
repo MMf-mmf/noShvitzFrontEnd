@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom"
-import { Card, Segment, Icon, Image, Container, Button, Divider, Form } from 'semantic-ui-react'
+import {Dimmer, Loader, Card, Segment, Icon, Image, Container, Button, Divider, Form } from 'semantic-ui-react'
 
 // start here by after shabbos 
 
 function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItems}) {
     const [inCart, setInCart] = useState(false)
    
-    let itemsInCart = cartItems.filter(item => item.product_id === product.id)
+if (!cartItems ) {
+  // window.location.reload()
+  console.log(cartItems)
+  return( <Segment>
+    <Dimmer active inverted>
+      <Loader size='large'>Loading</Loader>
+    </Dimmer>
+    <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+  </Segment>)
+}
 
+// console.log(cartItems)
+    let itemsInCart = cartItems.filter(item => item.product_id === product.id)
+    // let itemsInCart = Object.values(item).filter(product_id === product_id)
     if (itemsInCart.length > 0) {
       console.log('item', product.id, 'is in the cart already')
       // setInCart(true)
@@ -41,7 +53,13 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItem
         { key: '6', text: '6', value: 6 },
       ]
 
+   
+
     return(
+
+          
+      <>
+
          <Card link style={{width: '18rem'}} className="itemCard" id="hover">
           {inCart || itemsInCart.length > 0 ? 
           // <img style={{height: '15rem', width: '18rem'}} src={product.image} alt="nothing" />
@@ -76,7 +94,7 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItem
           </Card.Content>
     </Card>
 
-  
+  </>
     )
 }
 

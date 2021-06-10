@@ -16,11 +16,14 @@ function App() {
   // const [currentCart, setCurrentCart] = useState(1)
   const [triggerRerender, setTriggerRerender] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  
 
   const history = useHistory();
 
   useEffect(() => {
-      fetch("http://127.0.0.1:3000/categories")
+      fetch("http://127.0.0.1:3000/categories",{
+        credentials: "include",
+      })
       .then(res => res.json())
       .then(categoriesArray => {setCategories(categoriesArray, 'in the fetch')})
   }, [])
@@ -37,7 +40,7 @@ console.log(currentUser)
     
     if (currentUser) {
     //  console.log('current user is filled')
-      // history.goBack();
+    //history.goBack();
     } else {
     //  history.push("/SignIn");
     }
@@ -71,11 +74,8 @@ console.log(currentUser)
     })
       .then((r) => r.json())
       .then(() => setCurrentUser(null));
-
-
-
-
     history.push('/SignIn')
+    window.location.reload();
   }
 
   function onUpdateUser(user) {
@@ -110,15 +110,15 @@ console.log(currentUser)
     </Route>
 
   <Route exact path="/categories">
-    <CategorieList categoriesList={categoriesList} setCategories={setCategories} currentUser={currentUser}/>
+    <CategorieList categoriesList={categoriesList} setCategories={setCategories} currentUser={currentUser} />
   </Route>
 
   <Route exact path="/categories/:id">
-    <Items categoriesList={categoriesList} currentUser={currentUser}/>            
+    <Items categoriesList={categoriesList} currentUser={currentUser} />            
   </Route >
 
   <Route exact path="/">
-  <CategorieList categoriesList={categoriesList} setCategories={setCategories} currentUser={currentUser}/>
+  <CategorieList categoriesList={categoriesList} setCategories={setCategories} currentUser={currentUser} />
   </Route>
   </Switch>
 </>
