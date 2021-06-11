@@ -9,7 +9,7 @@ import CategorieItems from './CategorieItems'
 function CategorieList({categoriesList, setCategories, currentUser}) {
 
 const history = useHistory();
-console.log(categoriesList)
+
 if (categoriesList.length < 1) {
    return( <h1></h1>)
 }

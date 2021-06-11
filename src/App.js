@@ -34,7 +34,7 @@ function App() {
   }, []);
 
   
-console.log(currentUser)
+
 // /SignIn needs to be chaneged to a landing page
   useEffect(() => {
     
@@ -70,6 +70,7 @@ console.log(currentUser)
     localStorage.removeItem("category_id");
     
     fetch("http://localhost:3000/logout", {
+      method: "DELETE",
       credentials: "include",
     })
       .then((r) => r.json())

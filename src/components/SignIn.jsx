@@ -4,12 +4,20 @@ import { Link, useHistory } from "react-router-dom";
 
 
 function SignIn({ setCurrentUser, autoLogin }) {
-    const [formData, setFormData] = useState({email: "", password: ""})
+    const [formData, setFormData] = useState({email: "", password: "", remember_me: false})
+  
     const [error, setError] = useState('')
     const history = useHistory();
 
-    function handleChange(e) {
+    function handleChange(e, data) {
+      if (data.name === 'checkbox') {
+        setFormData({...formData, remember_me: data.checked })
+      }else{
         setFormData({...formData, [e.target.name]: e.target.value })
+        
+      }
+      
+        console.log(formData)
     }
 
 
@@ -64,9 +72,10 @@ function SignIn({ setCurrentUser, autoLogin }) {
         <Segment stacked>
           <Form.Input fluid icon='user' iconPosition='left' name="email" placeholder='E-mail address' value={formData.email} onChange={handleChange}/>
           <Form.Input fluid icon='lock' iconPosition='left' name="password" placeholder='Password' type='password' value={formData.password} onChange={handleChange}/>
-
-          <Button type='submit' color='teal' fluid size='large'>Login</Button>
+          <Checkbox style={{marginRight: '43%'}} name="checkbox" label='Remember me on this computer'  onChange={handleChange}/>
+          <Button style={{marginTop: '10px'}} type='submit' color='teal' fluid size='large'>Login</Button>
         </Segment>
+        
       </Form>
 
       <Message as={Link}  to="/SignUp" style={{ width: '' }}>
