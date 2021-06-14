@@ -22,7 +22,6 @@ if (categoriesList.message) {
 const categories = categoriesList.map( cat => {
         return(<CategorieItems key={categoriesList.id} categories={cat} currentUser={currentUser} />)})
 
-
    return(
         <>
         <Segment id="category-segment-top"></Segment>

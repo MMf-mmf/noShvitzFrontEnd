@@ -16,11 +16,6 @@ function Items({categoriesList, currentUser}) {
     const [sleep, setSleep] = useState(true)
     setTimeout(() => setSleep(false), 100)
 
-    if (currentUser === undefined) {
-        // console.log(currentUser, "this is the current user")
-        // console.log(user_id, 'this is the user id form local storedge')
-        // console.log(category_id, 'this is the category id form local storedge')
-    }
  
     useEffect(() => {
         getCart(user_id, category_id)  

@@ -8,6 +8,10 @@ import SignIn from "./components/SignIn"
 import SignUp from "./components/SignUp";
 import ShoppingCart from "./components/ShoppingCart";
 import Loading from "./components/Loading";
+import UserList from "./components/UserList";
+import OrdersList from "./components/OrdersList";
+import Profile from "./components/Profile";
+
 
 
 function App() {
@@ -51,9 +55,6 @@ function App() {
     setIsLoading(true)
     fetch("http://localhost:3000/autologin", {
       credentials: "include",
-      // headers: {
-      //   Authorization: `Bearer ${localStorage.token}`,
-      // },
     })
       .then((r) => {
         if (!r.ok) throw Error("Not logged in!");
@@ -83,7 +84,7 @@ function App() {
     setCurrentUser(user);
   }
 
-
+  
 
   return (
 <>
@@ -102,6 +103,8 @@ function App() {
       <SignUp/>
     </Route>
 
+
+
     <Route exact path="/SignIn">
       <SignIn setCurrentUser={setCurrentUser} autoLogin={autoLogin}/>
     </Route>
@@ -116,6 +119,18 @@ function App() {
 
   <Route exact path="/categories/:id">
     <Items categoriesList={categoriesList} currentUser={currentUser} />            
+  </Route >
+
+  <Route exact path="/UserList">
+    <UserList currentUser={currentUser} />            
+  </Route >
+
+  <Route exact path="/Profile/:id">
+    <Profile currentUser={currentUser} />            
+  </Route >
+
+  <Route exact path="/OrdersList/:id">
+    <OrdersList currentUser={currentUser} />            
   </Route >
 
   <Route exact path="/">

@@ -14,9 +14,7 @@ function SignIn({ setCurrentUser, autoLogin }) {
         setFormData({...formData, remember_me: data.checked })
       }else{
         setFormData({...formData, [e.target.name]: e.target.value })
-        
       }
-      
         console.log(formData)
     }
 

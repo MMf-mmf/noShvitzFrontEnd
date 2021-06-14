@@ -44,6 +44,23 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender}) {
    // console.log(currentUser.order_details.length > 0, 'inininin')
     // && currentUser.order_details.length > 0 
 
+    if (!currentUser) {
+      return(
+        <>
+               <Menu className='navBar' style={{backgroundColor: 'rgb(249, 247, 250)'}}>
+       <Menu.Item  as={Link}  to="/SignUp"
+           name='sign up'
+           active={activeItem === 'sign up'}
+           onClick={handleItemClick}>Sign Up</Menu.Item>
+
+          <Menu.Item as={Link} to="/SignIn"
+          name='sign in'
+          active={activeItem === 'sign in'}
+          onClick={handleItemClick}>Sign in</Menu.Item>
+          </Menu>
+        </>
+      )
+    }
 
     return(
         <Menu className='navBar' style={{backgroundColor: 'rgb(249, 247, 250)'}}>
@@ -82,24 +99,13 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender}) {
       <div id="2" class="item" onClick={handleClick}>Meat Cart</div>
       <div id="3" class="item" onClick={handleClick}>Produce Cart</div>
     </div>
-  </div>
+  </div></Menu.Item> : null }
 
-
-        {/* <Dropdown
-        labeled
-        icon='cart'
-        options={options}
-        fluid
-        // onClick={handleClick}
-        onChange={handleChange}
-        text='Select Shopping Cart'
-          /> */}
-          </Menu.Item> : null }
-
-       
+  {currentUser.admin ?  <Menu.Item as={Link} to="/UserList"
+          name='UserList'
+          active={activeItem === 'UserList'}
+          onClick={handleItemClick}>All Users</Menu.Item>: null} 
         </Menu>
-
-
     )
 }
 
