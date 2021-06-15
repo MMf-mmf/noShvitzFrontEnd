@@ -33,6 +33,7 @@ function SignIn({ setCurrentUser, autoLogin }) {
             .then((r) => r.json())
             .then((data) => {
             console.log(data);
+            setError(data.message)
             printError(data)
             const { user } = data;
             // localStorage.token = token;

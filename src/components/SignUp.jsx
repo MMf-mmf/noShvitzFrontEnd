@@ -3,6 +3,7 @@ import {Form, Label ,Modal, Message, Accordion, Button, Checkbox, Grid, Header, 
 
 
 function SignUp(params) {
+    const [serverResponse, setServerResponse] = useState("")
     const [formData, setFormData] = useState({email: "", password: "", confirmPassword: "",
                                               firstName: "", lastName: "", phone1: "", phone2: "",
                                               emailError: false,   passwordError: false,
@@ -12,6 +13,12 @@ function SignUp(params) {
                                               createUserError: false,  firstNameError: false,
                                               lastNameError: false, formError: false})
 
+    // set a 6 second timer to refresh page a get rid of allert message
+    if (serverResponse) {
+      setTimeout(() => setServerResponse(""), 6000)
+      // setServerResponse('')
+      console.log('in page refresh')
+    }
 
     function handleChange(e) {
       console.log(e.target.name)
@@ -80,10 +87,13 @@ function SignUp(params) {
     })
         .then((r) => r.json())
         .then((data) => {
-          console.log(data);
+          console.log(data)
+          setServerResponse(data.message);
+          if (data.error) {
+            setServerResponse(data.error)
+          }
         const { user, token } = data;
         localStorage.token = token
-        
         // setCurrentUser(user);
         });
     }
@@ -92,6 +102,14 @@ function SignUp(params) {
 
     return(
 <>
+{serverResponse
+?
+<Message negative id="placeOrder-message">
+  <Message.Header>{serverResponse}</Message.Header>
+</Message>:null}
+
+
+
 {formData.passwordError
 ?
 <Message negative id="placeOrder-message">
@@ -138,29 +156,6 @@ function SignUp(params) {
     </Grid.Column>
   </Grid>
         </>
-
-
-      //   <Form>
-      //   <Form.Group >
-      //     <Form.Input label='First name' placeholder='First Name' width={4} />
-      //     <Form.Input label='Last Name' placeholder='Last Name' width={4} />
-      //   </Form.Group>
-      //   <Form.Input label='Email' placeholder='joe@schmoe.com' width={8}/>
-      //   <Form.Group >
-      //     <Form.Input label='Phone number#1' placeholder='First Name' width={4} />
-      //     <Form.Input label='Phone number#2' placeholder='Last Name' width={4} />
-      //   </Form.Group>
-      //   <Form.Input label='Address' placeholder='address' width={8}/>
-      //   <Form.Group >
-      //     <Form.Input label='City' placeholder='City' width={3} />
-      //     <Form.Input label='State' placeholder='state' width={3} />
-      //     <Form.Input label='ZipCode' placeholder='Zip code' width={2} />
-      //   </Form.Group>
-      //   <Form.Group >
-      //     <Form.Input label='Password' placeholder='password' width={4} />
-      //     <Form.Input label='Confirm password' placeholder='confirm password' width={4} />
-      //   </Form.Group>
-      // </Form>
     )
 }
 // address / city / state / zipCode

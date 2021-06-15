@@ -11,7 +11,7 @@ import Loading from "./components/Loading";
 import UserList from "./components/UserList";
 import OrdersList from "./components/OrdersList";
 import Profile from "./components/Profile";
-
+import AccountActivation from "./components/AccountActivation";
 
 
 function App() {
@@ -84,7 +84,7 @@ function App() {
     setCurrentUser(user);
   }
 
-  
+  console.log(currentUser)
 
   return (
 <>
@@ -131,6 +131,10 @@ function App() {
 
   <Route exact path="/OrdersList/:id">
     <OrdersList currentUser={currentUser} />            
+  </Route >
+
+  <Route  path="/Account_activations/:id">
+    <AccountActivation currentUser={currentUser} />            
   </Route >
 
   <Route exact path="/">
