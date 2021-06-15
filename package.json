@@ -1,5 +1,5 @@
 {
-  "homepage": "https://MenachemFuterfas.github.io",
+  "homepage": "https://MenachemFuterfas.github.io/noShvitzFrontEnd",
   "name": "no_shvitz",
   "version": "0.1.0",
   "private": true,
@@ -42,6 +42,6 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.1."
+    "gh-pages": "^3.2.1"
   }
 }
