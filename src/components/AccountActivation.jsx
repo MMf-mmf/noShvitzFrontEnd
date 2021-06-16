@@ -6,7 +6,7 @@ import {Message} from 'semantic-ui-react'
 
 
 
-function AccountActivation() {
+function AccountActivation({fetchUrl, localFetchUrl}) {
     const [serverResponse, setServerResponse] = useState("")
     let {id}  = useParams()
 
@@ -16,7 +16,7 @@ function AccountActivation() {
     
     setTimeout(() => sendOthToken(), 200)
 function sendOthToken() {
-    fetch("http://localhost:3000/account_activations", {
+    fetch(`${localFetchUrl}/account_activations`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

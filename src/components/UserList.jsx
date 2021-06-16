@@ -4,7 +4,7 @@ import { Input, Menu, Card, Button, Divider, Form, Grid, Segment } from 'semanti
 import UserCard from "./UserCard";
 
 
-function UserList() {
+function UserList({fetchUrl, localFetchUrl}) {
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false)
     const [sleep, setSleep] = useState(true)
@@ -18,7 +18,7 @@ function UserList() {
     }, [])
 
     function getUsers() {
-      fetch("http://localhost:3000/users", {
+      fetch(`${localFetchUrl}/users`, {
         credentials: "include",
       })
         .then((r) => {

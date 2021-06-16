@@ -6,7 +6,7 @@ import CategorieItems from './CategorieItems'
 
 
 
-function CategorieList({categoriesList, setCategories, currentUser}) {
+function CategorieList({categoriesList, setCategories, currentUser, fetchUrl, localFetchUrl}) {
 
 const history = useHistory();
 

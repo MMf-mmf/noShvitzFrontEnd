@@ -5,7 +5,7 @@ import ItemCard from "./ItemCard";
 
 
 
-function Items({categoriesList, currentUser}) {
+function Items({categoriesList, currentUser, fetchUrl, localFetchUrl}) {
     const [newCategoryList, setNewCategoryList] = useState([])
     const [itemsCount, setItemsCount] = useState({})
     const [cartItems, setCartItems] = useState([])   
@@ -23,7 +23,7 @@ function Items({categoriesList, currentUser}) {
 
     function getCart(userId, categoryId) {
         setLoading(true)
-        fetch(`http://localhost:3000/cart`,{
+        fetch(`${localFetchUrl}/cart`,{
             method: "POST",
             credentials: "include",
             headers: {
@@ -34,18 +34,17 @@ function Items({categoriesList, currentUser}) {
         .then(res => res.json())
         .then((resCart) => { return(setCartItems(resCart))}  )
         setLoading(false)
-        
+        // console.log(user_id, categoryId, 'this is cart fetch params')
     }
 
     
     
 
     function handleAddToCart(id, category_id) {
-        
         const cartDetails = {product_id: parseInt(id), quantity: itemsCount[id], user_id: currentUser.id, category_id: category_id}
-    
-        fetch('http://127.0.0.1:3000/order_details',{
+        fetch(`${localFetchUrl}/order_details`,{
             method: 'POST',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
                 },

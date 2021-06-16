@@ -3,7 +3,7 @@ import {List ,Divider ,Image, Button, Header, Icon, Segment,  Input, Label } fro
 import ShoppingCartItems from "./CartItems";
 
 
-function CartItem({cartItem, handleDelete, handleQuantityChange, submitted}) {
+function CartItem({cartItem, handleDelete, handleQuantityChange, submitted, fetchUrl, localFetchUrl}) {
    
     const [itemQuantity, setItemQuantity] =  useState(cartItem.quantity)
 

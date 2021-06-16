@@ -4,7 +4,7 @@ import { Input, Menu, Card, Button, Divider, Form, Grid, Segment } from 'semanti
 
 
 
-function UserCard({name, number, id}) {
+function UserCard({name, number, id, fetchUrl, localFetchUrl}) {
 
   // function handleClick(e) {
   //   console.log(e.target.innerText, 'got clicked')

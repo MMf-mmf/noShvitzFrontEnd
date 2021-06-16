@@ -5,7 +5,7 @@ import CartItem from "./CartItems";
 
 
 
-function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLogin}) {
+function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLogin, fetchUrl, localFetchUrl}) {
         let { id } = useParams()
         const [cart, setCarts] = useState([])
         const [submitted, setSubmitted] = useState(false)
@@ -17,13 +17,8 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         const user_id = JSON.parse(localStorage.getItem("user_id"))
         const category_id = JSON.parse(localStorage.getItem("shoppingCart_id"))
         
-        
-
 console.log(countDown, "this is the seconds")
    
-
-
-
         useEffect(() => {
             getCart(user_id, category_id)   // id is the  category id 
                            // for the fetch to only return the cart for that user and a given category
@@ -31,7 +26,7 @@ console.log(countDown, "this is the seconds")
 
 
     function getCart(userId, categoryId) {
-        fetch(`http://localhost:3000/cart`,{
+        fetch(`${localFetchUrl}/cart`,{
             method: "POST",
             credentials: "include",
             headers: {
@@ -66,7 +61,7 @@ if (!resCart[0]) {
         
         setSubmitted(!submitted)
 
-        fetch("http://localhost:3000/submit", {
+        fetch(`${localFetchUrl}/submit`, {
             method: "PATCH",
             credentials: "include",
             headers: {
@@ -94,7 +89,7 @@ if (!resCart[0]) {
 
 
     function handleDelete(id){
-            fetch(`http://localhost:3000/order_details/${id}`, {
+            fetch(`${localFetchUrl}/order_details/${id}`, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {
@@ -119,7 +114,7 @@ if (!resCart[0]) {
 
 function handleQuantityChange(id, newQuantity) {
     // console.log('in quantityChange', id, newQuantity)
-    fetch(`http://localhost:3000/order_details/${id}`,{
+    fetch(`${localFetchUrl}/order_details/${id}`,{
         method: "PATCH",
         credentials: "include",
         headers:{'Content-Type' : 'application/json'},

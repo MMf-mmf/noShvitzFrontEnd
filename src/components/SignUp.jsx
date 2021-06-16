@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Form, Label ,Modal, Message, Accordion, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
 
 
-function SignUp(params) {
+function SignUp({fetchUrl, localFetchUrl}) {
     const [serverResponse, setServerResponse] = useState("")
     const [formData, setFormData] = useState({email: "", password: "", confirmPassword: "",
                                               firstName: "", lastName: "", phone1: "", phone2: "",
@@ -77,7 +77,7 @@ function SignUp(params) {
       // }
 
 
-      fetch("http://localhost:3000/users", {
+      fetch(`${localFetchUrl}/users`, {
         method: "POST",
         credentials: "include",
         headers: {

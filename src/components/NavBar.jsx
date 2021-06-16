@@ -2,7 +2,7 @@ import React, { Component, useState } from "react";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar, Loader } from 'semantic-ui-react'
 
-function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender}) {
+function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fetchUrl, localFetchUrl}) {
     const [focused, setFocused] = useState({})
     const { activeItem } = focused
     

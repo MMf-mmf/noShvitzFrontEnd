@@ -14,7 +14,9 @@ import Profile from "./components/Profile";
 import AccountActivation from "./components/AccountActivation";
 
 
+
 function App() {
+
   const [categoriesList, setCategories] = useState([])
   const [currentUser, setCurrentUser] = useState();
   // const [currentCart, setCurrentCart] = useState(1)
@@ -23,9 +25,14 @@ function App() {
   
 
   const history = useHistory();
+  const fetchUrl = "https://noshvitz.herokuapp.com"
+  const localFetchUrl = "http://localhost:3000"
+
+
+// console.log(`${localFetchUrl}/orders`)
 
   useEffect(() => {
-      fetch("http://127.0.0.1:3000/categories",{
+      fetch(`${fetchUrl}/categories`,{
         credentials: "include",
       })
       .then(res => res.json())
@@ -53,7 +60,7 @@ function App() {
 
   function autoLogin() {
     setIsLoading(true)
-    fetch("http://localhost:3000/autologin", {
+    fetch(`${localFetchUrl}/autologin`, {
       credentials: "include",
     })
       .then((r) => {
@@ -70,7 +77,7 @@ function App() {
     localStorage.removeItem("user_id");
     localStorage.removeItem("category_id");
     
-    fetch("http://localhost:3000/logout", {
+    fetch(`${localFetchUrl}/logout`, {
       method: "DELETE",
       credentials: "include",
     })
@@ -84,7 +91,7 @@ function App() {
     setCurrentUser(user);
   }
 
-  console.log(currentUser)
+ 
 
   return (
 <>
@@ -92,7 +99,7 @@ function App() {
 {/* {isLoading ? <Loading/>: null} */}
         <div>
             <NavBar currentUser={currentUser} onLogout={handleLogout}
-               triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender}/>
+               triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>
             {/* {currentUser ?   <h1>welcome {currentUser.name}</h1>: null} */}
           
         </div>
@@ -100,45 +107,45 @@ function App() {
   <Switch>
 
     <Route exact path="/SignUp">
-      <SignUp/>
+      <SignUp fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>
     </Route>
 
 
 
     <Route exact path="/SignIn">
-      <SignIn setCurrentUser={setCurrentUser} autoLogin={autoLogin}/>
+      <SignIn setCurrentUser={setCurrentUser} autoLogin={autoLogin} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>
     </Route>
 
     <Route exact path="/ShoppingCart/:id">
-      <ShoppingCart currentUser={currentUser} triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender} autoLogin={autoLogin}/>
+      <ShoppingCart currentUser={currentUser} triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender} autoLogin={autoLogin} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>
     </Route>
 
   <Route exact path="/categories">
-    <CategorieList categoriesList={categoriesList} setCategories={setCategories} currentUser={currentUser} />
+    <CategorieList categoriesList={categoriesList} setCategories={setCategories} currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>
   </Route>
 
   <Route exact path="/categories/:id">
-    <Items categoriesList={categoriesList} currentUser={currentUser} />            
+    <Items categoriesList={categoriesList} currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
   </Route >
 
   <Route exact path="/UserList">
-    <UserList currentUser={currentUser} />            
+    <UserList currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
   </Route >
 
   <Route exact path="/Profile/:id">
-    <Profile currentUser={currentUser} />            
+    <Profile currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
   </Route >
 
   <Route exact path="/OrdersList/:id">
-    <OrdersList currentUser={currentUser} />            
+    <OrdersList currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
   </Route >
 
   <Route  path="/Account_activations/:id">
-    <AccountActivation currentUser={currentUser} />            
+    <AccountActivation currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
   </Route >
 
   <Route exact path="/">
-  <CategorieList categoriesList={categoriesList} setCategories={setCategories} currentUser={currentUser} />
+  <CategorieList categoriesList={categoriesList} setCategories={setCategories} currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>
   </Route>
   </Switch>
 </>

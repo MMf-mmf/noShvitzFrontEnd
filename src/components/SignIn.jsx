@@ -3,7 +3,7 @@ import {Form, Label ,Modal, Message, Accordion, Button, Checkbox, Grid, Header, 
 import { Link, useHistory } from "react-router-dom";
 
 
-function SignIn({ setCurrentUser, autoLogin }) {
+function SignIn({ setCurrentUser, autoLogin, fetchUrl, localFetchUrl }) {
     const [formData, setFormData] = useState({email: "", password: "", remember_me: false})
   
     const [error, setError] = useState('')
@@ -15,14 +15,14 @@ function SignIn({ setCurrentUser, autoLogin }) {
       }else{
         setFormData({...formData, [e.target.name]: e.target.value })
       }
-        console.log(formData)
+        // console.log(formData)
     }
 
 
 
     function handleSubmit(e) {
         e.preventDefault();
-        fetch("http://localhost:3000/login", {
+        fetch(`${localFetchUrl}/login`, {
             method: "POST",
             credentials: "include",
             headers: {

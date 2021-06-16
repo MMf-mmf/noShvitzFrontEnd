@@ -6,7 +6,7 @@ const src = 'http://community.farmhousedelivery.com/wp-content/uploads/2018/06/F
 
 
 
-function CategorieItems({categories, currentUser}) {
+function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl}) {
     
 
     if (!categories || !currentUser) {
@@ -18,7 +18,9 @@ function CategorieItems({categories, currentUser}) {
     // console.log(categories)
 
     function handleClick(e, data) {
-        fetch('http://localhost:3000/orders', {
+    console.log('just got clicked')
+    setUserAndCategoriesId()
+        fetch(`${localFetchUrl}/orders`, {
             method: 'POST',
             credentials: "include",
             headers: {
@@ -28,7 +30,6 @@ function CategorieItems({categories, currentUser}) {
             })
             .then(res => res.json())
             .then(newCartObj => {
-                setUserAndCategoriesId()
             })
     }
 

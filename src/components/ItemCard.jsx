@@ -4,7 +4,7 @@ import {Dimmer, Loader, Card, Segment, Icon, Image, Container, Button, Divider, 
 
 // start here by after shabbos 
 
-function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItems}) {
+function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItems, fetchUrl, localFetchUrl}) {
     const [inCart, setInCart] = useState(false)
    
 if (!cartItems ) {

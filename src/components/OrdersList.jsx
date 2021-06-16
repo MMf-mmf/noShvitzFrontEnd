@@ -1,6 +1,6 @@
 
 
-function OrdersList() {
+function OrdersList({fetchUrl, localFetchUrl}) {
     return(
         <h1>in orders list</h1>
     )

@@ -1,6 +1,6 @@
 
 
-function Profile(params) {
+function Profile({fetchUrl, localFetchUrl}) {
     
 
     return(
