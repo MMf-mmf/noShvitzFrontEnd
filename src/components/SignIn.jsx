@@ -39,6 +39,8 @@ function SignIn({ setCurrentUser, autoLogin, fetchUrl, localFetchUrl }) {
             // localStorage.token = token;
             // save the user in state in App
             setCurrentUser(user);
+            }).catch((err) => {
+              console.log(err)
             });
         }
 

@@ -12,14 +12,18 @@ function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl}) {
     if (!categories || !currentUser) {
         return(<h1>hello waiting for data</h1>)
     }
-
+   
+    // const category_id = categories.category_id
     const category_id = categories.id
     const user_id = currentUser.id
-    // console.log(categories)
+    const index_id = categories.category_id
+
 
     function handleClick(e, data) {
-    console.log('just got clicked')
+    // console.log('just got clicked')
+    
     setUserAndCategoriesId()
+    console.log(`${localFetchUrl}`)
         fetch(`${localFetchUrl}/orders`, {
             method: 'POST',
             credentials: "include",
@@ -29,28 +33,27 @@ function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl}) {
             body: JSON.stringify({user_id: currentUser.id, category_id: category_id})
             })
             .then(res => res.json())
-            .then(newCartObj => {
-            })
+            .then(newCartObj => { console.log(newCartObj)})
     }
 
     function setUserAndCategoriesId() {
         localStorage.setItem("category_id", JSON.stringify(parseInt(category_id)))
         localStorage.setItem("user_id", JSON.stringify(parseInt(user_id)))
+        localStorage.setItem("index_id", JSON.stringify(parseInt(index_id)))
     }
    
-    // console.log(categories, 'this is the data')
     return(
         <>
 
  <Card id="categorieCard" as={Link} to={`/categories/${category_id}`} onClick={handleClick} link > 
         <Image src={categories.image} wrapped ui={false} size='tiny' circular/>
-
         <Card.Content>
             <Card.Meta textAlign="center">
                 <span >{categories.name}</span>
             </Card.Meta>
         </Card.Content>
     </Card>
+    
 </>
     )
 }

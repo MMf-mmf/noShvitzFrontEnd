@@ -34,6 +34,7 @@ console.log(countDown, "this is the seconds")
             },
             body: JSON.stringify({user_id: userId, category_id: categoryId}),
         })
+        
         .then(res => res.json())
         .then((resCart) => { return (
             // wasSubmitted(resCart),

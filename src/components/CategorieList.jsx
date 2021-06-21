@@ -13,6 +13,7 @@ const history = useHistory();
 if (categoriesList.length < 1) {
    return( <h1></h1>)
 }
+
 if (categoriesList.message) {
    console.log(categoriesList.message, '***in second if***')
    // history.push('/SignIn')
@@ -20,7 +21,7 @@ if (categoriesList.message) {
    return( <h1></h1>)
 }
 const categories = categoriesList.map( cat => {
-        return(<CategorieItems key={categoriesList.id} categories={cat} currentUser={currentUser} />)})
+        return(<CategorieItems key={categoriesList.id} categories={cat} currentUser={currentUser} localFetchUrl={localFetchUrl} fetchUrl={fetchUrl}/>)})
 
    return(
         <>

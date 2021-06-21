@@ -2,9 +2,13 @@ import React, { Component, useState } from "react";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar, Loader } from 'semantic-ui-react'
 
-function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fetchUrl, localFetchUrl}) {
+function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fetchUrl, localFetchUrl, categoriesList}) {
     const [focused, setFocused] = useState({})
     const { activeItem } = focused
+   
+    let category1_id = 1
+    let category2_id = 2
+    let category3_id = 3
     
 
     const history = useHistory();
@@ -13,18 +17,19 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
         setFocused({ activeItem: name})
     }
 
-    // console.log( , 'cheking current cart')
-   // console.log('current cart',  currentCart)
+    if (categoriesList.length > 0) {
+        category1_id = categoriesList[0].products[0].category_id
+        category2_id = categoriesList[1].products[0].category_id
+        category3_id = categoriesList[2].products[0].category_id
+    }
+
+
     if (activeItem === "log out") {
         onLogout()
     }
 
 
-    // const options = [
-    //   { key: 1, text: 'Wine Cart', value: 1 },
-    //   { key: 2, text: 'Meat Cart', value: 2 },
-    //   {key: 3, text: 'produce Cart', value: 3}
-    // ]
+
 
     function handleChange(e, data) {
       history.push(`/ShoppingCart/${data.value}`);
@@ -33,6 +38,7 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
     }
 
     function handleClick(e, data) {
+      console.log(e.target, 'in the click')
       history.push(`/ShoppingCart/${e.target.id}`);
       // console.log(e.target.id)
       // console.log('registerd click')
@@ -93,11 +99,11 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
         {currentUser    ?  <Menu.Item name='shopping cart' active={activeItem === 'shopping cart'} onClick={handleItemClick}>
         <div class="ui simple dropdown item">
           Shopping cart
-      <i class="dropdown icon='cart'"></i>
+      <i class="dropdown icon=cart"></i>
     <div class="menu">
-      <div id='1' class="item" onClick={handleClick}>Wine Cart</div>
-      <div id="2" class="item" onClick={handleClick}>Meat Cart</div>
-      <div id="3" class="item" onClick={handleClick}>Produce Cart</div>
+      <div id={category1_id} class="item" onClick={handleClick}>Wine Cart</div>
+      <div id={category2_id} class="item" onClick={handleClick}>Meat Cart</div>
+      <div id={category3_id} class="item" onClick={handleClick}>Produce Cart</div>
     </div>
   </div></Menu.Item> : null }
 

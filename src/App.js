@@ -27,12 +27,14 @@ function App() {
   const history = useHistory();
   const fetchUrl = "https://noshvitz.herokuapp.com"
   const localFetchUrl = "http://localhost:3000"
+  // const fetchUrl = "http://localhost:3000"
+  // const localFetchUrl = "https://noshvitz.herokuapp.com"
 
 
 // console.log(`${localFetchUrl}/orders`)
-
+console.log(categoriesList)
   useEffect(() => {
-      fetch(`${fetchUrl}/categories`,{
+      fetch(`${localFetchUrl}/categories`,{
         credentials: "include",
       })
       .then(res => res.json())
@@ -96,16 +98,13 @@ function App() {
   return (
 <>
 
-{/* {isLoading ? <Loading/>: null} */}
         <div>
             <NavBar currentUser={currentUser} onLogout={handleLogout}
-               triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>
-            {/* {currentUser ?   <h1>welcome {currentUser.name}</h1>: null} */}
-          
+            triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender}
+            fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} categoriesList={categoriesList}/>
         </div>
 
   <Switch>
-
     <Route exact path="/SignUp">
       <SignUp fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>
     </Route>
