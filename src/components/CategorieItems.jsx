@@ -17,7 +17,7 @@ function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl}) {
     const category_id = categories.id
     const user_id = currentUser.id
     const index_id = categories.category_id
-
+console.log(categories)
 
     function handleClick(e, data) {
     // console.log('just got clicked')

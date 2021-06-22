@@ -12,7 +12,8 @@ import UserList from "./components/UserList";
 import OrdersList from "./components/OrdersList";
 import Profile from "./components/Profile";
 import AccountActivation from "./components/AccountActivation";
-
+import ResetPassword from "./components/ResetPassword";
+import ForgotPassword from "./components/ForgotPassword";
 
 
 function App() {
@@ -139,8 +140,16 @@ console.log(categoriesList)
     <OrdersList currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
   </Route >
 
-  <Route  path="/Account_activations/:id">
+  <Route   path="/Account_activations/:id">
     <AccountActivation currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
+  </Route >
+
+  <Route  path="/password_resets/:id">
+    <ResetPassword  fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
+  </Route >
+
+  <Route exact  path="/ForgotPassword">
+    <ForgotPassword  fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
   </Route >
 
   <Route exact path="/">

@@ -79,8 +79,11 @@ function SignIn({ setCurrentUser, autoLogin, fetchUrl, localFetchUrl }) {
         
       </Form>
 
-      <Message as={Link}  to="/SignUp" style={{ width: '' }}>
+      <Message as={Link}  to="/SignUp" style={{ width: '50%' }}>
         Do not have an account? <a href='#'>Sign Up</a>
+      </Message>
+      <Message as={Link}  to="/ForgotPassword" style={{ width: '50%' }}>
+         <a href='#'>Forgot Password</a>
       </Message>
     </Grid.Column>
   </Grid>
