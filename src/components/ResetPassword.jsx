@@ -13,7 +13,7 @@ function ResetPassword({localFetchUrl}) {
     const queryString = window.location.search
     const email = new URLSearchParams(queryString).get('email');
 
-
+console.log(email)
 
     function handleChange(e, data) {
         setFormData({...formData, [e.target.name]: e.target.value })

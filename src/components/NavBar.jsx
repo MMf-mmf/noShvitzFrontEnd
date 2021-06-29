@@ -1,15 +1,17 @@
 import React, { Component, useState } from "react";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar, Loader } from 'semantic-ui-react'
+import CreateItems from "./CreateItems";
 
 function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fetchUrl, localFetchUrl, categoriesList}) {
     const [focused, setFocused] = useState({})
     const { activeItem } = focused
    
-    let category1_id = 1
-    let category2_id = 2
-    let category3_id = 3
-    
+ 
+    let options = ""
+    if (categoriesList.length > 0) {
+       options =  categoriesList.map(categorys => { return  { key: categorys.id, text: categorys.name, value: categorys.id }})
+    }
 
     const history = useHistory();
 
@@ -17,11 +19,7 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
         setFocused({ activeItem: name})
     }
 
-    if (categoriesList.length > 0) {
-        category1_id = categoriesList[0].products[0].category_id
-        category2_id = categoriesList[1].products[0].category_id
-        category3_id = categoriesList[2].products[0].category_id
-    }
+ 
 
 
     if (activeItem === "log out") {
@@ -32,13 +30,17 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
 
 
     function handleChange(e, data) {
+      // history.push(`/ShoppingCart/${data.value}`);
+      localStorage.removeItem('admin_search_user_id');
       history.push(`/ShoppingCart/${data.value}`);
-      // console.log(data.value)
-      setTriggerRerender(!triggerRerender)
+       console.log(data.value)
+       localStorage.setItem("shoppingCart_id", JSON.stringify(parseInt(data.value)))
+       setTriggerRerender(!triggerRerender)
+      // setTriggerRerender(!triggerRerender)
     }
 
     function handleClick(e, data) {
-      console.log(e.target, 'in the click')
+      localStorage.removeItem('admin_search_user_id');
       history.push(`/ShoppingCart/${e.target.id}`);
       // console.log(e.target.id)
       // console.log('registerd click')
@@ -47,13 +49,12 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
     }
 
 
-   // console.log(currentUser.order_details.length > 0, 'inininin')
-    // && currentUser.order_details.length > 0 
+
 
     if (!currentUser) {
       return(
         <>
-               <Menu className='navBar' style={{backgroundColor: 'rgb(249, 247, 250)'}}>
+      <Menu className='navBar' style={{backgroundColor: 'rgb(249, 247, 250)'}}>
        <Menu.Item  as={Link}  to="/SignUp"
            name='sign up'
            active={activeItem === 'sign up'}
@@ -96,21 +97,22 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
           onClick={handleItemClick}
         >Log Out</Menu.Item>: null}
 
-        {currentUser    ?  <Menu.Item name='shopping cart' active={activeItem === 'shopping cart'} onClick={handleItemClick}>
-        <div class="ui simple dropdown item">
-          Shopping cart
-      <i class="dropdown icon=cart"></i>
-    <div class="menu">
-      <div id={category1_id} class="item" onClick={handleClick}>Wine Cart</div>
-      <div id={category2_id} class="item" onClick={handleClick}>Meat Cart</div>
-      <div id={category3_id} class="item" onClick={handleClick}>Produce Cart</div>
-    </div>
-  </div></Menu.Item> : null }
+
+<Dropdown id="CartDropDown" text='Dropdown' onChange={handleChange} options={options}/>
+
+
+
 
   {currentUser.admin ?  <Menu.Item as={Link} to="/UserList"
           name='UserList'
           active={activeItem === 'UserList'}
           onClick={handleItemClick}>All Users</Menu.Item>: null} 
+
+
+          {currentUser.admin ? <Menu.Item as={Link} to="/CreateItems"
+          name="CreateItems"
+          active={activeItem === 'CreateItems'}
+          onClick={handleItemClick}>Control Panel</Menu.Item>: null}
         </Menu>
     )
 }

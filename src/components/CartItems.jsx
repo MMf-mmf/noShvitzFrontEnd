@@ -3,29 +3,30 @@ import {List ,Divider ,Image, Button, Header, Icon, Segment,  Input, Label } fro
 import ShoppingCartItems from "./CartItems";
 
 
-function CartItem({cartItem, handleDelete, handleQuantityChange, submitted, fetchUrl, localFetchUrl}) {
+function CartItem({currentUser, cartItem, handleDelete, handleQuantityChange, submitted, fetchUrl, localFetchUrl}) {
    
-    const [itemQuantity, setItemQuantity] =  useState(cartItem.quantity)
-
+    // const [itemQuantity, setItemQuantity] =  useState(cartItem.quantity)
+    // console.log(itemQuantity, 'this is the item quantity state varuble')
+    console.log(cartItem)
     function handleRemoveItem(e, data) {
       const id = parseInt(data.id)
         handleDelete(id)
     }
 
     function incrementQuantity(e, data) {
-        if (itemQuantity < 15) {
-            const newQuantity = itemQuantity + 1
-            setItemQuantity(newQuantity)
-            handleQuantityChange(data.id, newQuantity)
+        if (cartItem.quantity < 15 || currentUser.admin) {
+            // const newQuantity = itemQuantity + 1
+            // setItemQuantity(newQuantity)
+            handleQuantityChange(data.id, (cartItem.quantity + 1))
         }
     }
 
     // item limits are hard coded in Ultimately admin should control the limits with variables
     function decrementQuantity(e, data) {
-        if (itemQuantity > 1 ) {
-            const newQuantity = itemQuantity - 1
-            setItemQuantity(newQuantity)
-            handleQuantityChange(data.id, newQuantity)
+        if (cartItem.quantity > 1 ) {
+            // const newQuantity = itemQuantity - 1
+            // setItemQuantity(newQuantity)
+            handleQuantityChange(data.id, (cartItem.quantity - 1))
         }
     }
 
@@ -49,7 +50,7 @@ function CartItem({cartItem, handleDelete, handleQuantityChange, submitted, fetc
             
             <Button.Group size="mini"  style={{ marginTop: '6%'}} >
                     <Button  id={cartItem.id} icon='add' onClick={incrementQuantity}/>
-                    <Label basic>{itemQuantity}</Label>
+                    <Label basic>{cartItem.quantity}</Label>
                     <Button id={cartItem.id} icon='minus'  onClick={decrementQuantity}/>
                    
             </Button.Group>

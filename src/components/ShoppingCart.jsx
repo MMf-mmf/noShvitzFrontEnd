@@ -3,7 +3,7 @@ import { useParams,useLocation, useHistory } from "react-router-dom"
 import { List ,Label, Button, Divider ,Header, Icon, Segment, Message } from 'semantic-ui-react'
 import CartItem from "./CartItems";
 
-
+// THE Issue with the cart seems to be stemming from the way the cart items are being stored in state
 
 function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLogin, fetchUrl, localFetchUrl}) {
         let { id } = useParams()
@@ -14,11 +14,16 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         const [deadline, setDeadLine] = useState('2021-10-03')
         const [countDown, setCountDown] = useState(getTimeRemaining(deadline))
         const history = useHistory();
-        const user_id = JSON.parse(localStorage.getItem("user_id"))
+
+        let user_id = JSON.parse(localStorage.getItem("user_id"))
         const category_id = JSON.parse(localStorage.getItem("shoppingCart_id"))
-        
-console.log(countDown, "this is the seconds")
-   
+        const admin_search_user_id = JSON.parse(localStorage.getItem('admin_search_user_id'))
+     
+        // console.log(countDown, "this is the seconds")
+        if (admin_search_user_id) {
+          user_id = admin_search_user_id
+        }
+
         useEffect(() => {
             getCart(user_id, category_id)   // id is the  category id 
                            // for the fetch to only return the cart for that user and a given category
@@ -44,13 +49,13 @@ console.log(countDown, "this is the seconds")
     }
 
     function handleExceptions(resCart) {
-    console.log(resCart, 'beform the if')
+   
    
 if (!resCart[0]) {
   return(<h1></h1>)
 }
       if (resCart.length < 1) {
-        console.log(resCart, 'in if statment handleExceptions')
+        
       }else{
         setCartTotal(resCart[0].order.total)
         wasSubmitted(resCart)
@@ -67,7 +72,6 @@ if (!resCart[0]) {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"
-                // Authorization: `Bearer ${localStorage.token}`,
             },
             body: JSON.stringify({id: cart[0].order.id})
         })
@@ -113,13 +117,13 @@ if (!resCart[0]) {
       }
     }
 
+                
 function handleQuantityChange(id, newQuantity) {
     // console.log('in quantityChange', id, newQuantity)
     fetch(`${localFetchUrl}/order_details/${id}`,{
         method: "PATCH",
         credentials: "include",
         headers:{'Content-Type' : 'application/json'},
-        // Authorization: `Bearer ${localStorage.token}`,
         body: JSON.stringify({quantity: newQuantity})
       })
       .then(res => res.json())
@@ -177,14 +181,20 @@ initializeClock(deadline)
    
 
 
-    
+    console.log(cart, 'line 184')
     let cartItemFragment = ""
     if (cart.length > 0) {
-        cartItemFragment = cart.map(order =>
+        cartItemFragment = cart
+        .sort(function(a, b) {
+          if(a.id < b.id) return -1;
+          if(a.id > b.id) return 1;
+          return 0;
+         })
+        .map(order =>
             <CartItem key={order.name} cartItem={order} setCarts={setCarts} 
                     handleDelete={handleDelete} handleQuantityChange={handleQuantityChange}
                      cartTotal={cartTotal} setCartTotal={setCartTotal}
-                     submitted={submitted}/>)
+                     submitted={submitted} currentUser={currentUser}/>)
     }
 
     if (cartItemFragment === "") {
@@ -192,15 +202,8 @@ initializeClock(deadline)
           <Message  negative id="placeOrder-message">
           <Message.Header> it seems this cart is empty try choosing a different cart category or adding items to this one</Message.Header>
         </Message>
-       
-   
       )
     }
-
-// let prop = 'positive'
-// if (countDown.minutes <=0 && countDown.seconds <=0) {
-//   prop = 'disabled'
-// }
 
 
     return(
@@ -247,7 +250,7 @@ initializeClock(deadline)
             
              <div class="buttonDiv">
               
-             <Button className={countDown.minutes <=0 && countDown.seconds <=0 ? 'disabled': null}
+             <Button className={countDown.minutes <=0 && countDown.seconds <=0 && !currentUser.admin ? 'disabled': null}
               color={submitted ? 'red': 'green'} onClick={handleClick}>
             {submitted  ?
              < Button.Content  id="placeOrder"  visible>Cancel order</Button.Content>:

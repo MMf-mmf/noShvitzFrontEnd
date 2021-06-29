@@ -6,7 +6,7 @@ const src = 'http://community.farmhousedelivery.com/wp-content/uploads/2018/06/F
 
 
 
-function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl}) {
+function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl, index}) {
     
 
     if (!categories || !currentUser) {
@@ -16,8 +16,8 @@ function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl}) {
     // const category_id = categories.category_id
     const category_id = categories.id
     const user_id = currentUser.id
-    const index_id = categories.category_id
-console.log(categories)
+    const index_id = index
+    console.log(index, 'this this is ')
 
     function handleClick(e, data) {
     // console.log('just got clicked')

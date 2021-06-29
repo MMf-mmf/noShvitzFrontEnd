@@ -20,8 +20,15 @@ if (categoriesList.message) {
    // window.location.reload();
    return( <h1></h1>)
 }
-const categories = categoriesList.map( cat => {
-        return(<CategorieItems key={categoriesList.id} categories={cat} currentUser={currentUser} localFetchUrl={localFetchUrl} fetchUrl={fetchUrl}/>)})
+const categories = categoriesList.map( (cat, index) => {
+        return(<CategorieItems key={cat.id}
+            categories={cat}
+            currentUser={currentUser}
+            localFetchUrl={localFetchUrl}
+            fetchUrl={fetchUrl}
+            index={index}
+            />
+            )})
 
    return(
         <>

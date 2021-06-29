@@ -14,6 +14,7 @@ import Profile from "./components/Profile";
 import AccountActivation from "./components/AccountActivation";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
+import CreateItems from "./components/CreateItems";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
   // const [currentCart, setCurrentCart] = useState(1)
   const [triggerRerender, setTriggerRerender] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+
   
 
   const history = useHistory();
@@ -33,7 +35,7 @@ function App() {
 
 
 // console.log(`${localFetchUrl}/orders`)
-console.log(categoriesList)
+
   useEffect(() => {
       fetch(`${localFetchUrl}/categories`,{
         credentials: "include",
@@ -129,7 +131,7 @@ console.log(categoriesList)
   </Route >
 
   <Route exact path="/UserList">
-    <UserList currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
+    <UserList currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} />            
   </Route >
 
   <Route exact path="/Profile/:id">
@@ -137,7 +139,7 @@ console.log(categoriesList)
   </Route >
 
   <Route exact path="/OrdersList/:id">
-    <OrdersList currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
+    <OrdersList currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} />            
   </Route >
 
   <Route   path="/Account_activations/:id">
@@ -150,6 +152,10 @@ console.log(categoriesList)
 
   <Route exact  path="/ForgotPassword">
     <ForgotPassword  fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
+  </Route >
+
+  <Route exact  path="/CreateItems">
+    <CreateItems  fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} currentUser={currentUser} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender}/>            
   </Route >
 
   <Route exact path="/">

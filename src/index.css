@@ -24,6 +24,11 @@
     align-items: center;
   }
 
+  #CartDropDown{
+    /* margin:".9285714em,1.14285714em" */
+    margin: .9285714em 1.14285714em;
+  }
+
   .navBar{
       border-bottom: cadetblue;
       margin-bottom: 0%;
@@ -259,3 +264,4 @@
   margin-top: 5%;
   margin-left: 45%;
 }
+
