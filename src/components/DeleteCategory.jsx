@@ -38,7 +38,7 @@ if (categoriesList.length > 0) {
    dropOptions =  categoriesList.map(categorys => { return  { key: categorys.id, text: categorys.name, value: categorys.id }})
 }
 
-console.log(itemsToDelete, 'items to be deleted')
+// console.log(itemsToDelete, 'items to be deleted')
     return(
         <Grid textAlign='center' style={{ height: '30vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 550 }}>

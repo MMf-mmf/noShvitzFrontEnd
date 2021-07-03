@@ -265,3 +265,38 @@
   margin-left: 45%;
 }
 
+/* CSV DOWNLOAD */
+
+#csvDownload{
+  text-align: center;
+  color: #00b5ad
+}
+
+#scvButtons{
+  margin-left: auto;
+  margin-right: auto;
+  width: 40rem;
+  margin-bottom: 5%;
+
+}
+
+#uploadFiles{
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2%;
+  
+}
+
+.uploads{
+  background-color: aqua;
+  float: right;
+}
+
+/* .uploads > li {
+  display: inline-block;
+} */
+
+.uploadButton{
+  margin-bottom: 2%;
+}

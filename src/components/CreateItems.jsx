@@ -3,6 +3,7 @@ import {Form, Divider, Message, Accordion, Button, Checkbox, Grid, Header,Segmen
 import { Link, useHistory } from "react-router-dom";
 import DeleteCategory from "./DeleteCategory";
 import DeleteProduct from "./DeleteProduct";
+import DownloadFiles from "./DownloadFiles";
 
 
 
@@ -153,6 +154,10 @@ function CreateItems({localFetchUrl, categoriesList, setTriggerRerender}) {
   
   <DeleteProduct categoriesList={categoriesList} localFetchUrl={localFetchUrl} setServerResponse={setServerResponse}/>
   </Segment>
+
+<Segment style={{margin: '2%'}}>
+<DownloadFiles categoriesList={categoriesList} localFetchUrl={localFetchUrl} setServerResponse={setServerResponse}/>
+</Segment>
 
 </>
 
