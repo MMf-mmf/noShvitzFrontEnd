@@ -48,7 +48,7 @@ function DownloadCategories({localFetchUrl, categoriesList, setTriggerRerender})
         <>
 
         
-        <Button content='Downloed Categorys.csv' secondary onClick={handleClick}  />
+        <Button content='Downloed Categorys.csv' secondary onClick={handleClick} className={ categoriesList.length < 1 ? 'disabled' : null }  />
    
        
         

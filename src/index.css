@@ -159,12 +159,23 @@
 }
 
 #placeOrder-message{
-  width: 60%;
-  text-align: center;
- margin-left: 20%;
+   width: 60%;
+   margin-left: 20%;
+   text-align: center;
+  /*  
+  position: fixed;
+  z-index: 20;
+  */
 }
 
-
+#uploadDownload-message{
+ 
+  width: 60%;
+  text-align: center;
+  margin-left: 20%;
+  position: fixed;
+  z-index: 20;
+}
 
 #timer-digits{
   color: rgb(240, 121, 115);
@@ -275,9 +286,8 @@
 #scvButtons{
   margin-left: auto;
   margin-right: auto;
-  width: 40rem;
+  width: 38rem;
   margin-bottom: 5%;
-
 }
 
 #uploadFiles{
@@ -288,15 +298,17 @@
   
 }
 
-.uploads{
-  background-color: aqua;
-  float: right;
-}
-
-/* .uploads > li {
-  display: inline-block;
-} */
-
 .uploadButton{
   margin-bottom: 2%;
+}
+
+#uploadButton{
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2%;
+}
+
+span > b {
+  color: rgb(74, 147, 193);
 }

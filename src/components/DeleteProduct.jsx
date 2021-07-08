@@ -42,6 +42,7 @@ function DeleteProduct({categoriesList, setServerResponse, localFetchUrl}) {
     }
 
     if (itemsToDelete && !fetchedOnce) {
+      
         setFetchedOnce(true)
         console.log(itemsToDelete, 'fetch all items in this category')
         fetch(`${localFetchUrl}/products/${itemsToDelete}`, {
@@ -82,7 +83,7 @@ function DeleteProduct({categoriesList, setServerResponse, localFetchUrl}) {
             options={dropOptions}
             name="category"
             onChange={handleChange}
-            placeholder='Select Category'
+            placeholder='Select A Category'
             />
             {items.length > 0 ? 
              < Dropdown
@@ -95,7 +96,7 @@ function DeleteProduct({categoriesList, setServerResponse, localFetchUrl}) {
              options={productOptions}
              name="category"
              onChange={handleChange}
-             placeholder='Select Category'
+             placeholder='Select A Product'
              />
             : null}
               <Button style={{marginTop: '10px'}} type='submit' color='blue' fluid size='large'>Delete Product</Button>

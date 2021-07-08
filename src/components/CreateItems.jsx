@@ -4,7 +4,8 @@ import { Link, useHistory } from "react-router-dom";
 import DeleteCategory from "./DeleteCategory";
 import DeleteProduct from "./DeleteProduct";
 import DownloadFiles from "./DownloadFiles";
-
+import EditCategory from "./EditCategory";
+import EditProduct from "./EditProduct";
 
 
 function CreateItems({localFetchUrl, categoriesList, setTriggerRerender}) {
@@ -76,16 +77,17 @@ function CreateItems({localFetchUrl, categoriesList, setTriggerRerender}) {
 
         // refresh page affter the server response message was displayed for 3 sec
         if (serverResponse.toLowerCase().includes("successful") ) {
-            setTimeout(() => window.location.reload(), 3000)
+            setTimeout(() => setServerResponse(''), 5000)
+            setTimeout(() => window.location.reload(), 5200)
         }
-
+        //window.location.reload()
 
     return(
       <>
 
 {serverResponse
 ?
-<Message positive id="placeOrder-message">
+<Message positive id="uploadDownload-message">
   <Message.Header>{serverResponse}</Message.Header>
 </Message>:null}
 
@@ -108,9 +110,17 @@ function CreateItems({localFetchUrl, categoriesList, setTriggerRerender}) {
     </Grid.Column>
   </Grid>
 
-  <DeleteCategory categoriesList={categoriesList} localFetchUrl={localFetchUrl} setServerResponse={setServerResponse}/>
 
+
+
+
+  <EditCategory categoriesList={categoriesList} localFetchUrl={localFetchUrl} setServerResponse={setServerResponse}/>
+  <DeleteCategory categoriesList={categoriesList} localFetchUrl={localFetchUrl} setServerResponse={setServerResponse}/>
   <Divider section/>
+
+ 
+
+
 
   <Grid textAlign='center' style={{ height: '40vh' }} verticalAlign='middle'>
     <Grid.Column style={{ maxWidth: 550 }}>
@@ -152,6 +162,8 @@ function CreateItems({localFetchUrl, categoriesList, setTriggerRerender}) {
     </Grid.Column>
   </Grid>
   
+
+  <EditProduct categoriesList={categoriesList} localFetchUrl={localFetchUrl} setServerResponse={setServerResponse}/>
   <DeleteProduct categoriesList={categoriesList} localFetchUrl={localFetchUrl} setServerResponse={setServerResponse}/>
   </Segment>
 

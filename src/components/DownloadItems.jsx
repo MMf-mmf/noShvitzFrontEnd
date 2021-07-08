@@ -3,8 +3,9 @@ import { CSVLink } from "react-csv";
 import {Form, Divider, Message, Accordion, Button, Checkbox, Grid, Header,Segment, Dropdown} from 'semantic-ui-react'
 
 
-function DownloadItems({localFetchUrl, categoriesList, setTriggerRerender}) {
-    
+function DownloadItems({localFetchUrl, categoriesList, setTriggerRerender, setServerResponse}) {
+    // let data = useRef([])
+    const [data, setData] = useState([])
     const [products, setProducts] = useState([])
     const [loaded, setLoaded] = useState(false)
     const csvLink = useRef()
@@ -24,13 +25,27 @@ function DownloadItems({localFetchUrl, categoriesList, setTriggerRerender}) {
 
 
     function handleClick(e) {
-       console.log(products, 'befor the if ')
         if (products.length > 0) {
-            csvLink.current.link.click()
-            console.log('just clicked ')
+            isDataToExport()
+            setTimeout(() => {
+                csvLink.current.link.click()
+            },300)
+            return
+        }else if (categoriesList.length > 0){
+            console.log('in the write if else')
+            noDataToExport()
+            setTimeout(() => {
+                csvLink.current.link.click()
+            },300)
+            
+            console.log(data)
+            return
+        }else{
+            setServerResponse('Please create categories first')
         }
+       
+        console.log('just clicked ')
     }
-  
 
    const headers = [
         { label: "name", key: "name" },
@@ -42,39 +57,38 @@ function DownloadItems({localFetchUrl, categoriesList, setTriggerRerender}) {
         { label: "image", key: "image"}
       ];
              
-    let data = [] 
-
-    data = products.map((product, index) => { return (
-      { name: product.name,
-       company: product.company,
-       price: product.price,
-       limit: product.limit,
-       category_name: product.category.name,
-       category_id: product.category.category_id,
-       image: product.image }
-    )
-    })
-
-    // console.log(data)
+   
 
 
+console.log(products, 'this i')
+function isDataToExport() {
 
+    setData(products.map((product, index) => { return (
+        { name: product.name,
+         company: product.company,
+         price: product.price,
+         limit: product.limit,
+         category_name: product.category.name,
+         category_id: product.category_id,
+         image: product.image }
+      )
+      })  )
+}
 
-
-
-
-
-
-
-
+function noDataToExport() {
+    setData(categoriesList.map((category, index) => { return (
+        {category_name: category.name,
+        category_id: category.category_id
+    }
+    )}))
+    
+}
 
     return(
         <>
-
-        
-        <Button content='Downloed Items.csv' primary onClick={handleClick}  />
+      
+        <Button content={ products.length < 1 ? 'Blank products template' : 'Products.csv' } primary onClick={handleClick}  />
    
-        
         <CSVLink
             data={data}
             filename="products.csv"
@@ -83,7 +97,6 @@ function DownloadItems({localFetchUrl, categoriesList, setTriggerRerender}) {
             headers={headers}
             target='_blank'
         />
-
       </>
     )
  

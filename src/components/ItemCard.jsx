@@ -9,7 +9,7 @@ function ItemCard({product, setItemsCount, itemsCount, handleAddToCart, cartItem
    
 if (!cartItems ) {
   // window.location.reload()
-  console.log(cartItems)
+  console.log(product)
   return( <Segment>
     <Dimmer active inverted>
       <Loader size='large'>Loading</Loader>

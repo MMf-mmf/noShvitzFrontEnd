@@ -46,7 +46,6 @@ function setCart(resCart) {
     if (!resCart.message) {
         setCartItems(resCart)
     }
-
 }
     
     

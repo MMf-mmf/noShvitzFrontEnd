@@ -38,7 +38,8 @@ function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender}) {
         { label: "phone_number_1", key: "phone_number_1" },
         { label: "phone_number_2", key: "phone_number_2" },
         { label: "admin", key: "admin" },
-        { label: "activated", key: "activated" }
+        { label: "activated", key: "activated" },
+        { label: "password", key: "password"}
        
       ];
 
@@ -53,6 +54,7 @@ function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender}) {
        activated: user.activated ? 'TRUE': 'FALSE',
         }
     )
+  
     })
 
     // console.log(data)
@@ -72,7 +74,7 @@ function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender}) {
         <>
 
         
-        <Button content='Downloed Users.csv' secondary onClick={handleClick}  />
+        <Button content='Downloed Users.csv' secondary onClick={handleClick} className={ users.length < 1 ? 'disabled' : null } />
    
         
         <CSVLink

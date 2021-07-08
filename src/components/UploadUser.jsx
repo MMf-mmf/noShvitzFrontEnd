@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
 import { CSVReader } from "react-papaparse"
 
 
 
 
 
-function UploadUser() {
+function UploadUser({setDataToUpload, uploadName}) {
 
-const buttonRef = React.createRef();
+const buttonRef = useRef();
+let dataToBeUploaded = useRef()
+
+
 
 function handleOpenDialog(e) {
             // Note that the ref is set async, so it might be null at some point
@@ -16,11 +19,15 @@ function handleOpenDialog(e) {
               }
 }
  
-    
+
 function  handleOnFileLoad(data) {
         console.log('---------------------------');
         console.log(data);
         console.log('---------------------------');
+        dataToBeUploaded.current = data
+        uploadName.current = buttonRef.current.props.id
+        // console.log(buttonRef.current.props.id)
+        setDataToUpload(data)
       };
     
       function  handleOnError(err, file, inputElem, reason){
@@ -46,7 +53,7 @@ function  handleOnFileLoad(data) {
     return(
         
         <CSVReader
-       
+        id="users_bulk_create"
         ref={buttonRef}
         onFileLoad={handleOnFileLoad}
         onError={handleOnError}
@@ -55,7 +62,7 @@ function  handleOnFileLoad(data) {
         addRemoveButton
         onRemoveFile={handleOnRemoveFile}
         >
-        <span>Click to upload User file.</span>
+        <span>Click to upload <b>Users</b> file.</span>
       </CSVReader>
     )
 }
