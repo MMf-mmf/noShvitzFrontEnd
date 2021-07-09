@@ -7,11 +7,12 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
     const [focused, setFocused] = useState({})
     const { activeItem } = focused
    
- 
-    let options = ""
+
+
+    let cartCategorys = ""
     if (categoriesList.length > 0) {
-       options =  categoriesList.map(categorys => { return  { key: categorys.id, text: categorys.name, value: categorys.id }})
-    }
+      cartCategorys =  categoriesList.map(categorys => { return  <div onClick={onDropdownClick} id={categorys.id} class="item">{categorys.name}</div>})
+   }
 
     const history = useHistory();
 
@@ -26,8 +27,13 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
         onLogout()
     }
 
-
-
+    function onDropdownClick(e, data) {
+      console.log(e.target.id)
+      localStorage.removeItem('admin_search_user_id');
+      history.push(`/ShoppingCart/${e.target.id}`);
+       localStorage.setItem("shoppingCart_id", JSON.stringify(parseInt(e.target.id)))
+       setTriggerRerender(!triggerRerender)
+    }
 
     function handleChange(e, data) {
       // history.push(`/ShoppingCart/${data.value}`);
@@ -98,8 +104,15 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
         >Log Out</Menu.Item>: null}
 
 
-<Dropdown id="CartDropDown" text='Dropdown' onChange={handleChange} options={options}/>
-
+    <div class="ui compact ">
+  <div class="ui simple dropdown item">
+            Shopping Cart
+    <i  class="dropdown icon"></i>
+    <div class="menu">
+      {cartCategorys}
+    </div>
+  </div>
+</div>
 
 
 
