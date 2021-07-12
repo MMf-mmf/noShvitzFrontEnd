@@ -5,6 +5,7 @@ import DownloadCategories from "./DownloadCategories";
 import DownloadItems from "./DownloadItems";
 import DownloadOrders from "./DownloadOrders";
 import DownloadUsers from "./DownloadUsers";
+import WhatToDownload from "./DownloadWhatToOrder";
 import UploadCategorys from "./UploadCategorys";
 import UploadItems from "./UploadProducts";
 import UploadUser from "./UploadUser";
@@ -34,7 +35,6 @@ function DownloadFiles({localFetchUrl, categoriesList, setTriggerRerender, setSe
         .then((r) => r.json())
         .then((data) => {
         console.log(data);
-        const { user } = data;
         setServerResponse(data.message)
         }).catch((err) => {
           console.log(err)
@@ -43,6 +43,8 @@ function DownloadFiles({localFetchUrl, categoriesList, setTriggerRerender, setSe
     }
     setLoading(false)
   }
+
+  
 
 
 
@@ -60,13 +62,15 @@ function DownloadFiles({localFetchUrl, categoriesList, setTriggerRerender, setSe
       <>
 
       <h1 id="csvDownload">Download files here</h1>
-      <div id='scvButtons'>
-      <Button.Group>
+      {/* <div id='scvButtons'> */}
+      <Grid verticalAlign='center' >
       <DownloadCategories localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setServerResponse={setServerResponse}/>
       <DownloadItems localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setServerResponse={setServerResponse}/>
       <DownloadUsers  localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setServerResponse={setServerResponse}/>
-      </Button.Group>
-      </div>
+      </Grid>
+      {/* </div> */}
+
+      <WhatToDownload localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setServerResponse={setServerResponse} setLoading={setLoading}/>
      
       <Divider />
 
@@ -74,9 +78,10 @@ function DownloadFiles({localFetchUrl, categoriesList, setTriggerRerender, setSe
       <div id='uploadFiles'>
         <div  className="uploadButton"> <UploadCategorys localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setDataToUpload={setDataToUpload} uploadName={uploadName}/></div>
         <div className="uploadButton"> <UploadItems localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setDataToUpload={setDataToUpload} uploadName={uploadName}/></div>
+
         <div className="uploadButton">  <UploadUser localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setDataToUpload={setDataToUpload} uploadName={uploadName}/></div>
         <Button id="uploadButton" content='Upload File' secondary onClick={uploadFiels} className={ !dataToUpload ? 'disabled': null}></Button>
-        
+
       </div>
       </>
 }

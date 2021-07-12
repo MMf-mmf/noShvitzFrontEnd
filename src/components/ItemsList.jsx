@@ -88,10 +88,14 @@ function setCart(resCart) {
 
     return(
      <>
+     <Segment id="segment-style">
 
-    <Card.Group className="cardGroup" itemsPerRow={3}>
+     <Card.Group className="cardGroup" itemsPerRow={3}>
         {itemFrag}
-    </Card.Group>
+    </Card.Group>         
+     </Segment>
+
+
     </>
       
 

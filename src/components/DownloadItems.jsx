@@ -32,7 +32,7 @@ function DownloadItems({localFetchUrl, categoriesList, setTriggerRerender, setSe
             },300)
             return
         }else if (categoriesList.length > 0){
-            console.log('in the write if else')
+           
             noDataToExport()
             setTimeout(() => {
                 csvLink.current.link.click()
@@ -86,7 +86,8 @@ function noDataToExport() {
 
     return(
         <>
-      
+      <Grid.Column width={3}>
+
         <Button content={ products.length < 1 ? 'Blank products template' : 'Products.csv' } primary onClick={handleClick}  />
    
         <CSVLink
@@ -97,7 +98,9 @@ function noDataToExport() {
             headers={headers}
             target='_blank'
         />
+        </Grid.Column>
       </>
+      
     )
  
 

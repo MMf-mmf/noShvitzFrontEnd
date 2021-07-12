@@ -57,7 +57,7 @@ function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender}) {
   
     })
 
-    // console.log(data)
+    console.log(data)
 
 
 
@@ -73,8 +73,9 @@ function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender}) {
     return(
         <>
 
-        
-        <Button content='Downloed Users.csv' secondary onClick={handleClick} className={ users.length < 1 ? 'disabled' : null } />
+<Grid.Column width={4} style={{margin: ''}}>
+    
+        <Button content='Downloed Users.csv' color='facebook' onClick={handleClick} className={ users.length < 1 ? 'disabled' : null } />
    
         
         <CSVLink
@@ -85,7 +86,7 @@ function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender}) {
             headers={headers}
             target='_blank'
         />
-
+ </Grid.Column>
       </>
     )
  

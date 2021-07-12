@@ -30,6 +30,8 @@ function DownloadCategories({localFetchUrl, categoriesList, setTriggerRerender})
       { name: category.name, category_id: category.category_id, deadline: category.deadline, image: category.image }
     )
     })
+    
+
 
     // console.log(data)
 
@@ -47,8 +49,8 @@ function DownloadCategories({localFetchUrl, categoriesList, setTriggerRerender})
     return(
         <>
 
-        
-        <Button content='Downloed Categorys.csv' secondary onClick={handleClick} className={ categoriesList.length < 1 ? 'disabled' : null }  />
+<Grid.Column width={4}>
+        <Button content='Downloed Categorys.csv' color='facebook' onClick={handleClick} className={ categoriesList.length < 1 ? 'disabled' : null }  />
    
        
         
@@ -61,7 +63,7 @@ function DownloadCategories({localFetchUrl, categoriesList, setTriggerRerender})
             headers={headers}
             target='_blank'
         />
-
+</Grid.Column>
       </>
     )
 }

@@ -12,11 +12,16 @@
     margin: -25px 0 0 -25px;
   }  */
 
+  #segment-style {
+    margin: 1%;
+   
+  }
 
   .cardGroup {
    padding: 5%;
    background-color: rgb(246, 246, 246);
    position: relative;
+   
    
   }
 
@@ -280,14 +285,24 @@
 
 #csvDownload{
   text-align: center;
-  color: #00b5ad
+  color: #00b5ad;
+  margin-bottom: 3%;
 }
+
 
 #scvButtons{
   margin-left: auto;
   margin-right: auto;
   width: 38rem;
   margin-bottom: 5%;
+}
+
+#WhatToBuyButton{
+  margin-top: 1.5%;
+  width: 91.65%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2%;
 }
 
 #uploadFiles{
