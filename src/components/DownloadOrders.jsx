@@ -8,7 +8,7 @@ function DownloadOrders({localFetchUrl, categoriesList, setTriggerRerender, prod
     const [orders, setOrders] = useState([])
     const [loaded, setLoaded] = useState(false)
     const csvLink = useRef()
-    
+    // console.log(users)
 
 
     let headers = [
@@ -17,7 +17,7 @@ function DownloadOrders({localFetchUrl, categoriesList, setTriggerRerender, prod
 
     headers[0].unshift({label: 'name', key: 'name'})
     headers = headers[0]
-    console.log(headers)
+    // console.log(headers)
 
 
 
@@ -25,7 +25,7 @@ function DownloadOrders({localFetchUrl, categoriesList, setTriggerRerender, prod
 
 
     let itemsOrderdFinal = []
-    let itemsOrderdFinalss = [{Name: 'fred', 'bart tenura': 4, kedem: 1}, { grape: 7, wine: 2, zmora: 1, Name: 'johan'}]
+   
     function handleClick(e) {
         
 
@@ -36,6 +36,8 @@ function DownloadOrders({localFetchUrl, categoriesList, setTriggerRerender, prod
         // GET THE USERS WHICH ADDED ITEMS TO THE CART
         if (users.length > 0 && products.length > 0) {
             const usersWithItems = users.filter(user => user.orders.length > 0)
+       
+
             // console.log(usersWithItems)
              for (let index = 0; index < usersWithItems.length; index++) {
                 // console.log(usersWithItems[index])
@@ -88,12 +90,12 @@ function DownloadOrders({localFetchUrl, categoriesList, setTriggerRerender, prod
         
         if (itemsOrderdFinal.length > 0) {
             console.log(itemsOrderdFinal)
-            console.log(itemsOrderdFinalss)
+         
             setOrders(itemsOrderdFinal)
             // itemsOrderdFinal = itemsOrderdFinalss
-            setTimeout(() => {
-                csvLink.current.link.click()
-            },300)
+            // setTimeout(() => {
+            //     csvLink.current.link.click()
+            // },300)
            
             console.log('just clicked ')
         }
