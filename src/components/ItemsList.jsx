@@ -73,12 +73,11 @@ function setCart(resCart) {
 
     if (newCategoryList.length > 0) {
         const categories = newCategoryList[(index_id)]
-        console.log(index_id, 'in the brackets')
+        // console.log(index_id, 'in the brackets')
+        // console.log(categories)
         itemFrag = categories.products.map(product => {return <ItemCard key={product.id} product={product} setItemsCount={setItemsCount} itemsCount={itemsCount} handleAddToCart={handleAddToCart} 
                                                                cartItems={cartItems} loading={loading} setLoading={setLoading}/>})
-        // const categories = newCategoryList.filter( category =>  category.id === parseInt(id) )
-        // console.log(categories)
-        // itemFrag = categories[0].products.map(product => {return <ItemCard key={product.id} product={product} setItemsCount={setItemsCount} itemsCount={itemsCount} handleAddToCart={handleAddToCart} cartItems={cartItems}/>})
+      
     }
 
     

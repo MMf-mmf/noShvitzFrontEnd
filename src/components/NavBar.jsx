@@ -3,15 +3,18 @@ import { Link, NavLink, useHistory } from "react-router-dom";
 import { Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar, Loader } from 'semantic-ui-react'
 import CreateItems from "./CreateItems";
 
+
+
 function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fetchUrl, localFetchUrl, categoriesList}) {
     const [focused, setFocused] = useState({})
     const { activeItem } = focused
    
 
-
     let cartCategorys = ""
+  
     if (categoriesList.length > 0) {
-      cartCategorys =  categoriesList.map(categorys => { return  <div onClick={onDropdownClick} id={categorys.id} class="item">{categorys.name}</div>})
+      console.log(cartCategorys)
+      cartCategorys =  categoriesList.map(categorys => { return  <div onClick={onDropdownClick} id={categorys.id} class="item" >{categorys.name}</div>})
    }
 
     const history = useHistory();
@@ -107,7 +110,7 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
     <div class="ui compact ">
   <div class="ui simple dropdown item">
             Shopping Cart
-    <i  class="dropdown icon"></i>
+    <i  class="dropdown icon" ></i>
     <div class="menu">
       {cartCategorys}
     </div>

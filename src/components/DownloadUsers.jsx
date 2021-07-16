@@ -3,9 +3,9 @@ import { CSVLink } from "react-csv";
 import {Form, Divider, Message, Accordion, Button, Checkbox, Grid, Header,Segment, Dropdown} from 'semantic-ui-react'
 
 
-function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender}) {
+function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender, users, setUsers}) {
     
-    const [users, setUsers] = useState([])
+   
     const [loaded, setLoaded] = useState(false)
     const csvLink = useRef()
 
@@ -18,13 +18,9 @@ function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender}) {
     .then(usersData => {setUsers(usersData)})
    }
 
-//    console.log(users)
-       
-
 
 
     function handleClick(e) {
-       
         if (users.length > 0) {
             csvLink.current.link.click()
             console.log('just clicked ')
@@ -40,10 +36,10 @@ function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender}) {
         { label: "admin", key: "admin" },
         { label: "activated", key: "activated" },
         { label: "password", key: "password"}
-       
       ];
 
-    let data = [] 
+    
+    let data = []
 
     data = users.map((user, index) => { return (
       { name: user.name,
@@ -56,18 +52,7 @@ function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender}) {
     )
   
     })
-
     console.log(data)
-
-
-
-
-
-
-
-
-
-
 
 
     return(

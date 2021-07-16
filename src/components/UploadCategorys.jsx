@@ -32,12 +32,14 @@ function  handleOnFileLoad(data) {
         console.log('---------------------------');
         console.log(err);
         console.log('---------------------------');
+        setDataToUpload(false)
       };
     
       function handleOnRemoveFile (data) {
         console.log('---------------------------');
         console.log(data);
         console.log('---------------------------');
+        setDataToUpload(false)
       };
     
       function handleRemoveFile (e) {

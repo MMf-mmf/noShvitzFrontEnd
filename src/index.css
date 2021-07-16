@@ -1,4 +1,96 @@
 
+
+html {
+  scroll-behavior: smooth;
+} 
+
+/* HERO STYLES */
+.full-hero {
+  background-color: #fff;
+  background-size: cover;
+  box-sizing: border-box;
+  height: 100vh;
+  padding-top: 4vh;
+}
+
+.full-hero a {
+  border: 2.5px solid rgb(227, 226, 226);
+  color: rgb(251, 251, 251);
+  border-radius: 99px;
+  box-sizing: border-box;
+  padding-top: 0.75em;
+  display: inline-block;
+  font-weight: bold;
+  height: 2.5em;
+  width: 2.5em;
+  /* margin-left: 50%;
+  margin-top: 83%; */
+  font-size: 20px;
+  text-align: center;
+  bottom: 2vh;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, 0);
+}
+
+.full-hero a:hover {
+  border: 4.5px solid rgb(175, 220, 220);
+  /* transition-delay: 2s */
+  transition: all .5s ease;
+}
+/* .full-hero:after {
+  bottom: 2vh;
+  color: #fff;
+  content: "﹀";
+  font-size: 36px;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, 0);
+} */
+
+/* .full-hero:after {
+  border: 10px solid;
+  border-color: #000 red purple blue;
+  bottom: 2vh;
+  content: "";
+  height: 0;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, 0);
+  width: 0;
+} */
+ 
+ .hero-home {
+  background-image: url(images/grassInHand.jpg);
+  background-position: center top;
+}
+
+.hero-content {
+  color: rgb(255, 255, 255);
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  top: 0;
+  transform: translate(0, -50%);
+}
+
+.hero-content h1 {
+  color: rgba(95, 99, 99, 0.8);
+  font-size: 6vw;
+  margin-bottom: 0.25em;
+  font-family: serif , helvetica, arial;
+}
+
+.hero-content h1 span {
+  color: rgba(61, 64, 64, 0.8);
+}
+
+
+
+
+
+
+
  section {
     padding: 12rem;
     display: flex;
@@ -16,6 +108,7 @@
     margin: 1%;
    
   }
+
 
   .cardGroup {
    padding: 5%;
@@ -213,7 +306,6 @@
   background-image: url("https://cdn.wallpapersafari.com/41/74/GEcUlX.jpg");
   background-size: 100% 100%;
   padding: 12%;
-
 }
 
 #category-segment-middle{
@@ -230,10 +322,35 @@
 #category-segment-button{
   margin-bottom: 0%;
   margin-top: -1%;
-  background-color: black;
+  background-color: rgb(42, 40, 40);
   padding: 10%;
 }
 
+
+/* FOOTER STYLES */
+
+.footer {
+  background-color: rgb(0, 0, 0);
+  padding: 10vh 0 15vh;
+  text-align: center;
+}
+
+.footer h3 {
+  color: #fff;
+  padding-top: 1.5em;
+  text-transform: uppercase;
+}
+
+.footer h3 span{
+     color: rgb(175, 227, 209); 
+}
+
+.footer p {
+  color: rgb(247, 247, 247);
+  padding-top: 1.5em;
+  text-transform: uppercase;
+  margin-bottom: 7%;
+}
 
 #categorieCard{
   width: 25%;
@@ -246,7 +363,8 @@
 }
 
 #hover:hover {
-  border: solid 1px rgb(74, 147, 193);
+  border: solid 3px rgb(74, 147, 193);
+  transition: all .7s ease;
 /* -moz-box-shadow: 5px 5px 0px #999;
 -webkit-box-shadow: 5px 5px 0px #999;
   box-shadow: 5px 5px 0px rgb(219, 130, 130); */

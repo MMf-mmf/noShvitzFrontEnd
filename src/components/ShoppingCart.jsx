@@ -5,20 +5,20 @@ import CartItem from "./CartItems";
 
 // THE Issue with the cart seems to be stemming from the way the cart items are being stored in state
 
-function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLogin, fetchUrl, localFetchUrl}) {
+function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLogin, fetchUrl, localFetchUrl, categoriesList}) {
         let { id } = useParams()
         const [cart, setCarts] = useState([])
         const [submitted, setSubmitted] = useState(false)
         // const [triggerRerender, setTriggerRerender] = useState(false)
         let [cartTotal, setCartTotal] = useState(0)
-        const [deadline, setDeadLine] = useState('2021-10-03')
+        const [deadline, setDeadLine] = useState('')
         const [countDown, setCountDown] = useState(getTimeRemaining(deadline))
         const history = useHistory();
 
         let user_id = JSON.parse(localStorage.getItem("user_id"))
         const category_id = JSON.parse(localStorage.getItem("shoppingCart_id"))
         const admin_search_user_id = JSON.parse(localStorage.getItem('admin_search_user_id'))
-     
+        // console.log(deadline)
         // console.log(countDown, "this is the seconds")
         if (admin_search_user_id) {
           user_id = admin_search_user_id
@@ -30,7 +30,27 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         }, [triggerRerender])
 
 
+     useEffect(() => {
+      if (deadline.length > 7) {
+        console.log(deadline)
+        setCountDown(getTimeRemaining(deadline))
+        initializeClock(deadline)
+      }
+     },[deadline])
+     
+        
+
+
+       if (categoriesList.length > 0 && deadline === '') {
+        let thisCategory = categoriesList.filter(category => category.id === category_id)
+        setDeadLine(thisCategory[0].deadline.slice(0, 10))
+       }
+      
+        
+       
+
     function getCart(userId, categoryId) {
+
         fetch(`${localFetchUrl}/cart`,{
             method: "POST",
             credentials: "include",
@@ -44,6 +64,7 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         .then((resCart) => { return (
             // wasSubmitted(resCart),
             // setCartTotal(resCart[0].order.total),
+            // console.log(resCart),
             handleExceptions(resCart)
         )})
     }
@@ -170,7 +191,8 @@ function getTimeRemaining(endtime){
   
   }
 
-initializeClock(deadline)
+
+// initializeClock(deadline)
 
 
 
@@ -181,7 +203,7 @@ initializeClock(deadline)
    
 
 
-    console.log(cart, 'line 184')
+
     let cartItemFragment = ""
     if (cart.length > 0) {
         cartItemFragment = cart
@@ -194,7 +216,7 @@ initializeClock(deadline)
             <CartItem key={order.name} cartItem={order} setCarts={setCarts} 
                     handleDelete={handleDelete} handleQuantityChange={handleQuantityChange}
                      cartTotal={cartTotal} setCartTotal={setCartTotal}
-                     submitted={submitted} currentUser={currentUser}/>)
+                     submitted={submitted} currentUser={currentUser} deadline={deadline}/>)
     }
 
     if (cartItemFragment === "") {
@@ -213,7 +235,7 @@ initializeClock(deadline)
 <Message positive id="placeOrder-message">
     <Message.Header>Order has been received and is in line for proceeding</Message.Header>
     <p>
-      Order by be edited or canceled until  <b> 05/05/2021</b>.
+      Order my be edited or canceled until  <b> {deadline}</b>.
     </p>
   </Message>
 : null}

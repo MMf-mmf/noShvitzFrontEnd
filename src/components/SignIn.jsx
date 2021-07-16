@@ -36,14 +36,18 @@ function SignIn({ setCurrentUser, autoLogin, fetchUrl, localFetchUrl }) {
             setError(data.message)
             printError(data)
             const { user } = data;
-            // localStorage.token = token;
-            // save the user in state in App
             setCurrentUser(user);
+            redirect(data)
             }).catch((err) => {
               console.log(err)
-            });
+            }) 
         }
+function redirect(data) {
+  if (data.user) {
+    history.push("/")
+  }
 
+}
         // add the error message commit form the server to state to be render as a message
         function printError(data) {
           if (data.error) {

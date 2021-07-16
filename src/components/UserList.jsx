@@ -45,7 +45,7 @@ if (users.length > 0) {
     userFrag = searchedUsers.map(user => {return <UserCard key={user.id} name={user.name} number={user.phoneNumber1} id={user.id}/>})
 
 }else{
-  return (<h1>loading</h1>)
+  return (<h1></h1>)  // loeding 
 }
 
 

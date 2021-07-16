@@ -3,20 +3,19 @@ import {List ,Divider ,Image, Button, Header, Icon, Segment,  Input, Label } fro
 import ShoppingCartItems from "./CartItems";
 
 
-function CartItem({currentUser, cartItem, handleDelete, handleQuantityChange, submitted, fetchUrl, localFetchUrl}) {
+function CartItem({currentUser, cartItem, handleDelete, handleQuantityChange, submitted, fetchUrl, localFetchUrl, deadline}) {
    
-    // const [itemQuantity, setItemQuantity] =  useState(cartItem.quantity)
-    // console.log(itemQuantity, 'this is the item quantity state varuble')
-    console.log(cartItem)
+
     function handleRemoveItem(e, data) {
       const id = parseInt(data.id)
         handleDelete(id)
     }
 
     function incrementQuantity(e, data) {
-        if (cartItem.quantity < 15 || currentUser.admin) {
-            // const newQuantity = itemQuantity + 1
-            // setItemQuantity(newQuantity)
+        let currentDate = new Date();
+        let endData = new Date(deadline);
+        // console.log(currentDate < endData)
+        if ((cartItem.quantity < cartItem.product.limit && currentDate < endData ) || currentUser.admin) {
             handleQuantityChange(data.id, (cartItem.quantity + 1))
         }
     }

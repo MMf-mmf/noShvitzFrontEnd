@@ -3,12 +3,13 @@ import { CSVLink } from "react-csv";
 import {Form, Divider, Message, Accordion, Button, Checkbox, Grid, Header,Segment, Dropdown} from 'semantic-ui-react'
 
 
-function DownloadItems({localFetchUrl, categoriesList, setTriggerRerender, setServerResponse}) {
+function DownloadItems({localFetchUrl, categoriesList, setTriggerRerender, setServerResponse, products, setProducts}) {
     // let data = useRef([])
     const [data, setData] = useState([])
-    const [products, setProducts] = useState([])
+   
     const [loaded, setLoaded] = useState(false)
     const csvLink = useRef()
+
 
    if (!loaded) {
        setLoaded(true)
@@ -38,7 +39,7 @@ function DownloadItems({localFetchUrl, categoriesList, setTriggerRerender, setSe
                 csvLink.current.link.click()
             },300)
             
-            console.log(data)
+          
             return
         }else{
             setServerResponse('Please create categories first')
@@ -56,11 +57,11 @@ function DownloadItems({localFetchUrl, categoriesList, setTriggerRerender, setSe
         { label: "category_id", key: "category_id" },
         { label: "image", key: "image"}
       ];
-             
-   
+            
+   console.log(data)
 
 
-console.log(products, 'this i')
+
 function isDataToExport() {
 
     setData(products.map((product, index) => { return (

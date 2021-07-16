@@ -34,18 +34,21 @@ function  handleOnFileLoad(data) {
         console.log('---------------------------');
         console.log(err);
         console.log('---------------------------');
+        
       };
     
       function handleOnRemoveFile (data) {
         console.log('---------------------------');
         console.log(data);
         console.log('---------------------------');
+        setDataToUpload(false)
       };
     
       function handleRemoveFile (e) {
         // Note that the ref is set async, so it might be null at some point
         if (buttonRef.current) {
           buttonRef.current.removeFile(e);
+          setDataToUpload(false)
         }
       };
 

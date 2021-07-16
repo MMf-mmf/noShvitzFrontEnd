@@ -1,26 +1,39 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"
-import { Card, Segment, Icon, Image, Container, Button, Divider } from 'semantic-ui-react'
-const src = 'http://community.farmhousedelivery.com/wp-content/uploads/2018/06/FHD_20180619_Produce-Box.jpg'
+import { Link, useHistory } from "react-router-dom"
+import { Card, Icon, Image, Container, Button, Divider, Transition, Header, Segment, Message } from 'semantic-ui-react'
 
 
 
+function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl, index, visible, setVisible, setMessage}) {
+    const history = useHistory();
 
-function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl, index}) {
-    
 
-    if (!categories || !currentUser) {
-        return(<h1>hello waiting for data</h1>)
+    const category_id = categories.id
+    let user_id = 0
+    const index_id = index
+    if (!categories) {
+        return(<h1>loadding</h1>)
     }
    
-    // const category_id = categories.category_id
-    const category_id = categories.id
-    const user_id = currentUser.id
-    const index_id = index
-    console.log(index, 'this this is ')
+   if (currentUser) {
+       user_id = currentUser.id
+   }
+
+   
+
+
+    function toggleVisibility() {
+        setVisible(!visible)
+        console.log('clicked')
+    }
 
     function handleClick(e, data) {
-    // console.log('just got clicked')
+    console.log('just got clicked')
+    if (user_id === 0) {
+        window.scrollTo(0, 0);
+        setMessage(true)
+        return null
+    }
     
     setUserAndCategoriesId()
     console.log(`${localFetchUrl}`)
@@ -34,6 +47,8 @@ function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl, index
             })
             .then(res => res.json())
             .then(newCartObj => { console.log(newCartObj)})
+
+            history.push(`/categories/${category_id}`);
     }
 
     function setUserAndCategoriesId() {
@@ -44,8 +59,9 @@ function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl, index
    
     return(
         <>
-
- <Card id="categorieCard" as={Link} to={`/categories/${category_id}`} onClick={handleClick} link > 
+{/* as={Link} to={`/categories/${category_id}`} */}
+ <Transition visible={visible} animation='scale' duration={2000}>
+<Card id="categorieCard"  onClick={handleClick} link > 
         <Image src={categories.image} wrapped ui={false} size='tiny' circular/>
         <Card.Content>
             <Card.Meta textAlign="center">
@@ -53,6 +69,8 @@ function CategorieItems({categories, currentUser, fetchUrl, localFetchUrl, index
             </Card.Meta>
         </Card.Content>
     </Card>
+    </Transition>
+ 
     
 </>
     )

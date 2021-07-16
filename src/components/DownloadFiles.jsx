@@ -17,6 +17,8 @@ function DownloadFiles({localFetchUrl, categoriesList, setTriggerRerender, setSe
   const [dataToUpload, setDataToUpload] = useState()
   let uploadName = useRef()
   let [loading, setLoading] = useState(false)
+  const [products, setProducts] = useState([])
+  const [users, setUsers] = useState([])
 
   function uploadFiels(data) {
     console.log(dataToUpload.current,'was just cklicked')
@@ -39,7 +41,6 @@ function DownloadFiles({localFetchUrl, categoriesList, setTriggerRerender, setSe
         }).catch((err) => {
           console.log(err)
         });
-
     }
     setLoading(false)
   }
@@ -65,11 +66,13 @@ function DownloadFiles({localFetchUrl, categoriesList, setTriggerRerender, setSe
       {/* <div id='scvButtons'> */}
       <Grid verticalAlign='center' >
       <DownloadCategories localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setServerResponse={setServerResponse}/>
-      <DownloadItems localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setServerResponse={setServerResponse}/>
-      <DownloadUsers  localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setServerResponse={setServerResponse}/>
+      <DownloadItems localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setServerResponse={setServerResponse} products={products} setProducts={setProducts}/>
+      <DownloadUsers  localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setServerResponse={setServerResponse} users={users} setUsers={setUsers}/>
+      <DownloadOrders localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setServerResponse={setServerResponse} products={products} users={users}/>
       </Grid>
-      {/* </div> */}
 
+      {/* </div> */}
+      
       <WhatToDownload localFetchUrl={localFetchUrl} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender} setServerResponse={setServerResponse} setLoading={setLoading}/>
      
       <Divider />

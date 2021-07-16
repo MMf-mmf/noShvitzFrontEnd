@@ -42,10 +42,11 @@ function App() {
       })
       .then(res => res.json())
       .then(categoriesArray => {setCategories(categoriesArray, 'in the fetch')})
+    
   }, [])
   
   useEffect(() => {
-    // console.log('in autoLogin')
+
     autoLogin()
   }, []);
 
@@ -119,7 +120,7 @@ function App() {
     </Route>
 
     <Route exact path="/ShoppingCart/:id">
-      <ShoppingCart currentUser={currentUser} triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender} autoLogin={autoLogin} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>
+      <ShoppingCart currentUser={currentUser} triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender} autoLogin={autoLogin} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} categoriesList={categoriesList}/>
     </Route>
 
   <Route exact path="/categories">
