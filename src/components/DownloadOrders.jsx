@@ -93,9 +93,9 @@ function DownloadOrders({localFetchUrl, categoriesList, setTriggerRerender, prod
          
             setOrders(itemsOrderdFinal)
             // itemsOrderdFinal = itemsOrderdFinalss
-            // setTimeout(() => {
-            //     csvLink.current.link.click()
-            // },300)
+            setTimeout(() => {
+                csvLink.current.link.click()
+            },300)
            
             console.log('just clicked ')
         }
