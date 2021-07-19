@@ -21,7 +21,6 @@ function App() {
 
   const [categoriesList, setCategories] = useState([])
   const [currentUser, setCurrentUser] = useState();
-  // const [currentCart, setCurrentCart] = useState(1)
   const [triggerRerender, setTriggerRerender] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -34,9 +33,10 @@ function App() {
   const localFetchUrl = "https://noshvitz.herokuapp.com"
 
 
-// console.log(`${localFetchUrl}/orders`)
+  console.log(isLoading)
 
   useEffect(() => {
+    setIsLoading(true)
       fetch(`${localFetchUrl}/categories`,{
         credentials: "include",
       })
@@ -54,16 +54,15 @@ function App() {
 
 // /SignIn needs to be chaneged to a landing page
   useEffect(() => {
-    
     if (currentUser) {
-    //  console.log('current user is filled')
-    //history.goBack();
+    // history.push("/")
     } else {
     //  history.push("/SignIn");
+    // history.push("/")
     }
   }, [currentUser, history]);
 
-
+ 
   function autoLogin() {
     setIsLoading(true)
     fetch(`${localFetchUrl}/autologin`, {
@@ -75,6 +74,7 @@ function App() {
       })
       .then((user) => { return ( setCurrentUser(user), setIsLoading(false))})
       .catch((err) => console.error(err));
+     
   }
 
   function handleLogout() {
@@ -82,7 +82,7 @@ function App() {
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
     localStorage.removeItem("category_id");
-    
+    setIsLoading(true)
     fetch(`${localFetchUrl}/logout`, {
       method: "DELETE",
       credentials: "include",
@@ -91,6 +91,7 @@ function App() {
       .then(() => setCurrentUser(null));
     history.push('/SignIn')
     window.location.reload();
+    
   }
 
   function onUpdateUser(user) {
@@ -102,11 +103,17 @@ function App() {
   return (
 <>
 
+
+        {isLoading ? <Loading></Loading> : 
+        
         <div>
-            <NavBar currentUser={currentUser} onLogout={handleLogout}
-            triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender}
-            fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} categoriesList={categoriesList}/>
-        </div>
+        <NavBar currentUser={currentUser} onLogout={handleLogout}
+        triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender}
+        fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} categoriesList={categoriesList} isLoading={isLoading}/>
+    </div>
+
+        
+        }
 
   <Switch>
     <Route exact path="/SignUp">
@@ -132,7 +139,7 @@ function App() {
   </Route >
 
   <Route exact path="/UserList">
-    <UserList currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} />            
+    <UserList isLoading={isLoading} setIsLoading={setIsLoading} currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} />            
   </Route >
 
   <Route exact path="/Profile/:id">

@@ -2,10 +2,10 @@ import React, { Component, useState } from "react";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar, Loader } from 'semantic-ui-react'
 import CreateItems from "./CreateItems";
+import Loading from "./Loading"
 
 
-
-function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fetchUrl, localFetchUrl, categoriesList}) {
+function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fetchUrl, localFetchUrl, categoriesList, isLoading}) {
     const [focused, setFocused] = useState({})
     const { activeItem } = focused
    
@@ -58,11 +58,18 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
     }
 
 
-
+if (isLoading) {
+  return(
+    <Loading></Loading>
+  )
+  
+}
 
     if (!currentUser) {
       return(
         <>
+
+        
       <Menu className='navBar' style={{backgroundColor: 'rgb(249, 247, 250)'}}>
        <Menu.Item  as={Link}  to="/SignUp"
            name='sign up'

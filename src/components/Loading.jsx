@@ -1,14 +1,15 @@
-import { Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar, Loader } from 'semantic-ui-react'
+import { Dimmer, Image, Menu, Segment, Sidebar, Loader } from 'semantic-ui-react'
 
 function Loading() {
     
     return(
-        <div class="ui segment">
-        <div class="ui active inverted dimmer">
-        <div class="ui text loader">Loading</div>
-        </div>
-        <p></p>
-    </div>
+        <Segment id="loader">
+        <Dimmer active>
+          <Loader />
+        </Dimmer>
+    
+        <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+      </Segment>
     )
 }
 

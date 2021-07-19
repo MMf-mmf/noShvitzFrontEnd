@@ -3,10 +3,12 @@ import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import { Input, Menu, Card, Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
 import UserCard from "./UserCard";
 import OrdersList from "./OrdersList";
+import Loading from "./Loading"
 
-function UserList({fetchUrl, localFetchUrl, currentUser}) {
+
+function UserList({fetchUrl, localFetchUrl, currentUser, isLoading, setIsLoading}) {
     
-    const [loading, setLoading] = useState(false)
+    // const [isLoading, setIsLoading] = useState(false)
     const [sleep, setSleep] = useState(true)
     const [searchedUser, setSearchedUser] = useState("")
     setTimeout(() => setSleep(false), 1000)
@@ -20,6 +22,7 @@ function UserList({fetchUrl, localFetchUrl, currentUser}) {
     }, [])
 
     function getUsers() {
+      setIsLoading(true)
       fetch(`${localFetchUrl}/users`, {
         credentials: "include",
       })
@@ -31,7 +34,7 @@ function UserList({fetchUrl, localFetchUrl, currentUser}) {
         .catch((err) => console.error(err));
     }
 
-// console.log(users)
+
 
 
 let userFrag = ""
@@ -39,14 +42,21 @@ let userFrag = ""
 
 
 if (users.length > 0) {
-
+    setIsLoading(false)
     let searchedUsers = users.filter(user => 
                user.name.toLowerCase().includes(searchedUser.toLowerCase()))
     userFrag = searchedUsers.map(user => {return <UserCard key={user.id} name={user.name} number={user.phoneNumber1} id={user.id}/>})
 
 }else{
-  return (<h1></h1>)  // loeding 
+  setIsLoading(true)
+  if (isLoading) {
+    return (
+      <Loading></Loading>
+    )  
+  }
+
 }
+
 
 
     return(
