@@ -41,12 +41,13 @@ function App() {
         credentials: "include",
       })
       .then(res => res.json())
-      .then(categoriesArray => {setCategories(categoriesArray, 'in the fetch')})
-    
+      .then(categoriesArray => 
+        {
+          return (
+            setCategories(categoriesArray), setIsLoading(false))})
   }, [])
   
   useEffect(() => {
-
     autoLogin()
   }, []);
 
@@ -69,12 +70,18 @@ function App() {
       credentials: "include",
     })
       .then((r) => {
-        if (!r.ok) throw Error("Not logged in!");
+        if (!r.ok) throw Error("Not logged in!"),
+        setIsLoading(false)
         return r.json();
       })
-      .then((user) => { return ( setCurrentUser(user), setIsLoading(false))})
+      .then((user) => { return (
+         setCurrentUser(user),
+         setIsLoading(false)
+         )})
       .catch((err) => console.error(err));
+      console.log('got to end')
      
+      
   }
 
   function handleLogout() {
@@ -98,13 +105,15 @@ function App() {
     setCurrentUser(user);
   }
 
- 
+ if (categoriesList.length < 1) {
+   <Loading></Loading>
+ }
 
   return (
 <>
 
 
-        {isLoading ? <Loading></Loading> : 
+       
         
         <div>
         <NavBar currentUser={currentUser} onLogout={handleLogout}
@@ -113,7 +122,7 @@ function App() {
     </div>
 
         
-        }
+  
 
   <Switch>
     <Route exact path="/SignUp">
