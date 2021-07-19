@@ -1,4 +1,4 @@
-
+<h1> this site is under development and receives weekly updates as of 07/19/2021</h1>
 
 
 Description: App was created for an organization which distributes food at steeply discounted prices for educters.
