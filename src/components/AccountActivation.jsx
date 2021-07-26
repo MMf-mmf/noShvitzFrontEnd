@@ -9,12 +9,15 @@ import {Message} from 'semantic-ui-react'
 function AccountActivation({fetchUrl, localFetchUrl}) {
     const [serverResponse, setServerResponse] = useState("")
     let {id}  = useParams()
+    const history = useHistory();
 
     // console.log(id)
     const queryString = window.location.search
     const email = new URLSearchParams(queryString).get('email');
-    
-    setTimeout(() => sendOthToken(), 200)
+    if (serverResponse.length < 1) {
+        setTimeout(() => sendOthToken(), 200)
+    }
+   
 function sendOthToken() {
     fetch(`${localFetchUrl}/account_activations`, {
         method: "PATCH",
@@ -25,11 +28,12 @@ function sendOthToken() {
       })
         .then((r) => r.json())
         .then((message) => setServerResponse(message.message));
-      // history.push('/SignIn')
+
+      //history.push('/SignIn')
       // window.location.reload();
 }
 
-  
+
 
 
 
@@ -39,11 +43,16 @@ function sendOthToken() {
         <>
                 {serverResponse
         ?
-        <Message negative id="placeOrder-message">
+        <Message positive id="placeOrder-message">
         <Message.Header>{serverResponse}</Message.Header>
         </Message>:null}
 
-        <h1>in account actiovation page</h1>
+        <Message info id="placeOrder-message">
+    <Message.Header>whan your account is activated You'll have full access to all the features on the side</Message.Header>
+    <p>Once account is activated go ahead and login</p>
+  </Message>
+      
+        
         </>
     )
 }

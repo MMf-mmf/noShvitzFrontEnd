@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import { Elements, StripProvider} from 'react-stripe-elements'
+
 import CategorieList from "./components/CategorieList";
 import Items from "./components/ItemsList";
 import ItemCard from "./components/ItemCard";
@@ -15,6 +17,7 @@ import AccountActivation from "./components/AccountActivation";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
 import CreateItems from "./components/CreateItems";
+import Donate from "./components/Donate"
 
 
 function App() {
@@ -27,13 +30,13 @@ function App() {
   
 
   const history = useHistory();
-  // const fetchUrl = "https://noshvitz.herokuapp.com"
-  // const localFetchUrl = "http://localhost:3000"
-  const fetchUrl = "http://localhost:3000"
-  const localFetchUrl = "https://noshvitz.herokuapp.com"
+  const fetchUrl = "https://noshvitz.herokuapp.com"
+  const localFetchUrl = "http://localhost:3000"
+  // const fetchUrl = "http://localhost:3000"
+  // const localFetchUrl = "https://noshvitz.herokuapp.com"
 
 
-  console.log(isLoading)
+  
 
   useEffect(() => {
     setIsLoading(true)
@@ -79,16 +82,16 @@ function App() {
          setIsLoading(false)
          )})
       .catch((err) => console.error(err));
-      console.log('got to end')
+      
      
       
   }
-
   function handleLogout() {
     // remove the userId from localstorage
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
     localStorage.removeItem("category_id");
+    localStorage.clear();
     setIsLoading(true)
     fetch(`${localFetchUrl}/logout`, {
       method: "DELETE",
@@ -98,7 +101,6 @@ function App() {
       .then(() => setCurrentUser(null));
     history.push('/SignIn')
     window.location.reload();
-    
   }
 
   function onUpdateUser(user) {
@@ -121,8 +123,14 @@ function App() {
         fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} categoriesList={categoriesList} isLoading={isLoading}/>
     </div>
 
-        
-  
+{/*         
+    <StripProvider apiKey="pk_test_51JFLXwAGIFi71zekn2ka7VNBoW9eYECrLkacNfLvyBxCQXFiEYAWk0T36VlKDVgM9udRONAWASUqWEMcuLgISkzK006yKpNAlG">
+ <div>
+     <Elements>
+     <Donate fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>
+     </Elements>
+ </div>
+  </StripProvider> */}
 
   <Switch>
     <Route exact path="/SignUp">
@@ -173,6 +181,10 @@ function App() {
 
   <Route exact  path="/CreateItems">
     <CreateItems  fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} currentUser={currentUser} categoriesList={categoriesList} setTriggerRerender={setTriggerRerender}/>            
+  </Route >
+
+  <Route exact  path="/Donate">
+    <Donate fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>
   </Route >
 
   <Route exact path="/">

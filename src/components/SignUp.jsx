@@ -57,8 +57,8 @@ function SignUp({fetchUrl, localFetchUrl}) {
         setFormData({...formData, passwordError: false })
       }
 
-//   HAVING A ISSUE WHERE THE setFormData(is setting all other vaues to false wile setting itown value to ether true or false)
-// to more reserch on how useState works
+    //   HAVING A ISSUE WHERE THE setFormData(is setting all other vaues to false wile setting itown value to ether true or false)
+    // to more reserch on how useState works
 
       // if (formData.confirmPassword !== formData.password) {
       //   console.log(formData.confirmPassword, formData.password, 'in the if ')
@@ -90,7 +90,8 @@ function SignUp({fetchUrl, localFetchUrl}) {
           console.log(data)
           setServerResponse(data.message);
           if (data.error) {
-            setServerResponse(data.error)
+            console.log(data.exception.slice(50))
+            setServerResponse(data.exception.slice(50, -1))
           }
         const { user, token } = data;
         localStorage.token = token
@@ -110,11 +111,11 @@ function SignUp({fetchUrl, localFetchUrl}) {
 
 
 
-{formData.passwordError
+{/* {formData.passwordError
 ?
 <Message negative id="placeOrder-message">
-  <Message.Header>password must contain at least 6 caracters</Message.Header>
-</Message>:null}
+  <Message.Header>password must contain at least 8 caracters</Message.Header>
+</Message>:null} */}
 
 {formData.passwordMatchError
 ?
@@ -134,13 +135,13 @@ function SignUp({fetchUrl, localFetchUrl}) {
            <Form.Input name="firstName"  placeholder='First Name' width={8} value={formData.firstName} onChange={handleChange}/>
            <Form.Input name="lastName"  placeholder='Last Name' width={8} value={formData.lastName} onChange={handleChange}/>
          </Form.Group>
-          <Form.Input name="email" fluid icon='user' iconPosition='left'  placeholder='E-mail address' value={formData.email} onChange={handleChange} error={formData.emailError}/>
+          <Form.Input name="email" type='email' fluid icon='user' iconPosition='left'  placeholder='E-mail address' value={formData.email} onChange={handleChange} error={formData.emailError}/>
           <Form.Group >
-       <Form.Input name="phone1"  placeholder='Phone#1' width={8} value={formData.phone1} onChange={handleChange} error={formData.phone1Error || formData.phoneMatchError}/>
-         <Form.Input name="phone2" placeholder='Phone#2' width={8} value={formData.phone2} onChange={handleChange} error={formData.phone2Error || formData.phoneMatchError}/>
+       <Form.Input name="phone1" type='tel'  placeholder='Phone#1    1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone1} onChange={handleChange} error={formData.phone1Error || formData.phoneMatchError}/>
+         <Form.Input name="phone2" placeholder='Phone#2      1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone2} onChange={handleChange} error={formData.phone2Error || formData.phoneMatchError}/>
         </Form.Group>
-          <Form.Input name="password" fluid icon='lock' iconPosition='left'  placeholder='Password' type='password' value={formData.password} onChange={handleChange} error={formData.passwordError || formData.passwordMatchError}/>
-          <Form.Input  name="confirmPassword" fluid icon='lock' iconPosition='left' placeholder='Confirm Password' type='password' value={formData.confirmPassword} onChange={handleChange} error={formData.passwordError || formData.passwordMatchError}/>
+          <Form.Input name="password" type='password' minlength="8" fluid icon='lock' iconPosition='left'  placeholder='Password' type='password' value={formData.password} onChange={handleChange} error={formData.passwordError || formData.passwordMatchError}/>
+          <Form.Input  name="confirmPassword" type='password' minlength="8" fluid icon='lock' iconPosition='left' placeholder='Confirm Password' type='password' value={formData.confirmPassword} onChange={handleChange} error={formData.passwordError || formData.passwordMatchError}/>
           <Button type='submit' color='teal' fluid size='large'
           disabled={!formData.email 
               || !formData.password

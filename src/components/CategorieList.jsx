@@ -35,6 +35,10 @@ useScrollPosition(({ prevPos, currPos }) => {
 
  )
 
+ function handleDonate(e) {
+    history.push('/Donate')
+ }
+
 //  const changeBackground = () => {
 //     console.log(window.scrollY)
 //  }
@@ -95,14 +99,10 @@ const categories = categoriesList.map( (cat, index) => {
 <h3>Here at the <span>rebbe's wholesale shop</span></h3>
 <p>we are here to service the teachers who give so much to our community and our future </p>
    <div>
-<Button primary>Donate</Button>
+         <Button primary onClick={handleDonate}>Donate</Button>
           <Button style={{marginLeft: "4%"}} secondary>Report A Bug</Button>
 </div>
 </footer>
-       {/* <Segment id="category-segment-button">
-          <Button style={{marginLeft: "38%"}} primary>Donate</Button>
-          <Button style={{marginLeft: "4%"}} secondary>Report A Bug</Button>
-       </Segment> */}
        </>      
 
    ) 

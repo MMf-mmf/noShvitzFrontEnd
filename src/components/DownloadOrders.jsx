@@ -30,13 +30,45 @@ function DownloadOrders({localFetchUrl, categoriesList, setTriggerRerender, prod
         
 
 
-
-        
+        let submitedOrders = []
+        let sumbmitedOrderDetails = []
         let itemsOrderd = {}
+
+        function isSubmited(value) {
+            if (value.submitted === true) {
+                
+                submitedOrders.push(value.id)
+                return value.id
+            }
+        }
+
         // GET THE USERS WHICH ADDED ITEMS TO THE CART
         if (users.length > 0 && products.length > 0) {
-            const usersWithItems = users.filter(user => user.orders.length > 0)
-       
+            let usersWithItems = users.filter(user => user.orders.length > 0)
+    //    console.log(usersWithItems)
+
+       // build an array of all order id's of submitted orders
+       for (let i = 0; i < usersWithItems.length; i++) {
+        // console.log(usersWithItems[i].order_details)
+        usersWithItems[i].orders.filter(isSubmited)
+    }
+    //  console.log(submitedOrders)
+
+
+       // get the orders details which belong to submitted orders
+       for (let i = 0; i < usersWithItems.length; i++) {
+        //    console.log(usersWithItems[i].order_details)
+          sumbmitedOrderDetails.push(usersWithItems[i].order_details.filter(detail => submitedOrders.indexOf(detail.order_id) != -1 ))
+       }
+        // console.log(sumbmitedOrderDetails)
+
+        for (let u = 0; u < usersWithItems.length; u++) {
+           usersWithItems[u].order_details = sumbmitedOrderDetails[u] 
+        }
+
+
+
+
 
             // console.log(usersWithItems)
              for (let index = 0; index < usersWithItems.length; index++) {
@@ -77,19 +109,12 @@ function DownloadOrders({localFetchUrl, categoriesList, setTriggerRerender, prod
                 itemsOrderdFinal.push(itemsOrderd[peaple[x]].orderDetails)
                 
             }
-            // console.log(itemsOrderdFinal)
-     //console.log(itemsOrderd[peaple[1]].orderDetails)
-    //  for (let u = 0; u < peaple.length; u++) {
-    //     //console.log(itemsOrderd[peaple[u]].orderDetails)
-    //     let orderdItems = Object.keys(itemsOrderd[peaple[u]].orderDetails)
-       
-            
-    //  }
+
         }
 
         
         if (itemsOrderdFinal.length > 0) {
-            console.log(itemsOrderdFinal)
+            // console.log(itemsOrderdFinal)
          
             setOrders(itemsOrderdFinal)
             // itemsOrderdFinal = itemsOrderdFinalss

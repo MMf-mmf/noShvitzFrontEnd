@@ -255,7 +255,7 @@ function getTimeRemaining(endtime){
 
               <div  class="textbox">
                     <p class="alignleft">Merchandise:</p>
-                    <p class="alignright">${cartTotal}</p>
+                    <p class="alignright">${parseFloat(cartTotal.toFixed(4))}</p>
              </div>
 
 
@@ -266,7 +266,7 @@ function getTimeRemaining(endtime){
 
              <div class="textbox">
                 <b><p class="alignleft" >SUB TOTAL:<Icon name='question circle outline' /></p></b>
-                <b> <p class="alignright">${cartTotal}</p></b>
+                <b> <p class="alignright">${parseFloat(cartTotal.toFixed(4))}</p></b>
              </div>
 
             

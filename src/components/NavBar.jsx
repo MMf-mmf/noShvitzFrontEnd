@@ -13,7 +13,7 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
     let cartCategorys = ""
   
     if (categoriesList.length > 0) {
-      console.log(cartCategorys)
+
       cartCategorys =  categoriesList.map(categorys => { return  <div onClick={onDropdownClick} id={categorys.id} class="item" >{categorys.name}</div>})
    }
 
