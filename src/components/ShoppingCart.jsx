@@ -87,14 +87,13 @@ if (!resCart[0]) {
     function handleClick() {
         
         setSubmitted(!submitted)
-
         fetch(`${localFetchUrl}/submit`, {
             method: "PATCH",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({id: cart[0].order.id})
+            body: JSON.stringify({id: cart[0].order.id, user_id: user_id })
         })
         .then(res => res.json())
         .then(order => console.log( "order status has bean switched"))

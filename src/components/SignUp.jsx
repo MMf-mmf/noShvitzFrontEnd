@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from "react";
-import {Form, Label ,Modal, Message, Accordion, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import {Form, Loader, Dimmer, Message, Accordion, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
 
 
 function SignUp({fetchUrl, localFetchUrl}) {
+    const [isLoading, setIsLoading] = useState(false)
     const [serverResponse, setServerResponse] = useState("")
     const [formData, setFormData] = useState({email: "", password: "", confirmPassword: "",
                                               firstName: "", lastName: "", phone1: "", phone2: "",
@@ -12,6 +13,7 @@ function SignUp({fetchUrl, localFetchUrl}) {
                                               phoneMatchError: false,
                                               createUserError: false,  firstNameError: false,
                                               lastNameError: false, formError: false})
+    
 
     // set a 6 second timer to refresh page a get rid of allert message
     if (serverResponse) {
@@ -46,7 +48,7 @@ function SignUp({fetchUrl, localFetchUrl}) {
         setFormData({...formData, emailError: false })
       }
 
-      if (formData.password.length < 6) {
+      if (formData.password.length < 8) {
         console.log(formData, 'befor')
         console.log(formData.passwordError)
         setFormData({...formData, passwordError: !formData.passwordError})
@@ -76,7 +78,7 @@ function SignUp({fetchUrl, localFetchUrl}) {
       //   setFormData({...formData, formError: false })
       // }
 
-
+     setIsLoading(true)
       fetch(`${localFetchUrl}/users`, {
         method: "POST",
         credentials: "include",
@@ -93,13 +95,19 @@ function SignUp({fetchUrl, localFetchUrl}) {
             console.log(data.exception.slice(50))
             setServerResponse(data.exception.slice(50, -1))
           }
+
         const { user, token } = data;
         localStorage.token = token
         // setCurrentUser(user);
-        });
+        setIsLoading(false)
+        }).catch((err) => {
+          console.log(err)
+          setIsLoading(false)
+          setServerResponse("sorry we encounterd an error. Changing the email might fix it")
+        }) 
     }
 
-// console.log(formData)
+
 
     return(
 <>
@@ -124,6 +132,8 @@ function SignUp({fetchUrl, localFetchUrl}) {
 </Message>:null}
 
 
+    
+
 <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
     <Grid.Column style={{ maxWidth: 450 }}>
       <Header as='h2' color='teal' textAlign='center'>
@@ -132,8 +142,8 @@ function SignUp({fetchUrl, localFetchUrl}) {
       <Form size='large' onSubmit={handleSubmit}>
         <Segment stacked>
         <Form.Group >
-           <Form.Input name="firstName"  placeholder='First Name' width={8} value={formData.firstName} onChange={handleChange}/>
-           <Form.Input name="lastName"  placeholder='Last Name' width={8} value={formData.lastName} onChange={handleChange}/>
+           <Form.Input name="firstName" type='text' minlength="2"  placeholder='First Name' width={8} value={formData.firstName} onChange={handleChange}/>
+           <Form.Input name="lastName" type='text' minlength="2"  placeholder='Last Name' width={8} value={formData.lastName} onChange={handleChange}/>
          </Form.Group>
           <Form.Input name="email" type='email' fluid icon='user' iconPosition='left'  placeholder='E-mail address' value={formData.email} onChange={handleChange} error={formData.emailError}/>
           <Form.Group >
@@ -142,7 +152,15 @@ function SignUp({fetchUrl, localFetchUrl}) {
         </Form.Group>
           <Form.Input name="password" type='password' minlength="8" fluid icon='lock' iconPosition='left'  placeholder='Password' type='password' value={formData.password} onChange={handleChange} error={formData.passwordError || formData.passwordMatchError}/>
           <Form.Input  name="confirmPassword" type='password' minlength="8" fluid icon='lock' iconPosition='left' placeholder='Confirm Password' type='password' value={formData.confirmPassword} onChange={handleChange} error={formData.passwordError || formData.passwordMatchError}/>
-          <Button type='submit' color='teal' fluid size='large'
+
+          {isLoading ?  <Segment>
+      <Dimmer active inverted>
+        <Loader inverted>Loading</Loader>
+      </Dimmer>
+
+      <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+    </Segment>:  
+             <Button type='submit' color='teal' fluid size='large'
           disabled={!formData.email 
               || !formData.password
               || !formData.firstName
@@ -152,6 +170,7 @@ function SignUp({fetchUrl, localFetchUrl}) {
               || !formData.phone2         
           }
           >Sign Up</Button>
+           }
         </Segment>
       </Form>
     </Grid.Column>
