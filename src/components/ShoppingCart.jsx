@@ -2,6 +2,7 @@ import { useEffect, useState} from "react";
 import { useParams,useLocation, useHistory } from "react-router-dom"
 import { List ,Label, Button, Divider ,Header, Icon, Segment, Message } from 'semantic-ui-react'
 import CartItem from "./CartItems";
+import Loading from "./Loading";
 
 // THE Issue with the cart seems to be stemming from the way the cart items are being stored in state
 
@@ -14,7 +15,8 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         const [deadline, setDeadLine] = useState('')
         const [countDown, setCountDown] = useState(getTimeRemaining(deadline))
         const history = useHistory();
-
+        const [isLoading, setIsLoading] = useState(false)
+        
         let user_id = JSON.parse(localStorage.getItem("user_id"))
         const category_id = JSON.parse(localStorage.getItem("shoppingCart_id"))
         const admin_search_user_id = JSON.parse(localStorage.getItem('admin_search_user_id'))
@@ -50,7 +52,7 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
        
 
     function getCart(userId, categoryId) {
-
+        setIsLoading(true)
         fetch(`${localFetchUrl}/cart`,{
             method: "POST",
             credentials: "include",
@@ -66,18 +68,22 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
             // setCartTotal(resCart[0].order.total),
             // console.log(resCart),
             handleExceptions(resCart)
-        )})
+        )}).catch((err) => {
+          console.log(err)
+          setIsLoading(false)
+        }) 
     }
 
     function handleExceptions(resCart) {
    
    
-if (!resCart[0]) {
-  return(<h1></h1>)
-}
+    if (!resCart[0]) {
+      return(<h1></h1>)
+    }
       if (resCart.length < 1) {
         
       }else{
+        setIsLoading(false)
         setCartTotal(resCart[0].order.total)
         wasSubmitted(resCart)
       }
@@ -218,12 +224,16 @@ function getTimeRemaining(endtime){
                      submitted={submitted} currentUser={currentUser} deadline={deadline}/>)
     }
 
-    if (cartItemFragment === "") {
+    if (cartItemFragment === ""  && isLoading === false) {
         return( 
           <Message  negative id="placeOrder-message">
           <Message.Header> it seems this cart is empty try choosing a different cart category or adding items to this one</Message.Header>
         </Message>
       )
+    }
+
+    if (isLoading) {
+      <Loading></Loading>
     }
 
 

@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
-import {Form, Label ,Modal, Message, Accordion, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import {Form, Label, Loader, Dimmer ,Modal, Message, Accordion, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
 import { Link, useHistory } from "react-router-dom";
 
 
 function SignIn({ setCurrentUser, autoLogin, fetchUrl, localFetchUrl }) {
     const [formData, setFormData] = useState({email: "", password: "", remember_me: false})
-  
+    const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
     const history = useHistory();
 
@@ -22,6 +22,7 @@ function SignIn({ setCurrentUser, autoLogin, fetchUrl, localFetchUrl }) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        setIsLoading(true)
         fetch(`${localFetchUrl}/login`, {
             method: "POST",
             credentials: "include",
@@ -33,6 +34,7 @@ function SignIn({ setCurrentUser, autoLogin, fetchUrl, localFetchUrl }) {
             .then((r) => r.json())
             .then((data) => {
             console.log(data);
+            setIsLoading(false)
             setError(data.message)
             printError(data)
             const { user } = data;
@@ -40,6 +42,7 @@ function SignIn({ setCurrentUser, autoLogin, fetchUrl, localFetchUrl }) {
             redirect(data)
             }).catch((err) => {
               console.log(err)
+              setIsLoading(false)
             }) 
         }
 function redirect(data) {
@@ -78,7 +81,15 @@ function redirect(data) {
           <Form.Input fluid icon='user' iconPosition='left' name="email" placeholder='E-mail address' value={formData.email} onChange={handleChange}/>
           <Form.Input fluid icon='lock' iconPosition='left' name="password" placeholder='Password' type='password' value={formData.password} onChange={handleChange}/>
           <Checkbox style={{marginRight: '43%'}} name="checkbox" label='Remember me on this computer'  onChange={handleChange}/>
+          {isLoading ?  <Segment>
+      <Dimmer active inverted>
+        <Loader inverted>Loading</Loader>
+      </Dimmer>
+
+      <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+    </Segment>:
           <Button style={{marginTop: '10px'}} type='submit' color='teal' fluid size='large'>Login</Button>
+          }
         </Segment>
         
       </Form>
