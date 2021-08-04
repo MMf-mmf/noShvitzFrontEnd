@@ -152,15 +152,8 @@ function SignUp({fetchUrl, localFetchUrl}) {
         </Form.Group>
           <Form.Input name="password" type='password' minlength="8" fluid icon='lock' iconPosition='left'  placeholder='Password' type='password' value={formData.password} onChange={handleChange} error={formData.passwordError || formData.passwordMatchError}/>
           <Form.Input  name="confirmPassword" type='password' minlength="8" fluid icon='lock' iconPosition='left' placeholder='Confirm Password' type='password' value={formData.confirmPassword} onChange={handleChange} error={formData.passwordError || formData.passwordMatchError}/>
-
-          {isLoading ?  <Segment>
-      <Dimmer active inverted>
-        <Loader inverted>Loading</Loader>
-      </Dimmer>
-
-      <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
-    </Segment>:  
-             <Button type='submit' color='teal' fluid size='large'
+ 
+             <Button loading={isLoading} type='submit' color='teal' fluid size='large'
           disabled={!formData.email 
               || !formData.password
               || !formData.firstName
@@ -170,7 +163,7 @@ function SignUp({fetchUrl, localFetchUrl}) {
               || !formData.phone2         
           }
           >Sign Up</Button>
-           }
+         
         </Segment>
       </Form>
     </Grid.Column>

@@ -30,11 +30,10 @@ function App() {
   
 
   const history = useHistory();
-  // const fetchUrl = "https://noshvitz.herokuapp.com"
-  // const localFetchUrl = "http://localhost:3000"
-  const fetchUrl = "http://localhost:3000"
-  const localFetchUrl = "https://noshvitz.herokuapp.com"
-
+  const fetchUrl = "https://noshvitz.herokuapp.com"
+  const localFetchUrl = "http://localhost:3000"
+  // const fetchUrl = "http://localhost:3000"
+  // const localFetchUrl = "https://noshvitz.herokuapp.com"
 
   
 
@@ -100,7 +99,8 @@ function App() {
       .then((r) => r.json())
       .then(() => setCurrentUser(null));
     history.push('/SignIn')
-    window.location.reload();
+    // window.location.reload();
+    setIsLoading(false)
   }
 
   function onUpdateUser(user) {

@@ -13,6 +13,7 @@ function Loading() {
                   size={30} 
          />
          </div>
+         <span>Loading</span>
  </div>
          
       //   <Segment id="loader">

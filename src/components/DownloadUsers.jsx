@@ -54,7 +54,6 @@ function DownloadUsers({localFetchUrl, categoriesList, setTriggerRerender, users
     })
     console.log(data)
 
-
     return(
         <>
 

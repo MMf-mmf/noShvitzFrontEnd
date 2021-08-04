@@ -81,15 +81,9 @@ function redirect(data) {
           <Form.Input fluid icon='user' iconPosition='left' name="email" placeholder='E-mail address' value={formData.email} onChange={handleChange}/>
           <Form.Input fluid icon='lock' iconPosition='left' name="password" placeholder='Password' type='password' value={formData.password} onChange={handleChange}/>
           <Checkbox style={{marginRight: '43%'}} name="checkbox" label='Remember me on this computer'  onChange={handleChange}/>
-          {isLoading ?  <Segment>
-      <Dimmer active inverted>
-        <Loader inverted>Loading</Loader>
-      </Dimmer>
-
-      <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
-    </Segment>:
-          <Button style={{marginTop: '10px'}} type='submit' color='teal' fluid size='large'>Login</Button>
-          }
+  
+          <Button loading={isLoading} style={{marginTop: '10px'}} type='submit' color='teal' fluid size='large'>Login</Button>
+          
         </Segment>
         
       </Form>

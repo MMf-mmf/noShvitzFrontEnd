@@ -1,8 +1,9 @@
 import { useEffect, useState} from "react";
 import { useParams,useLocation, useHistory } from "react-router-dom"
-import { List ,Label, Button, Divider ,Header, Icon, Segment, Message } from 'semantic-ui-react'
+import { List ,Label, Button, Divider ,Header, Icon, Segment, Message, Loader } from 'semantic-ui-react'
 import CartItem from "./CartItems";
-import Loading from "./Loading";
+import Loading from "./Loading"
+
 
 // THE Issue with the cart seems to be stemming from the way the cart items are being stored in state
 
@@ -15,7 +16,7 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         const [deadline, setDeadLine] = useState('')
         const [countDown, setCountDown] = useState(getTimeRemaining(deadline))
         const history = useHistory();
-        const [isLoading, setIsLoading] = useState(false)
+        const [isLoading, setIsLoading] = useState(true)
         
         let user_id = JSON.parse(localStorage.getItem("user_id"))
         const category_id = JSON.parse(localStorage.getItem("shoppingCart_id"))
@@ -34,7 +35,7 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
 
      useEffect(() => {
       if (deadline.length > 7) {
-        console.log(deadline)
+        // console.log(deadline)
         setCountDown(getTimeRemaining(deadline))
         initializeClock(deadline)
       }
@@ -66,7 +67,8 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
         .then((resCart) => { return (
             // wasSubmitted(resCart),
             // setCartTotal(resCart[0].order.total),
-            // console.log(resCart),
+            console.log(resCart),
+            setIsLoading(false),
             handleExceptions(resCart)
         )}).catch((err) => {
           console.log(err)
@@ -83,7 +85,7 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
       if (resCart.length < 1) {
         
       }else{
-        setIsLoading(false)
+       
         setCartTotal(resCart[0].order.total)
         wasSubmitted(resCart)
       }
@@ -91,7 +93,7 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
 
 
     function handleClick() {
-        
+    
         setSubmitted(!submitted)
         fetch(`${localFetchUrl}/submit`, {
             method: "PATCH",
@@ -102,7 +104,7 @@ function ShoppingCart({currentUser, triggerRerender, setTriggerRerender, autoLog
             body: JSON.stringify({id: cart[0].order.id, user_id: user_id })
         })
         .then(res => res.json())
-        .then(order => console.log( "order status has bean switched"))
+      
         .catch((err) => console.error(err))
     }
 
@@ -233,7 +235,7 @@ function getTimeRemaining(endtime){
     }
 
     if (isLoading) {
-      <Loading></Loading>
+      return(<Loading></Loading>)
     }
 
 
@@ -249,18 +251,29 @@ function getTimeRemaining(endtime){
   </Message>
 : null}
 
+<div id="checkout_page">
 
-            <Header id="itemHeader" >{cart.length} Items</Header>
-            <Divider id="cartDivider" />
-            <Segment style={{marginLeft: '2%', width: '50%'}}  id={submitted ? 'cart-submitted': null}  placeholder floated="left">
+
+<div id="checkout_page-items" class="col" >
+
+<Header id="itemHeader" >{cart.length} Items</Header>
+        
+            <Segment style={{marginLeft: '2%', width: '70%'}}  id={submitted ? 'cart-submitted': null}  placeholder floated="left">
             {cartItemFragment}
             </Segment>
+
+      </div>
+   
             {/* box-shadow: 5px 10px #bae6bf */}
 
+   <div id="checkout_page-summery" class="col">
 
-            <Header  id="checkOut-header" > Order summery</Header>
-            <Divider id="checkOut-divider" />
-            <div className='checkOutDiv'>
+           {/* id="checkOut-header" */}
+           
+            <Header textAlign="center"  > Order summery</Header>
+            {/* id="checkOut-divider" */}
+            <Divider  />
+            <div className='checkOutDiv' class="col">
 
               <div  class="textbox">
                     <p class="alignleft">Merchandise:</p>
@@ -281,7 +294,7 @@ function getTimeRemaining(endtime){
             
              <div class="buttonDiv">
               
-             <Button className={countDown.minutes <=0 && countDown.seconds <=0 && !currentUser.admin ? 'disabled': null}
+             <Button  className={countDown.minutes <=0 && countDown.seconds <=0 && !currentUser.admin ? 'disabled': null}
               color={submitted ? 'red': 'green'} onClick={handleClick}>
             {submitted  ?
              < Button.Content  id="placeOrder"  visible>Cancel order</Button.Content>:
@@ -300,7 +313,12 @@ function getTimeRemaining(endtime){
 
             </div>
 
-       
+
+
+            </div>
+            {/* checkout_page-summery */}
+            </div> 
+            {/* checkout_page   */}
         </>
     )
 }
