@@ -322,6 +322,26 @@ html {
 
 
 
+/* Sign up form  */
+
+#root > div.ui.center.aligned.middle.aligned.grid > div > div > ul{
+  padding: 0;
+  list-style-type: none;
+  font-weight: bolder;
+  font-family: fantasy;
+}
+.valid{
+  color: mediumseagreen;
+}
+.invalid{
+  color: red;
+}
+ul li.valid:before {
+  content: '✓';
+  padding-right: 3px;
+  margin-right: 2px;
+}
+
 
 
 

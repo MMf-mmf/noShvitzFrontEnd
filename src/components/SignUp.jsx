@@ -7,12 +7,16 @@ function SignUp({fetchUrl, localFetchUrl}) {
     const [serverResponse, setServerResponse] = useState("")
     const [formData, setFormData] = useState({email: "", password: "", confirmPassword: "",
                                               firstName: "", lastName: "", phone1: "", phone2: "",
-                                              emailError: false,   passwordError: false,
+                                              emailError: false,
+                                              passwordError: false,
                                               passwordMatchError: false,
-                                              phone1Error: false,   phone2Error: false,
+                                              phone1Error: false,
+                                              phone2Error: false,
                                               phoneMatchError: false,
-                                              createUserError: false,  firstNameError: false,
-                                              lastNameError: false, formError: false})
+                                              createUserError: false,
+                                              firstNameError: false,
+                                              lastNameError: false,
+                                              formError: false})
     
 
     // set a 6 second timer to refresh page a get rid of allert message
@@ -41,14 +45,14 @@ function SignUp({fetchUrl, localFetchUrl}) {
         phoneNumber2: formData.phone2
       }
 
-      if (formData.email === '') {
-        setFormData({...formData, emailError: true })
-        error = true
-      } else{
-        setFormData({...formData, emailError: false })
-      }
+      // if (formData.email === '') {
+      //   setFormData({...formData, emailError: true })
+      //   error = true
+      // } else{
+      //   setFormData({...formData, emailError: false })
+      // }
 
-      if (formData.password.length < 8) {
+      if (formData.password.length < 7) {
         console.log(formData, 'befor')
         console.log(formData.passwordError)
         setFormData({...formData, passwordError: !formData.passwordError})
@@ -59,16 +63,16 @@ function SignUp({fetchUrl, localFetchUrl}) {
         setFormData({...formData, passwordError: false })
       }
 
-    //   HAVING A ISSUE WHERE THE setFormData(is setting all other vaues to false wile setting itown value to ether true or false)
+    // HAVING A ISSUE WHERE THE setFormData(is setting all other vaues to false wile setting itown value to ether true or false)
     // to more reserch on how useState works
 
-      // if (formData.confirmPassword !== formData.password) {
-      //   console.log(formData.confirmPassword, formData.password, 'in the if ')
-      //   setFormData({...formData, passwordMatchError: true })
-      //   error = true
-      // } else {
-      //   setFormData({...formData, passwordMatchError: false })
-      // }
+      if (formData.confirmPassword !== formData.password) {
+        // console.log(formData.confirmPassword, formData.password, 'in the if ')
+        setFormData({...formData, passwordMatchError: true })
+        error = true
+      } else {
+        setFormData({...formData, passwordMatchError: false })
+      }
 
      
       // if (error) {
@@ -145,13 +149,13 @@ function SignUp({fetchUrl, localFetchUrl}) {
            <Form.Input name="firstName" type='text' minlength="2"  placeholder='First Name' width={8} value={formData.firstName} onChange={handleChange}/>
            <Form.Input name="lastName" type='text' minlength="2"  placeholder='Last Name' width={8} value={formData.lastName} onChange={handleChange}/>
          </Form.Group>
-          <Form.Input name="email" type='email' fluid icon='user' iconPosition='left'  placeholder='E-mail address' value={formData.email} onChange={handleChange} error={formData.emailError}/>
+          <Form.Input  name="email" type='email' fluid icon='user' iconPosition='left'  placeholder='E-mail address' value={formData.email} onChange={handleChange} error={/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formData.email)}/>
           <Form.Group >
-       <Form.Input name="phone1" type='tel'  placeholder='Phone#1    1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone1} onChange={handleChange} error={formData.phone1Error || formData.phoneMatchError}/>
-         <Form.Input name="phone2" placeholder='Phone#2      1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone2} onChange={handleChange} error={formData.phone2Error || formData.phoneMatchError}/>
+       <Form.Input name="phone1" type='tel'  placeholder='Phone#1    1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone1} onChange={handleChange} error={formData.phone1.length > 9 }/>
+         <Form.Input name="phone2" placeholder='Phone#2      1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone2} onChange={handleChange} error={formData.phone2.length > 9}/>
         </Form.Group>
-          <Form.Input name="password" type='password' minlength="8" fluid icon='lock' iconPosition='left'  placeholder='Password' type='password' value={formData.password} onChange={handleChange} error={formData.passwordError || formData.passwordMatchError}/>
-          <Form.Input  name="confirmPassword" type='password' minlength="8" fluid icon='lock' iconPosition='left' placeholder='Confirm Password' type='password' value={formData.confirmPassword} onChange={handleChange} error={formData.passwordError || formData.passwordMatchError}/>
+          <Form.Input  name="password" type='password' minlength="8" fluid icon='lock' iconPosition='left'  placeholder='Password' type='password' value={formData.password} onChange={handleChange} error={formData.password.length > 7}/>
+          <Form.Input  name="confirmPassword" type='password' minlength="8" fluid icon='lock' iconPosition='left' placeholder='Confirm Password' type='password' value={formData.confirmPassword} onChange={handleChange} />
  
              <Button loading={isLoading} type='submit' color='teal' fluid size='large'
           disabled={!formData.email 
@@ -166,8 +170,20 @@ function SignUp({fetchUrl, localFetchUrl}) {
          
         </Segment>
       </Form>
+      <div>
+    <ul>
+      <li class={formData.firstName.length > 1 ? "valid": "invalid"}>first name</li>
+      <li class={formData.lastName.length > 1 ? "valid": "invalid"}>last name</li>
+      <li class={/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formData.email) ? "valid": "invalid"}>must have a valid email addres</li>
+      <li class={formData.phone1.length > 9 && formData.phone2.length > 9 ? "valid": "invalid"}>valid 10 digit phone number's</li>
+      <li class={formData.password.length > 7 ? "valid": "invalid"}>password must be a least 8 digits</li>
+      <li class={ formData.password === formData.confirmPassword & formData.password.length > 1 ? "valid": "invalid"}>Password confirmation must match</li>
+    </ul>
+  </div>
     </Grid.Column>
+    
   </Grid>
+
         </>
     )
 }

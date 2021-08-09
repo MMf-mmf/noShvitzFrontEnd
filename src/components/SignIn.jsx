@@ -83,7 +83,7 @@ function redirect(data) {
           <Checkbox style={{marginRight: '43%'}} name="checkbox" label='Remember me on this computer'  onChange={handleChange}/>
   
           <Button loading={isLoading} style={{marginTop: '10px'}} type='submit' color='teal' fluid size='large'>Login</Button>
-          
+ 
         </Segment>
         
       </Form>

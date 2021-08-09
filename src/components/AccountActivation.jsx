@@ -27,7 +27,7 @@ function sendOthToken() {
           body: JSON.stringify({id: id, email: email}),
       })
         .then((r) => r.json())
-        .then((message) => setServerResponse(message.message));
+        .then((message) =>  { return( setServerResponse(message.message))});
 
       //history.push('/SignIn')
       // window.location.reload();
