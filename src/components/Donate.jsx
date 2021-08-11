@@ -79,7 +79,6 @@ function Donate({ localFetchUrl, }) {
  </div>
   </StripProvider> */}
 
-
        </>
     )
 }

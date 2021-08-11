@@ -11,27 +11,6 @@ function OrdersList({fetchUrl, localFetchUrl, currentUser, users}) {
     const [userInQuestion, setUserInQuestion] = useState([])
     let { id } = useParams()
 
-
-    // function getCart(userId, categoryId) {
-    //     fetch(`${localFetchUrl}/cart`,{
-    //         method: "POST",
-    //         credentials: "include",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify({user_id: userId, category_id: categoryId}),
-    //     })
-        
-    //     .then(res => res.json())
-    //     .then((resCart) => { return (
-    //         // wasSubmitted(resCart),
-    //         // setCartTotal(resCart[0].order.total),
-    //         handleExceptions(resCart)
-    //     )})
-    // }
-
-
-
     if (userInQuestion.length < 1) {
         fetch(`${localFetchUrl}/users/${id}`,{
             method: "GET",
@@ -43,10 +22,6 @@ function OrdersList({fetchUrl, localFetchUrl, currentUser, users}) {
           .then(res => res.json())
           .then(userX => {setUserInQuestion(userX, 'in the fetch')})
     }
-
-      
-      
-
 
 if (currentUser && orders.length < 1 && getOrders ===  true) {
     // console.log(id, 'in the fetch request')
@@ -68,8 +43,6 @@ if (currentUser && orders.length < 1 && getOrders ===  true) {
     )})
 }
 
-   
-
 let orderFragments = ""
 if (orders.length > 0) {
     orderFragments = orders.map(order =>
@@ -87,8 +60,12 @@ if (orderFragments === "") {
 // console.log(userInQuestion, 'this is the users list')
     return(
         <>
-        <h1>{userInQuestion.name}s:   orders</h1>
-        <div id="user_list" class="ui cards">
+        <div class="name-baner">
+        <h1 class="name-baner-text">{userInQuestion.name}</h1>
+        <h1 class="name-baner-text">orders</h1>
+        </div>
+        
+        <div id="user_list" class="ui cards" style={{justifyContent:"center"}}>
             {orderFragments}
         </div>
         </>

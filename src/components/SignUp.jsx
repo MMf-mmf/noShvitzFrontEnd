@@ -146,17 +146,17 @@ function SignUp({fetchUrl, localFetchUrl}) {
       <Form size='large' onSubmit={handleSubmit}>
         <Segment stacked>
         <Form.Group >
-           <Form.Input name="firstName" type='text' minlength="2"  placeholder='First Name' width={8} value={formData.firstName} onChange={handleChange}/>
-           <Form.Input name="lastName" type='text' minlength="2"  placeholder='Last Name' width={8} value={formData.lastName} onChange={handleChange}/>
+           <Form.Input name="firstName" type='text' minlength="2"  placeholder='First Name' width={8} value={formData.firstName} onChange={handleChange} id={formData.firstName.length > 1 ? "valid-input": null}/> 
+           <Form.Input name="lastName" type='text' minlength="2"  placeholder='Last Name' width={8} value={formData.lastName} onChange={handleChange} id={formData.lastName.length > 1 ? "valid-input": null}/>
          </Form.Group>
-          <Form.Input  name="email" type='email' fluid icon='user' iconPosition='left'  placeholder='E-mail address' value={formData.email} onChange={handleChange} error={/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formData.email)}/>
+          <Form.Input  name="email" type='email' fluid icon='user' iconPosition='left'  placeholder='E-mail address' value={formData.email} onChange={handleChange} id={/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formData.email) ? "valid-input": null}/>
           <Form.Group >
-       <Form.Input name="phone1" type='tel'  placeholder='Phone#1    1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone1} onChange={handleChange} error={formData.phone1.length > 9 }/>
-         <Form.Input name="phone2" placeholder='Phone#2      1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone2} onChange={handleChange} error={formData.phone2.length > 9}/>
+       <Form.Input name="phone1" type='tel'  placeholder='Phone#1    1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone1} onChange={handleChange} id={formData.phone1.length > 9 ? "valid-input": null}/>
+         <Form.Input name="phone2" placeholder='Phone#2      1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone2} onChange={handleChange} id={formData.phone2.length > 9 ? "valid-input": null}/>
         </Form.Group>
-          <Form.Input  name="password" type='password' minlength="8" fluid icon='lock' iconPosition='left'  placeholder='Password' type='password' value={formData.password} onChange={handleChange} error={formData.password.length > 7}/>
-          <Form.Input  name="confirmPassword" type='password' minlength="8" fluid icon='lock' iconPosition='left' placeholder='Confirm Password' type='password' value={formData.confirmPassword} onChange={handleChange} />
- 
+          <Form.Input  name="password" type='password' minlength="8" fluid icon='lock' iconPosition='left'  placeholder='Password' type='password' value={formData.password} onChange={handleChange} id={formData.password.length > 7 ? "valid-input": null}/>
+          <Form.Input  name="confirmPassword" type='password' minlength="8" fluid icon='lock' iconPosition='left' placeholder='Confirm Password' type='password' value={formData.confirmPassword} onChange={handleChange} id={formData.password.length > 7 && formData.confirmPassword === formData.password ? "valid-input": null} />
+      
              <Button loading={isLoading} type='submit' color='teal' fluid size='large'
           disabled={!formData.email 
               || !formData.password

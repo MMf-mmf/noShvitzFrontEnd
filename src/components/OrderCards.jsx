@@ -17,7 +17,7 @@ function OrderCard({fetchUrl, localFetchUrl, details}) {
 
     return(
         <>
-        <div  id="card-individual" class="card">
+        <div   id="card-individual" class="card">
         <div style={{marginTop: "20px"}} class="content">
         <div class="header">Category: {details.category.name}</div>
       </div>

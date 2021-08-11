@@ -331,7 +331,7 @@ html {
   font-family: fantasy;
 }
 .valid{
-  color: mediumseagreen;
+  color: #77b090;
 }
 .invalid{
   color: red;
@@ -340,6 +340,13 @@ ul li.valid:before {
   content: '✓';
   padding-right: 3px;
   margin-right: 2px;
+}
+
+#valid-input{
+ background: #e1ffe6;
+ border-color: #77b090;
+ color: #76b08f;
+ 
 }
 
 
@@ -441,7 +448,7 @@ ul li.valid:before {
 }
 
 #card-individual{
-  margin-left: 4%;
+
   padding-left: 20px;
 }
 
@@ -501,7 +508,21 @@ span > b {
   color: rgb(74, 147, 193);
 }
 
+/* persenal name baner */
 
+.name-baner{
+  text-align: center;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  background-color: rgb(237, 237, 237);
+}
+.name-baner-text{
+  /* display: inline-block; */
+   padding-left: 5px;
+   padding-top: 0px;
+
+}
 
 /*  Donate page */
 

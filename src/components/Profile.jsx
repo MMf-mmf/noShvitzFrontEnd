@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import {useParams, Link, NavLink, useHistory } from "react-router-dom";
-import {Form, Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar, Loader } from 'semantic-ui-react'
+import {Message, Form, Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar, Loader } from 'semantic-ui-react'
 import CreateItems from "./CreateItems";
 import Loading from "./Loading"
 
@@ -91,6 +91,14 @@ function autoFillData(userArray) {
 
 
     return(
+      <>
+      {serverResponse
+    ?
+  <Message positive id="placeOrder-message">
+    <Message.Header>{serverResponse}</Message.Header>
+  </Message>:null
+    }
+
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 550 }}>
           <Header as='h2' color='teal' textAlign='center'>
@@ -99,7 +107,7 @@ function autoFillData(userArray) {
           <Form size='large' onSubmit={handleSubmit}>
             <Segment stacked>
                <Form.Input name="name" type='text'  placeholder='Full Name' value={formData.name} onChange={handleChange}/>
-              <Form.Input name="email" type='email' fluid icon='user' iconPosition='left'  placeholder='E-mail address' value={formData.email} onChange={handleChange} />
+              {/* <Form.Input name="email" type='email' fluid icon='user' iconPosition='left'  placeholder='E-mail address' value={formData.email} onChange={handleChange} /> */}
               <Form.Group >
            <Form.Input name="phone1" type='tel'  placeholder='Phone#1    1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone1} onChange={handleChange} />
              <Form.Input name="phone2" placeholder='Phone#2      1234564567' pattern="[0-9]{3}[0-9]{3}[0-9]{4}" width={8} value={formData.phone2} onChange={handleChange} />
@@ -109,7 +117,7 @@ function autoFillData(userArray) {
           </Form>
         </Grid.Column>
       </Grid>
-            
+            </>
     )
 
 }
