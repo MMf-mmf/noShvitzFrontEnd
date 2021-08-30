@@ -20,6 +20,7 @@ function EditCategory({localFetchUrl, setServerResponse, categoriesList }) {
         console.log('in the if')
         let selectedCategory =  categoriesList.filter( category => category.id === data.value)
         let name = selectedCategory[0].name
+        console.log(selectedCategory)
         let deadLine = selectedCategory[0].deadline.slice(0, 10)
         let image = selectedCategory[0].image
         setFormData({...formData, name: name, deadLine: deadLine, picture: image })

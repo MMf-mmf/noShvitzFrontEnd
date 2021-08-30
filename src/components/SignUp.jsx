@@ -141,7 +141,8 @@ function SignUp({fetchUrl, localFetchUrl}) {
 <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
     <Grid.Column style={{ maxWidth: 450 }}>
       <Header as='h2' color='teal' textAlign='center'>
-        <Image src='/logo.png'  avatar/> Sign-Up Here
+        {/* <Image src='/logo.png'  avatar/> */}
+         Sign-Up Here
       </Header>
       <Form size='large' onSubmit={handleSubmit}>
         <Segment stacked>

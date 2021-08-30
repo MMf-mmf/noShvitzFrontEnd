@@ -1,20 +1,66 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Link, NavLink, useHistory } from "react-router-dom";
-import { Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar, Loader } from 'semantic-ui-react'
+import { Dropdown, Button, Checkbox, Grid, Header, Icon, Image, Menu, Segment, Sidebar, Loader, Label } from 'semantic-ui-react'
+import CategorieList from "./CategorieList";
 import CreateItems from "./CreateItems";
 import Loading from "./Loading"
 
 
-function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fetchUrl, localFetchUrl, categoriesList, isLoading}) {
+function NavBar({ currentUser,
+    onLogout,triggerRerender,
+    setTriggerRerender, fetchUrl,
+    localFetchUrl, categoriesList,
+    isLoading, setIsLoading,
+    cartCount, setCartCount}) {
+
     const [focused, setFocused] = useState({})
     const { activeItem } = focused
    
 
     let cartCategorys = ""
-  
-    if (categoriesList.length > 0) {
+  console.log('in navBar')
+    useEffect(() => {
 
-      cartCategorys =  categoriesList.map(categorys => { return  <div onClick={onDropdownClick} id={categorys.id} class="item" >{categorys.name}</div>})
+     if (categoriesList.length > 0 && currentUser) {
+      // console.log('in the fetch')
+      setIsLoading(true)
+      fetch(`${localFetchUrl}/cartCount`,{
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({user_id: currentUser.id}),
+    })
+    
+    .then(res => res.json())
+    .then((cartCount) => { return (
+      console.log(cartCount, 'this is the cart count'),
+      setCartCount(cartCount),
+      //setTriggerRerender(!triggerRerender),
+      setIsLoading(false)
+    )}).catch((err) => {
+      console.log(err)
+      setIsLoading(false)
+    }) 
+    }
+    }, [currentUser,categoriesList]);
+
+
+    if (categoriesList.length > 0) {
+    console.log(cartCount)
+    for (let i = 0; i < categoriesList.length; i++) {
+      if (cartCount[categoriesList[i].id] === undefined) {
+         cartCount[categoriesList[i].id] = 0
+        }
+      // cartCount[categoriesList[i].id] !=null ? null : categoriesList[i].id = 0 
+    }
+    
+      
+      cartCategorys =  categoriesList.map(categorys => { return  <div onClick={onDropdownClick}
+         id={categorys.id} class="item">
+           <Label color='red' floating>{cartCount[categorys.id]}</Label>
+            {categorys.name}</div>})
    }
 
     const history = useHistory();
@@ -23,19 +69,18 @@ function NavBar({ currentUser, onLogout, triggerRerender, setTriggerRerender, fe
         setFocused({ activeItem: name})
     }
 
- 
-
 
     if (activeItem === "log out") {
         onLogout()
     }
 
     function onDropdownClick(e, data) {
-      console.log(e.target.id)
+      // console.log(e.target.id)
       localStorage.removeItem('admin_search_user_id');
       history.push(`/ShoppingCart/${e.target.id}`);
-       localStorage.setItem("shoppingCart_id", JSON.stringify(parseInt(e.target.id)))
+      localStorage.setItem("shoppingCart_id", JSON.stringify(parseInt(e.target.id)))
        setTriggerRerender(!triggerRerender)
+      window.location.reload(true)
     }
 
     function handleChange(e, data) {
@@ -127,6 +172,8 @@ if (isLoading) {
 
 
 
+
+
     <div class="ui compact ">
   <div class="ui simple dropdown item">
             Shopping Cart
@@ -136,6 +183,9 @@ if (isLoading) {
     </div>
   </div>
 </div>
+
+
+
 
 <Menu.Item position="right" as={Link} to={`/profile/${currentUser.id}`}
           name='profile'

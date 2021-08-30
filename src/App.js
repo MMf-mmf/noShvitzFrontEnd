@@ -26,14 +26,15 @@ function App() {
   const [currentUser, setCurrentUser] = useState();
   const [triggerRerender, setTriggerRerender] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [cartCount, setCartCount] = useState({})
 
   
 
   const history = useHistory();
-  // const fetchUrl = "https://noshvitz.herokuapp.com"
-  // const localFetchUrl = "http://localhost:3000"
-  const fetchUrl = "http://localhost:3000"
-  const localFetchUrl = "https://noshvitz.herokuapp.com"
+  const fetchUrl = "https://noshvitz.herokuapp.com"
+  const localFetchUrl = "http://localhost:3000"
+  // const fetchUrl = "http://localhost:3000"
+  // const localFetchUrl = "https://noshvitz.herokuapp.com"
 
   
 
@@ -48,6 +49,33 @@ function App() {
           return (
             setCategories(categoriesArray), setIsLoading(false))})
   }, [])
+
+
+  useEffect(() => {
+    // if (categoriesList.length > 0) {
+    //   console.log('in the fetch', currentUser.id)
+    //   setIsLoading(true)
+    //   fetch(`${localFetchUrl}/cartCount`,{
+    //     method: "POST",
+    //     credentials: "include",
+    //     headers: {
+    //         "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify({user_id: currentUser.id}),
+    // })
+    
+    // .then(res => res.json())
+    // .then((cartCount) => { return (
+    //   console.log(cartCount, 'this is the cart count'),
+    //   setCartCount(cartCount),
+    //   setIsLoading(false)
+    // )}).catch((err) => {
+    //   console.log(err)
+    //   setIsLoading(false)
+    // }) 
+    // }
+  }, []);
+  
   
   useEffect(() => {
     autoLogin()
@@ -58,7 +86,26 @@ function App() {
 // /SignIn needs to be chaneged to a landing page
   useEffect(() => {
     if (currentUser) {
-    // history.push("/")
+  //   // history.push("/")
+  //   console.log('in the fetch', currentUser.id)
+  //   setIsLoading(true)
+  //   fetch(`${localFetchUrl}/cartCount`,{
+  //     method: "POST",
+  //     credentials: "include",
+  //     headers: {
+  //         "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({user_id: currentUser.id}),
+  // })
+  
+  // .then(res => res.json())
+  // .then((cartCount) => { return (
+  //   console.log(cartCount, 'this is the cart count'),
+  //   setIsLoading(false)
+  // )}).catch((err) => {
+  //   console.log(err)
+  //   setIsLoading(false)
+  // }) 
     } else {
     //  history.push("/SignIn");
     // history.push("/")
@@ -120,7 +167,9 @@ function App() {
         <div>
         <NavBar currentUser={currentUser} onLogout={handleLogout}
         triggerRerender={triggerRerender} setTriggerRerender={setTriggerRerender}
-        fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} categoriesList={categoriesList} isLoading={isLoading}/>
+        fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} categoriesList={categoriesList}
+        isLoading={isLoading} setIsLoading={setIsLoading}
+        cartCount={cartCount} setCartCount={setCartCount} />
     </div>
 
 {/*         
@@ -152,7 +201,7 @@ function App() {
   </Route>
 
   <Route exact path="/categories/:id">
-    <Items categoriesList={categoriesList} currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl}/>            
+    <Items categoriesList={categoriesList} currentUser={currentUser} fetchUrl={fetchUrl} localFetchUrl={localFetchUrl} cartCount={cartCount} setCartCount={setCartCount}/>            
   </Route >
 
   <Route exact path="/UserList">

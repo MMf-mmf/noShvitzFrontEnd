@@ -6,7 +6,7 @@ import ItemCard from "./ItemCard";
 
 
 
-function Items({categoriesList, currentUser, fetchUrl, localFetchUrl}) {
+function Items({categoriesList, currentUser, fetchUrl, localFetchUrl, cartCount, setCartCount}) {
     const [newCategoryList, setNewCategoryList] = useState([])
     const [itemsCount, setItemsCount] = useState({})
     const [cartItems, setCartItems] = useState([])   
@@ -60,7 +60,11 @@ function setCart(resCart) {
                 },
                 body: JSON.stringify(cartDetails)})
                 .then(res => res.json())
+       setCartCount({...cartCount, [category_id]: cartCount[category_id] + itemsCount[id]})
+
+        console.log(cartCount, 'in the add to cart button')
                 // .then(newCartDetail => {console.log(newCartDetail)})
+                
     }
 
 

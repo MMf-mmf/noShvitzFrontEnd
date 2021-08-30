@@ -16,8 +16,9 @@ function CreateItems({localFetchUrl, categoriesList, setTriggerRerender}) {
     function handleChange(e, data) {
         console.log(e.target.value)      
         setFormData({...formData, [e.target.name]: e.target.value })         
-      }          
+      } 
 
+      
       function handleItemsChange(e, data) {
         console.log(e.target.name)    
       if (!e.target.name) {
@@ -102,7 +103,7 @@ function CreateItems({localFetchUrl, categoriesList, setTriggerRerender}) {
       <Form size='large' onSubmit={handleSubmit}>
         <Segment stacked>
           <Form.Input fluid icon='user' iconPosition='left' name="name" placeholder='Category name' value={formData.name} onChange={handleChange}/>
-          <Form.Input fluid icon='hourglass half' iconPosition='left' name="deadLine" placeholder='year month date format example 2021-07-01' type='date' value={formData.deadLine} onChange={handleChange}/>
+          <Form.Input fluid icon='hourglass half' iconPosition='left' name="deadLine" placeholder='year month day format example 2021-07-01' type='date' value={formData.deadLine} onChange={handleChange}/>
           <Form.Input fluid icon='picture' iconPosition='left' name="picture" placeholder='picture URL' type='text' value={formData.picture} onChange={handleChange}/>
           <Button style={{marginTop: '10px'}} type='submit' color='' fluid size='large'>Create Categroy</Button>
         </Segment>
