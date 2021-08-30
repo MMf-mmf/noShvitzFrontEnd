@@ -109,7 +109,7 @@ if (itemToUpdate.length > 0) {
 
     return(
 
-        <Grid textAlign='center' style={{ height: '30vh' }} verticalAlign='middle'>
+        <Grid textAlign='center' style={{ height: '30vh', marginTop: '20%' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 550 }}>
           <Header as='h2' color='green' textAlign='center'>
             Edit Product

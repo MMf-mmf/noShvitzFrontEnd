@@ -63,7 +63,7 @@ function EditCategory({localFetchUrl, setServerResponse, categoriesList }) {
       }
 console.log(itemFormData.category, 'line 65')
     return(
-        <Grid textAlign='center' style={{ height: '40vh' }} verticalAlign='middle'>
+        <Grid textAlign='center' style={{ height: '40vh', marginTop: '20%' }} verticalAlign='middle'>
     <Grid.Column style={{ maxWidth: 550 }}>
       <Header as='h2' color='green' textAlign='center'>
         Edit Category

@@ -65,7 +65,7 @@ function DeleteProduct({categoriesList, setServerResponse, localFetchUrl}) {
      console.log(itemsToDelete, 'items to be deleted')
 
     return(
-        <Grid textAlign='center' style={{ height: '30vh' }} verticalAlign='middle'>
+        <Grid textAlign='center' style={{ height: '30vh', marginTop: '25%' , marginBottom: '10%' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 550 }}>
           <Header as='h2' color='blue' textAlign='center'>
             Delete Product
